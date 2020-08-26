@@ -1,0 +1,180 @@
+<template>
+    <div>
+        <b-overlay :show="show" rounded="sm" >
+        <b-card-text v-if="show_main">
+            <b-form-group
+                description="Project name"
+            >
+                <b-form-input 
+                    v-model="input.project_name" 
+                    placeholder="Enter your project name"
+                    lazy-formatter  
+                    :formatter="formatter"
+                ></b-form-input>
+            </b-form-group>         
+            <hr>
+            Inputs
+            <b-row>
+                <b-col>
+                    <b-form-group
+                        label="File with forward reads. "
+                        description="FASTQ file of first short reads in each pair"
+                    >
+                        <b-form-select v-model="input.fq1">
+                            <b-form-select-option :value="null">Please select a file</b-form-select-option>
+                            <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
+                        </b-form-select>
+                    </b-form-group>              
+                </b-col>
+                <b-col>
+                    <b-form-group
+                        label="File with reverse reads. "
+                        description="FASTQ file of second short reads in each pair"
+                    >
+                        <b-form-select v-model="input.fq2">
+                            <b-form-select-option :value="null">Please select a file</b-form-select-option>
+                            <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
+                        </b-form-select>
+                    </b-form-group>  
+                </b-col>
+                <b-col>
+                    <b-form-group
+                        label="Min fasta lengt "
+                        description= "Exclude contigs from the FASTA file which are shorter than this length (default: 100)"
+                    >
+                        <b-form-input id="prefix" v-model="input.length_fasta"></b-form-input>
+                    </b-form-group>                    
+                </b-col>
+            </b-row>
+            <b-badge to="/storage" variant="primary">Upload files</b-badge>
+            <hr>
+            <b-button variant="secondary" size="sm" @click="run_unicycler">Run Unicycler</b-button>
+        </b-card-text>
+        <template v-slot:overlay>
+            <div class="text-center">
+                <b-icon icon="stopwatch" font-scale="3" animation="cylon"></b-icon>
+                <p class="text-center"><b>Runing Unicycler<br>Please wait...</b></p>
+            </div>
+        </template>
+        </b-overlay>
+
+        <hr>
+     
+        <b-card
+            border-variant="light"
+            header="Result"
+            header-bg-variant="success"
+            header-text-variant="white"
+            v-if="show_result"
+        >
+            <b-card-text>
+                <h3>{{title}}</h3>
+                <hr>
+                <b-btn pill variant="secondary" size="sm" @click="download_file">Downolad results</b-btn>
+                <p class="mt-2">Unicycler's most important output files are <b>assembly.gfa, assembly.fasta</b> and <b>unicycler.log</b>. These are produced by every Unicycler run.
+                All files and directories are described in the table below. Intermediate output files (everything except for assembly.gfa, assembly.fasta and unicycler.log) will be prefixed with a number so they are in chronological order.
+                <b-table striped hover :items="items">
+                    <template v-slot:cell(html)="data">
+                        <span v-html="data.value"></span>
+                    </template>
+                </b-table>
+                </p>
+                <textarea class="form-control" v-model="log"></textarea> 
+            </b-card-text>
+        </b-card>
+        
+
+    </div>
+</template>
+
+<script>
+import fileUpload from '@/components/FileUpload'
+    export default {
+        components: {
+            fileUpload
+        },
+        data(){
+            return {
+                show: false,
+                show_result: false,
+                show_main: true,
+                input: {
+                    project_name: 'unicycler_01',
+                    fq1: null,
+                    fq2: null,
+                    length_fasta: 100,
+                    user: `${this.$store.state.usuario.email}`,
+                    user_id: `${this.$store.state.usuario._id}`
+                },
+                files: [],
+                title: '',
+                result: '',
+                items: [
+                    { file: 'best_spades_graph.gfa', description: 'the best SPAdes short-read assembly graph, with a bit of graph clean-up' },
+                    { file: 'overlaps_removed.gfa', description: 'overlap-free version of the SPAdes graph, with some more graph clean-up' },
+                    { file: 'bridges_applied.gfa', description: 'bridges applied, before any cleaning or merging' },
+                    { file: 'final_clean.gfa', description: 'more redundant contigs removed' },
+                    { file: 'polished.gfa', description: 'after a round of Pilon polishing' },
+                    { file: '<b>assembly.gfa</b>', description: 'final assembly in GFA v1 graph format' },
+                    { file: '<b>assembly.fasta</b>', description: 'final assembly in FASTA format (same contigs as in assembly.gfa)' },
+                    { file: '<b>unicycler.log</b>', description: 'Unicycler log file' }
+                ]
+            }
+        },
+        created(){
+            //console.log(`iduser: ${this.$store.state.usuario._id}`)
+            this.list_files()
+        },
+        methods:{
+            async list_files(){
+                try {
+                    let res = await this.$axios.post('/files/list', {user_id: this.$store.state.usuario._id, type: 'uploaded' })
+                    this.files = res.data.files
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+
+            async run_unicycler(){
+                try {
+                    this.show = true
+                    let res = await this.$axios.post('/tools/unicycler', this.input)
+                    this.result = res.data.result
+                    this.title = res.data.message
+                    this.show = false
+                    this.show_main = false
+                    this.show_result = true
+                    console.log(res.data)
+                } catch (error) {
+                    
+                }
+            },
+
+            async download_file(){
+               try {
+                    await this.$axios.get(`/files/download/${this.result}`, {responseType: 'blob'}).
+                    then(res => {
+                        if (!window.navigator.msSaveOrOpenBlob){
+                        // BLOB NAVIGATOR
+                            const url = window.URL.createObjectURL(new Blob([res.data]));
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.setAttribute('download', `${this.input.project_name}.zip`);
+                            document.body.appendChild(link);
+                            link.click();
+                        }else{
+                            // BLOB FOR EXPLORER 11
+                            const url = window.navigator.msSaveOrOpenBlob(new Blob([res.data]),`${filename}`);
+                        }
+                    })
+                } catch (error) {
+                    console.log(error)
+                } 
+            },
+
+            formatter(value) {
+                return value.replace(/\s+/g,"_");
+            },
+        }        
+    }
+</script>

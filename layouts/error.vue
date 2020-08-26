@@ -1,0 +1,5 @@
+<template>
+    <div class="container">
+        <h1>ERROR</h1>
+    </div>
+</template>

@@ -1,0 +1,24 @@
+{
+  "name": "redGenomica",
+  "version": "1.0.0",
+  "description": "red genomica labinia",
+  "author": "fcorreas",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/toast": "^3.3.0",
+    "bootstrap": "^4.1.3",
+    "bootstrap-vue": "^2.0.0",
+    "jwt-decode": "^2.2.0",
+    "nuxt": "^2.0.0",
+    "underscore": "^1.10.2",
+    "vue-blob-json-csv": "^0.1.6"
+  },
+  "devDependencies": {}
+}
