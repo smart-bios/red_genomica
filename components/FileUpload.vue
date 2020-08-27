@@ -44,7 +44,7 @@
                 formData.append("desc",this.description)
                 
                 try {
-                   const response = await this.$axios.post('/files/upload', formData, {
+                   const response = await this.$axios.post('/storage/upload', formData, {
                        onUploadProgress: ProgressEvent => { 
                            let progress  = Math.round((ProgressEvent.loaded / ProgressEvent.total)*100)
                            this.value = progress

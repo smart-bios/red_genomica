@@ -3,7 +3,7 @@
        <b-navbar toggleable="lg" type="dark" variant="secondary">
            <b-container>
                <b-navbar-brand to="/">                   
-                    <b>RedGenomica</b>
+                    <b>RedGBionia</b>
                 </b-navbar-brand>
                <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
                
@@ -32,9 +32,9 @@
                        <b-nav-item to="/articulos">Articles</b-nav-item>
                        <b-nav-item to="/about">About</b-nav-item>
                        <b-nav-item-dropdown text="Bioinformatics analysis" rigth v-if="logueado">
-                            <b-dropdown-item to="/pipelines/data_preprocessing"> Data preprocessing</b-dropdown-item>
-                            <b-dropdown-item to="/pipelines/assembly"><i>De novo</i> assembly</b-dropdown-item>
-                            <b-dropdown-item to="/pipelines/quality">Assembly quality</b-dropdown-item>
+                            <b-dropdown-item to="/pipelines/data_preprocessing">Pre-assembly</b-dropdown-item>
+                            <b-dropdown-item to="/pipelines/assembly">Assembly</b-dropdown-item>
+                            <b-dropdown-item to="/pipelines/quality">Post-assembly</b-dropdown-item>
                             <b-dropdown-item to="/pipelines/prediction">Genomic Prediction/ Annotation</b-dropdown-item>                        
                             <b-dropdown-item to="/pipelines/anotacion">Functional annotation</b-dropdown-item>
                             <b-dropdown-item to="/pipelines/ssr"> Microsatellites </b-dropdown-item>

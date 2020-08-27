@@ -2,7 +2,7 @@
     <b-container class="mt-3">
         <h2>Simple Sequence Repeats (SSRs)</h2>
         <hr>
-
+        <b-alert show>En mantención</b-alert>
     </b-container>
 </template>
 

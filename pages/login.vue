@@ -31,8 +31,8 @@
         data(){
             return {
                 user:{
-                    email: 'user1@redgenomica.cl',
-                    password:'12345'
+                    email: '',
+                    password:''
                 },
                 mensaje: ''
             }
@@ -44,7 +44,7 @@
                     .then(res =>{
                         this.$store.dispatch("guardarToken",res.data.token);
                         this.$router.push('/');
-                     })
+                    })
                     .catch(error => {
                         if(error.response.status == 401){
                             this.mensaje = 'Username o pass incorrect '
@@ -52,12 +52,10 @@
                         if(error.response.status  == 402){
                             this.mensaje = 'El usuario no existe'
                         }
-                     })
-                    
+                    })      
                 } catch (error) {
                     console.log(error)
                 }
-
             }
         }    
     }

@@ -1,153 +1,172 @@
 <template>
   <b-container class="mt-3">
-    <h2>{{this.$store.state.usuario.username}}</h2>
+    <h2>Storage: <b>{{this.$store.state.usuario.username}}</b></h2>
     <hr>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, sapiente eum minima amet quod unde asperiores quis iusto perferendis, quae vero optio maiores assumenda tempore, consequuntur repudiandae! Recusandae autem temporibus enim, dolores fuga, aperiam magnam nihil officia corporis reprehenderit possimus sequi quibusdam, accusantium in molestiae. Distinctio asperiores placeat quibusdam ea.</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, sapiente eum minima amet quod unde asperiores quis iusto perferendis</p>
     <b-card>
-       <!-- <fileUpload /> -->
-       <FileUpload /> 
+      <b-card-text>
+        <b-row>
+          <b-col lg="4" md="4" sm="4">
+            <b-form-group label="File">
+              <b-form-file
+                v-model="file"
+                accept=".fna, .fasta, .faa, .fa, .faa, .fastq, .gz"
+                :state="Boolean(file)"
+                placeholder="Choose a file or drop it here..."
+                drop-placeholder="Drop file here..."
+                ref="file-input"
+              ></b-form-file>
+            </b-form-group>
+          </b-col>
+          <b-col lg="5" md="4" sm="4">
+            <b-form-group label="Description">
+              <b-form-input v-model="description"></b-form-input>
+            </b-form-group>
+          </b-col>
+          <b-col lg="3" md="4" sm="4">
+            <b-form-group label="Format file">
+               <b-form-select v-model="selected" :options="items"></b-form-select>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-progress :value="value" :max="max" show-progress animated></b-progress>
+        <b-button @click="sendFile" variant="primary" size="sm" class="mt-2" >Upload</b-button>
+      </b-card-text>
+      <b-card bg-variant="secondary" text-variant="white" title="Uploaded files ">
+        <b-card-text>
+          <b-row>
+            <b-col lg="3" md="4" sm="6">
+              <b-card title="Card title" bg-variant="light" text-variant="dark" sub-title="Card subtitle" class="mt-3">
+                <b-card-text>A second paragraph of text in the card.</b-card-text>
+                       <b-button @click="sendFile" variant="success" size="sm" >Download</b-button>
+                        <b-button @click="sendFile" variant="danger" size="sm" >Delete</b-button>
+              </b-card>
+            </b-col>
+            <b-col lg="3" md="4" sm="6">
+              <b-card title="Card title" bg-variant="light" text-variant="dark" sub-title="Card subtitle" class="mt-3">
+                <b-card-text>A second paragraph of text in the card.</b-card-text>
+                       <b-button @click="sendFile" variant="success" size="sm" >Download</b-button>
+                        <b-button @click="sendFile" variant="danger" size="sm" >Delete</b-button>
+              </b-card>
+            </b-col>
+            <b-col lg="3" md="4" sm="6">
+              <b-card title="Card title" bg-variant="light" text-variant="dark" sub-title="Card subtitle" class="mt-3">
+                <b-card-text>A second paragraph of text in the card.</b-card-text>
+                       <b-button @click="sendFile" variant="success" size="sm" >Download</b-button>
+                        <b-button @click="sendFile" variant="danger" size="sm" >Delete</b-button>
+              </b-card>
+            </b-col>
+            <b-col lg="3" md="4" sm="6">
+              <b-card title="Card title" bg-variant="light" text-variant="dark" sub-title="Card subtitle" class="mt-3">
+                <b-card-text>A second paragraph of text in the card.</b-card-text>
+                       <b-button @click="sendFile" variant="success" size="sm" >Download</b-button>
+                        <b-button @click="sendFile" variant="danger" size="sm" >Delete</b-button>
+              </b-card>
+            </b-col>
+            <b-col lg="3" md="4" sm="6">
+              <b-card title="Card title" bg-variant="light" text-variant="dark" sub-title="Card subtitle" class="mt-3">
+                <b-card-text>A second paragraph of text in the card.</b-card-text>
+                       <b-button @click="sendFile" variant="success" size="sm" >Download</b-button>
+                        <b-button @click="sendFile" variant="danger" size="sm" >Delete</b-button>
+              </b-card>
+            </b-col>
 
-      <b-card header="Uploaded files" header-bg-variant="primary" header-text-variant="white">
-        <b-card-text>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">File Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">Uploaded date</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="file in files_uploaded" :key="file._id">
-                <td>{{file.filename}}</td>
-                <td>{{file.description}}</td>
-                <td>{{file.createdAt}}</td>
-                <td>
-                  <b-button-group>
-                    <b-button variant="outline-info" size="sm" @click="download_file(file._id, file.filename)" >
-                      <b-icon icon="cloud-download"></b-icon> Download
-                    </b-button>
-                    <b-button variant="outline-danger" @click="delete_file(file._id)">
-                      <b-icon icon="trash"></b-icon> Delete
-                    </b-button>
-                </b-button-group>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          </b-row>
         </b-card-text>
       </b-card>
-      
-      <b-card header="Results" header-bg-variant="primary" header-text-variant="white" class="mt-3">
-        <b-card-text>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">File Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">Result date</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="file in files_result" :key="file._id">
-                <td>{{file.filename}}</td>
-                <td>{{file.description}}</td>
-                <td>{{file.createdAt}}</td>
-                <td>
-                  <b-button-group>
-                    <b-button variant="outline-info" size="sm" @click="download_file(file._id, file.filename)" >
-                      <b-icon icon="cloud-download"></b-icon> Download
-                    </b-button>
-                    <b-button variant="outline-danger" size="sm" @click="delete_file(file._id)">
-                      <b-icon icon="trash"></b-icon> Delete
-                    </b-button>
-                  </b-button-group>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </b-card-text>
-      </b-card>
+
+<!--       <b-card-text>
+        <b-form-file
+          v-model="file"
+          accept=".fna, .fasta, .faa, .fa, .faa, .fastq, .gz"
+          :state="Boolean(file)"
+          placeholder="Choose a file or drop it here..."
+          drop-placeholder="Drop file here..."
+          ref="file-input"
+        ></b-form-file>
+        <b-progress :value="value" :max="max" show-progress animated></b-progress>
+        <p class="mt-1">Selected file: {{ file ? file.name : '' }}</p>
+        <b-form-group label="Description">
+          <b-form-input v-model="description"></b-form-input>
+        </b-form-group>
+        <b-button @click="sendFile" variant="secondary" size="sm" >Upload</b-button>
+        <b-avatar icon="check" variant="success" size="sm"  v-if="show_check"></b-avatar>
+        <hr>
+      </b-card-text> -->
 
     </b-card>
   </b-container>
 </template>
 
 <script>
-import FileUpload from '@/components/FileUpload'
   export default {
     middleware: 'auth',
-    
-    components: {
-      FileUpload
-    },
   
     data(){
       return {
-        files_uploaded: [],
-        files_result: []
+        file: null,
+        value: 0,
+        max: 100,
+        show_check: false,
+        description: '',
+        selected: null,
+        items: [
+          { value: null, text: 'Please select an format file' },
+          {value: 'fastq', text:'Sequencing read data (fastq)'},
+          {value: 'fasta', text:'A sequence record (fasta)'},
+          {value: 'other', text:'Other file format'},
+        ],
      }
     },
 
     created(){
-      this.list_files_uploaded()
-      this.list_files_result()
+      
     },
 
     methods: {
 
-      async list_files_uploaded(){
-         try {
-           let res = await this.$axios.post('/files/list', {user_id: this.$store.state.usuario._id, type: 'uploaded' })
-           this.files_uploaded = res.data.files
-          } catch (error) {
-            console.log(error)
-          }
-      }, 
-
-      async list_files_result(){
-         try {
-           let res = await this.$axios.post('/files/list', {user_id: this.$store.state.usuario._id, type: 'result' })
-           this.files_result = res.data.files
-          } catch (error) {
-            console.log(error)
-          }
-      }, 
-
-      async delete_file(id){
+      async sendFile(){
+        this.show_check = false
+        this.value = 0
+        const formData = new FormData;
+        formData.append('file',this.file)
+        formData.append("id", this.$store.state.user._id)
+        formData.append("description",this.description)
+        formData.append("category", this.select)
+        
         try {
-          confirm('Estás segura de que quieres eliminar este archivo?') &&
-          await this.$axios.delete(`/files/delete/${id}`)
-          this.list_files_uploaded()
-          this.list_files_result()
+            const response = await this.$axios.post('/storage/upload', formData, {
+                onUploadProgress: ProgressEvent => { 
+                    let progress  = Math.round((ProgressEvent.loaded / ProgressEvent.total)*100)
+                    this.value = progress
+                }
+            })
+            //this.clearFiles()
+
+            this.show_check = true                
         } catch (error) {
-          console.log(error)
-        }
-      },
-
-      async download_file(id, filename){
-        console.log("idfile: ", id)
-        try {
-          await this.$axios.get(`/files/download/${id}`, {responseType: 'blob'}).
-          then(res => {
-            if (!window.navigator.msSaveOrOpenBlob){
-              // BLOB NAVIGATOR
-              const url = window.URL.createObjectURL(new Blob([res.data]));
-              const link = document.createElement('a');
-              link.href = url;
-              link.setAttribute('download', `${filename}`);
-              document.body.appendChild(link);
-              link.click();
-            }else{
-              // BLOB FOR EXPLORER 11
-              const url = window.navigator.msSaveOrOpenBlob(new Blob([res.data]),`${filename}`);
+              if (error.response) {
+                /*
+                * The request was made and the server responded with a
+                * status code that falls out of the range of 2xx
+                */
+                console.log("error.response.data",error.response.data);
+                console.log('error.response.status',error.response.status);
+                console.log('error.response.headers',error.response.headers);
+            } else if (error.request) {
+                /*
+                * The request was made but no response was received, `error.request`
+                * is an instance of XMLHttpRequest in the browser and an instance
+                * of http.ClientRequest in Node.js
+                */
+                console.log('error.request',error.request);
+            } else {
+                // Something happened in setting up the request and triggered an Error
+                console.log('Error', error.message);
             }
-          })
-        } catch (error) {
-          console.log(error)
-        }   
+            console.log("error.config",error.config);
+                        
+        }
       }
 
 

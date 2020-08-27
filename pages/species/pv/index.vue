@@ -43,8 +43,7 @@
         data(){
             return {
                 genomas: [],
-                //host: 'localhost',
-                host: '192.168.0.18',
+                host: 'localhost',
                 //host: '192.168.22.26',
                 tipo: 'pv'
             }
