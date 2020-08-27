@@ -18,7 +18,7 @@
                     <b-card-text>
                         <h4>Genomes</h4>
                         <hr>
-                        <p>Whole Genome Sequences and Annotations for <i>Pseudomonas viridiflava</i> </p>
+                        <p>Whole Genome Sequences and Annotations for <i> Meloidogyne sp.</i> </p>
                         <ul>
                             
                         </ul>

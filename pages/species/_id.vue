@@ -60,7 +60,7 @@
                         <div class="row">
                             <div class="col-md-4">Blast results </div>
                             <div class="col-md-8">
-                                <b-link :href="`ftp://localhost/Pseudomonas/${genoma.name}/blast/`">Download</b-link>
+                                <b-link :href="`ftp://${host}/Pseudomonas/${genoma.name}/blast/`">Download</b-link>
                             </div>
                         </div>
                     </b-card-text>
@@ -81,7 +81,7 @@
                         <div class="row">
                             <div class="col-md-4">Functional annotation eggNOG</div>
                             <div class="col-md-8">
-                                <b-link :href="`ftp://localhost/Pseudomonas/${genoma.name}/Functional_Analysis/eggNOG/${genoma.name}_protein_eggNOG.tsv`">Download</b-link>
+                                <b-link :href="`ftp://${host}/Pseudomonas/${genoma.name}/Functional_Analysis/eggNOG/${genoma.name}_protein_eggNOG.tsv`">Download</b-link>
                             </div>
                         </div>
                     </b-card-text>
@@ -91,7 +91,7 @@
                         <h4>Download</h4>
                         <hr>
                         <p>All assembly and annotation files are available for download. Each data type page will provide a description of the available files and links to download.  Alternatively, you can browse all available files on the 
-                        <b-link :href="`ftp://localhost/Pseudomonas/${genoma.name}`">FTP repository.</b-link></p>
+                        <b-link :href="`ftp://${host}/Pseudomonas/${genoma.name}`">FTP repository.</b-link></p>
                     </b-card-text>
                 </b-tab>
             
@@ -105,8 +105,10 @@
     export default {
         data(){
             return {
-                genoma: []
-            }
+                genoma: [],
+                host: 'localhost', //192.168.22.26
+                //host: '192.168.22.26'
+            }   
         },
         async created(){
             try {

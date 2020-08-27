@@ -29,7 +29,7 @@
                         <h4>Download</h4>
                         <hr>
                         <p>All assembly and annotation files are available for download by selecting the desired data type in the left-hand "Resources" side bar.  Each data type page will provide a description of the available files and links to download.  Alternatively, you can browse all available files on the 
-                        <a  href="ftp://localhost/">FTP repository.</a> </p>
+                        <a  :href="`ftp://${host}/`">FTP repository.</a> </p>
 
                     </b-card-text>
                 </b-tab>
@@ -43,6 +43,9 @@
         data(){
             return {
                 genomas: [],
+                //host: 'localhost',
+                host: '192.168.0.18',
+                //host: '192.168.22.26',
                 tipo: 'pv'
             }
         },
