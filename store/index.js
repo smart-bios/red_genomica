@@ -9,11 +9,11 @@ export const state = () => ({
 
 export const mutations = {
   
-  setToken(state,token){
+  setToken(state, token){
     state.token = token;
   },
 
-  setUsuario(state,usuario){
+  setUsuario(state, usuario){
     state.usuario = usuario;
   }
 }

@@ -6,7 +6,7 @@
                     <b-col>
                          <b-form-group description="Project name">
                             <b-form-input 
-                                v-model="input.project_name" 
+                                v-model="input.name" 
                                 placeholder="Enter your project name"
                                 lazy-formatter  
                                 :formatter="formatter"
@@ -37,7 +37,7 @@
         <b-card
             border-variant="secondary"
             header="Result"
-            header-bg-variant="success"
+            header-bg-variant="info"
             header-text-variant="white"
             v-if="show_result"
         >
@@ -50,8 +50,7 @@
                         <b-table hover :items="basic" caption-top small>
                             <template v-slot:table-caption>Basic Statistics</template>
                         </b-table>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque facere libero laboriosam ex, accusamus quis voluptates recusandae animi saepe, asperiores quasi est repudiandae nesciunt. Quos aperiam tempora illo qui cupiditate.
-
+                        {{basic}}
                     </b-col>
                     
                     <b-col nd="6">
@@ -77,10 +76,9 @@ import fileUpload from '@/components/FileUpload'
                 show: false,
                 show_result: false,
                 input: {
-                    project_name: 'fastqc_01',
+                    name: 'fastqc_01',
                     fq: null,
-                    user: `${this.$store.state.usuario.email}`,
-                    user_id: `${this.$store.state.usuario._id}`
+                    user: `${this.$store.state.usuario._id}`
                 },
                 fields: ['status','module'],
                 files: [],
@@ -96,22 +94,12 @@ import fileUpload from '@/components/FileUpload'
         },
 
         methods:{
-            async list_files(){
-                try {
-                    let res = await this.$axios.post('/files/list', {user_id: this.$store.state.usuario._id, type: 'uploaded' })
-                    this.files = res.data.files
-                } catch (error) {
-                    console.log(error)
-                }
-            },
-
             async run_fastqc(){
-                console.log(this.input)
                 try {
                     this.show = true
                     this.show_result = false
                     let res = await this.$axios.post('/tools/fastqc', this.input)
-                    //console.log(res.data)
+                    console.log(res.data)
                     this.summary = res.data.summary
                     this.basic = res.data.basic
                     this.show = false
@@ -120,6 +108,15 @@ import fileUpload from '@/components/FileUpload'
                     console.log(error)
                 }
              
+            },
+
+            async list_files(){
+                try {
+                    let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded' })
+                    this.files = res.data.files
+                } catch (error) {
+                    console.log(error)
+                }
             },
 
             async download_file(){

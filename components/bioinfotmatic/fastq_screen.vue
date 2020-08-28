@@ -88,7 +88,7 @@ import fileUpload from '@/components/FileUpload'
         methods:{
             async list_files(){
                 try {
-                    let res = await this.$axios.post('/files/list', {user_id: this.$store.state.usuario._id, type: 'uploaded' })
+                    let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded' })
                     this.files = res.data.files
                 } catch (error) {
                     console.log(error)
