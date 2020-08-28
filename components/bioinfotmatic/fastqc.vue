@@ -2,6 +2,15 @@
     <div>
         <b-overlay :show="show" rounded="sm" >
             <b-card-text>
+                <b-alert
+                    :show="dismissCountDown"
+                    dismissible
+                    :variant="mensaje.color"
+                    @dismissed="dismissCountDown=0"
+                    @dismiss-count-down="countDownChanged"
+                >
+                    {{mensaje.text}}
+                 </b-alert>
                 <b-row>
                     <b-col>
                          <b-form-group description="Project name">
@@ -35,7 +44,6 @@
         </b-overlay>     
         <hr>        
         <b-card
-            border-variant="secondary"
             header="Result"
             header-bg-variant="info"
             header-text-variant="white"
@@ -65,12 +73,8 @@
 </template>
 
 <script>
-import fileUpload from '@/components/FileUpload'
     export default {   
-        components: {
-            fileUpload
-        },
-        
+
         data(){
             return {
                 show: false,
@@ -85,7 +89,13 @@ import fileUpload from '@/components/FileUpload'
                 title: '',
                 result: '',
                 summary: [],
-                basic: []
+                basic: [],
+                mensaje: {
+                    color: '',
+                    text: ''
+                }, 
+                dismissSecs: 5,
+                dismissCountDown: 0
             }
         },
 
@@ -95,19 +105,24 @@ import fileUpload from '@/components/FileUpload'
 
         methods:{
             async run_fastqc(){
-                try {
-                    this.show = true
-                    this.show_result = false
-                    let res = await this.$axios.post('/tools/fastqc', this.input)
-                    console.log(res.data)
-                    this.summary = res.data.summary
-                    this.basic = res.data.basic
-                    this.show = false
-                    this.show_result = true
-                } catch (error) {
-                    console.log(error)
-                }
-             
+                if(this.input.fq == null){
+                    this.mensaje.color = 'danger'
+                    this.mensaje.text = 'Select FASTQ file'
+                    this.showAlert()
+                }else{
+                    try {
+                        this.show = true
+                        this.show_result = false
+                        let res = await this.$axios.post('/tools/fastqc', this.input)
+                        console.log(res.data)
+                        this.summary = res.data.summary
+                        this.basic = res.data.basic
+                        this.show = false
+                        this.show_result = true
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }            
             },
 
             async list_files(){
@@ -150,6 +165,14 @@ import fileUpload from '@/components/FileUpload'
                 if (item.status === 'PASS') return 'table-success'
                 if (item.status === 'WARN') return 'table-warning'
                 if (item.status === 'FAIL') return 'table-danger'
+            },
+
+            countDownChanged(dismissCountDown) {
+                this.dismissCountDown = dismissCountDown
+            },
+
+            showAlert() {
+                this.dismissCountDown = this.dismissSecs
             }
         }
         

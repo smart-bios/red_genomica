@@ -38,7 +38,7 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <b-progress :value="value" :max="max" show-progress animated></b-progress>
+        <b-progress :value="value" :max="max" show-progress ></b-progress>
         <b-button @click="sendFile" variant="primary" size="sm" class="mt-2">Upload</b-button>   
       </b-card-text>
       
