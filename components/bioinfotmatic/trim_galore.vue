@@ -2,7 +2,15 @@
     <div>
         <b-overlay :show="show" rounded="sm" >
         <b-card-text>
-            <b-form-group
+            <b-row>
+                <b-col sm="12" md= "12" lg="4">
+                    Lorem ipsum dolor sit amet.
+                </b-col>
+                <b-col sm="12" md= "12" lg="8">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, exercitationem.
+                </b-col>
+            </b-row>
+    <!--         <b-form-group
                 description="Project name"
             >
                 <b-form-input 
@@ -57,7 +65,7 @@
             </b-row>
             <b-badge to="/storage" variant="primary">Upload files</b-badge>
             <hr>
-            <b-button variant="secondary" size="sm" @click="run_trimgalore">Run Trim Galore</b-button>
+            <b-button variant="secondary" size="sm" @click="run_trimgalore">Run Trim Galore</b-button> -->
         </b-card-text>
         <template v-slot:overlay>
             <div class="text-center">
