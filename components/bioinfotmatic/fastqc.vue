@@ -13,14 +13,14 @@
                 </b-alert>
                 <b-row>
                     <b-col sm="12" md= "12" lg="3">
-                        <b-form-group label="Project name">
+<!--                         <b-form-group label="Project name">
                             <b-form-input 
                                 v-model="input.name" 
                                 placeholder="Enter your project name"
                                 lazy-formatter  
                                 :formatter="formatter"
                             ></b-form-input>
-                        </b-form-group>
+                        </b-form-group> -->
 
                         <b-form-group label ="File*" description="FASTQ file format">
                             <b-form-select v-model="input.fq">
@@ -79,7 +79,6 @@
                 show: false,
                 show_result: false,
                 input: {
-                    name: 'fastqc_01',
                     fq: null,
                     user: `${this.$store.state.usuario._id}`
                 },

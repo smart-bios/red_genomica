@@ -13,7 +13,7 @@
             </b-alert>
             <b-row>
                 <b-col sm="12" md= "12" lg="3">
-                    <b-form-group label="Project name">
+                    <b-form-group label="Basename">
                         <b-form-input 
                             v-model="input.name" 
                             lazy-formatter  
@@ -65,14 +65,14 @@
                 <b-col sm="12" md= "12" lg="9" class="border-left border-default panel-2 py-2">
                     <b-card
                         header="Result"
-                        header-bg-variant="success"
+                        :header-bg-variant="status"
                         header-text-variant="white"
                         v-if="show_result"
                     >            
                         <b-card-text>
                             <h3>{{title}}</h3>
                             <hr>
-                            {{trim1}}
+                            {{result}}
                         </b-card-text>
                     </b-card>
                 </b-col>
@@ -104,9 +104,9 @@
                     user: `${this.$store.state.usuario._id}`
                 },
                 files: [],
+                status: '',
                 title: '',
-                trim1: '',
-                trim2: '',
+                result: '',
                 mensaje: {
                     color: '',
                     text: ''
@@ -137,9 +137,10 @@
                     try {
                         this.show = true
                         let res = await this.$axios.post('/tools/trimgalore', this.input)
-                        console.log(res.data) 
+                        console.log(res.data)
+                        this.status = res.data.status
                         this.title = res.data.message
-                        this.trim1 = res.data.result         
+                        this.result = res.data.result         
                         this.show= false
                         this.show_result = true
 
