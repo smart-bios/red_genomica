@@ -88,23 +88,18 @@
 </template>
 
 <script>
-import fileUpload from '@/components/FileUpload'
     export default {
-        components: {
-            fileUpload
-        },
         data(){
             return {
                 show: false,
                 show_result: false,
                 show_main: true,
                 input: {
-                    project_name: 'unicycler_01',
+                    name: 'unicycler_01',
                     fq1: null,
                     fq2: null,
                     length_fasta: 100,
-                    user: `${this.$store.state.usuario.email}`,
-                    user_id: `${this.$store.state.usuario._id}`
+                    user: `${this.$store.state.usuario._id}`
                 },
                 files: [],
                 title: '',
@@ -118,7 +113,13 @@ import fileUpload from '@/components/FileUpload'
                     { file: '<b>assembly.gfa</b>', description: 'final assembly in GFA v1 graph format' },
                     { file: '<b>assembly.fasta</b>', description: 'final assembly in FASTA format (same contigs as in assembly.gfa)' },
                     { file: '<b>unicycler.log</b>', description: 'Unicycler log file' }
-                ]
+                ],
+                mensaje: {
+                    color: '',
+                    text: ''
+                }, 
+                dismissSecs: 5,
+                dismissCountDown: 0
             }
         },
         created(){
@@ -128,7 +129,7 @@ import fileUpload from '@/components/FileUpload'
         methods:{
             async list_files(){
                 try {
-                    let res = await this.$axios.post('/files/list', {user_id: this.$store.state.usuario._id, type: 'uploaded' })
+                    let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded' })
                     this.files = res.data.files
                 } catch (error) {
                     console.log(error)
@@ -175,6 +176,14 @@ import fileUpload from '@/components/FileUpload'
             formatter(value) {
                 return value.replace(/\s+/g,"_");
             },
+
+            countDownChanged(dismissCountDown) {
+                this.dismissCountDown = dismissCountDown
+            },
+
+            showAlert() {
+                this.dismissCountDown = this.dismissSecs
+            }
         }        
     }
 </script>

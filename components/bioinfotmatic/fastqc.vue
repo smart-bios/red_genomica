@@ -12,7 +12,7 @@
                     {{mensaje.text}}
                 </b-alert>
                 <b-row>
-                    <b-col sm="12" md= "12" lg="2">
+                    <b-col sm="12" md= "12" lg="3">
                         <b-form-group label="Project name">
                             <b-form-input 
                                 v-model="input.name" 
@@ -22,7 +22,7 @@
                             ></b-form-input>
                         </b-form-group>
 
-                        <b-form-group label ="File" description="FASTQ file format">
+                        <b-form-group label ="File*" description="FASTQ file format">
                             <b-form-select v-model="input.fq">
                                 <b-form-select-option :value="null">Please select a file</b-form-select-option>
                                 <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
@@ -33,7 +33,7 @@
                         <hr>
                         <b-button variant="secondary" size="sm" @click="run_fastqc">Run Fastqc</b-button>
                     </b-col>
-                    <b-col sm="12" md= "12" lg="10" class="border-left border-default panel-2 py-2">
+                    <b-col sm="12" md= "12" lg="9" class="border-left border-default panel-2 py-2">
                         <b-card
                             header="Result"
                             header-bg-variant="success"
@@ -106,7 +106,7 @@
             async run_fastqc(){
                 if(this.input.fq == null){
                     this.mensaje.color = 'danger'
-                    this.mensaje.text = 'Select fastq file'
+                    this.mensaje.text = 'Select file'
                     this.showAlert()
 
                 }else{
@@ -158,15 +158,15 @@
                 } 
             },
 
-            formatter(value) {
-                return value.replace(/\s+/g,"_");
-            },
-
             rowClass(item, type) {
                 if (!item || type !== 'row') return
                 if (item.status === 'PASS') return 'table-success'
                 if (item.status === 'WARN') return 'table-warning'
                 if (item.status === 'FAIL') return 'table-danger'
+            },
+
+            formatter(value) {
+                return value.replace(/\s+/g,"_");
             },
 
             countDownChanged(dismissCountDown) {

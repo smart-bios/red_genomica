@@ -38,16 +38,16 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <b-progress :value="value" :max="max" show-progress animated></b-progress>
+        <b-progress :value="value" :max="max" show-progress ></b-progress>
         <b-button @click="sendFile" variant="primary" size="sm" class="mt-2">Upload</b-button>   
       </b-card-text>
       
       <hr>
       
-      <b-card bg-variant="secondary" text-variant="white" title="Uploaded files ">
+      <b-card bg-variant="ligth" text-variant="dark" title="Uploaded files ">
         <b-card-text>
           <b-row>
-            <b-col lg="3" md="4" sm="6" v-for="file in files_uploaded" :key="file._id">
+            <b-col lg="3" md="4rs" sm="6" v-for="file in files_uploaded" :key="file._id">
               <b-card :title="file.filename" bg-variant="light" text-variant="dark" :sub-title="file.category" class="mt-3">
                 <b-card-text>{{file.description}}</b-card-text>
                   <b-button @click="sendFile" variant="success" size="sm" >Download</b-button>
