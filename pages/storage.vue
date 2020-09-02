@@ -50,8 +50,8 @@
             <b-col lg="3" md="4rs" sm="6" v-for="file in files_uploaded" :key="file._id">
               <b-card :title="file.filename" bg-variant="light" text-variant="dark" :sub-title="file.category" class="mt-3">
                 <b-card-text>{{file.description}}</b-card-text>
-                  <b-button @click="sendFile" variant="success" size="sm" >Download</b-button>
-                  <b-button @click="delete_file(file._id)" variant="danger" size="sm" >Delete</b-button>
+                  <b-button  @click="download_file(file._id, file.filename)" variant="success" size="sm" ><b-icon icon="cloud-download"></b-icon>Download</b-button>
+                  <b-button @click="delete_file(file._id)" variant="danger" size="sm" ><b-icon icon="trash"></b-icon>Delete</b-button>
               </b-card>
             </b-col>
           </b-row>
@@ -157,6 +157,28 @@
         } catch (error) {
           console.log(error)
         } 
+      },
+
+      async download_file(id, filename){
+        try {
+          await this.$axios.get(`/storage/download/${id}`, {responseType: 'blob'}).
+          then(res => {
+            if (!window.navigator.msSaveOrOpenBlob){
+              // BLOB NAVIGATOR
+              const url = window.URL.createObjectURL(new Blob([res.data]));
+              const link = document.createElement('a');
+              link.href = url;
+              link.setAttribute('download', `${filename}`);
+              document.body.appendChild(link);
+              link.click();
+            }else{
+              // BLOB FOR EXPLORER 11
+              const url = window.navigator.msSaveOrOpenBlob(new Blob([res.data]),`${filename}`);
+            }
+          })
+        } catch (error) {
+          console.log(error)
+        }   
       },
 
       countDownChanged(dismissCountDown) {
