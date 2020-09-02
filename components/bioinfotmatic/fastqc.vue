@@ -122,9 +122,7 @@
                     } catch (error) {
                         console.log(error)
                     }
-                }
-                
-             
+                }             
             },
 
             async list_files(){
