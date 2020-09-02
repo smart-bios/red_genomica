@@ -85,6 +85,7 @@
                 fields: ['status','module'],
                 files: [],
                 title: '',
+                report: '',
                 result: '',
                 summary: [],
                 basic: [],
@@ -114,6 +115,7 @@
                         this.show_result = false
                         let res = await this.$axios.post('/tools/fastqc', this.input)
                         this.title = res.data.message
+                        this.report = res.data.result.report
                         this.summary = res.data.result.summary
                         this.basic = res.data.result.basic
                         this.show = false
@@ -134,25 +136,20 @@
             },
 
             async download_file(){
-               try {
-                    await this.$axios.get(`/files/download/${this.result}`, {responseType: 'blob'}).
-                    then(res => {
-                        if (!window.navigator.msSaveOrOpenBlob){
-                        // BLOB NAVIGATOR
-                            const url = window.URL.createObjectURL(new Blob([res.data]));
-                            const link = document.createElement('a');
-                            link.href = url;
-                            link.setAttribute('download', `${this.input.project_name}.zip`);
-                            document.body.appendChild(link);
-                            link.click();
-                        }else{
-                            // BLOB FOR EXPLORER 11
-                            const url = window.navigator.msSaveOrOpenBlob(new Blob([res.data]),`${filename}`);
-                        }
-                    })
+                try {
+
+                    let res = await this.$axios.post(`/storage/download/`, {report: this.report}, {responseType: 'blob'})
+                    console.log(res)
+                    const url = window.URL.createObjectURL(new Blob([res.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'fastqc_report.zip');
+                    document.body.appendChild(link);
+                    link.click();
+                                        
                 } catch (error) {
-                    console.log(error)
-                } 
+                     console.log(error)
+                }
             },
 
             rowClass(item, type) {
