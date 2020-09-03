@@ -45,6 +45,8 @@
                 </b-col>
 
                 <b-col sm="12" md= "12" lg="9" class="border-left border-default panel-2 py-2">
+                    <b-alert show>En mantención...</b-alert>
+
                     <b-card header="Result" header-bg-variant="success" header-text-variant="white" v-if="show_result">
                         <b-card-text>
 

@@ -172,6 +172,7 @@
                         this.reportfq2= res.data.fq2       
                         this.show= false
                         this.show_result = true
+                        this.list_files()
 
                     } catch (error) {
                         console.log(error)

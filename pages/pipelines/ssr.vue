@@ -7,6 +7,7 @@
             <b-tabs card>
                 <b-tab title="PERF" active>
                     <p>PERF is a Python package developed for fast and accurate identification of microsatellites from DNA sequences.</p>
+                    <b-alert show>Editando</b-alert>
                     <hr>
                     <Perf/>
                 </b-tab>            

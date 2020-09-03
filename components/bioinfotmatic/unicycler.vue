@@ -1,21 +1,28 @@
 <template>
     <div>
         <b-overlay :show="show" rounded="sm" >
-        <b-card-text v-if="show_main">
-            <b-form-group
-                description="Project name"
-            >
-                <b-form-input 
-                    v-model="input.project_name" 
-                    placeholder="Enter your project name"
-                    lazy-formatter  
-                    :formatter="formatter"
-                ></b-form-input>
-            </b-form-group>         
-            <hr>
-            Inputs
+        <b-card-text>
+
+            <b-alert
+                    :show="dismissCountDown"
+                    dismissible
+                    :variant="mensaje.color"
+                    @dismissed="dismissCountDown=0"
+                    @dismiss-count-down="countDownChanged"
+                >
+                    {{mensaje.text}}
+            </b-alert>
             <b-row>
-                <b-col>
+                <b-col sm="12" md= "12" lg="3">
+                    <b-form-group label ="Project name">
+                        <b-form-input 
+                            v-model="input.name" 
+                            placeholder="Enter your project name"
+                            lazy-formatter  
+                            :formatter="formatter"
+                        ></b-form-input>
+                    </b-form-group>
+
                     <b-form-group
                         label="File with forward reads. "
                         description="FASTQ file of first short reads in each pair"
@@ -24,9 +31,8 @@
                             <b-form-select-option :value="null">Please select a file</b-form-select-option>
                             <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                         </b-form-select>
-                    </b-form-group>              
-                </b-col>
-                <b-col>
+                    </b-form-group>
+
                     <b-form-group
                         label="File with reverse reads. "
                         description="FASTQ file of second short reads in each pair"
@@ -35,20 +41,44 @@
                             <b-form-select-option :value="null">Please select a file</b-form-select-option>
                             <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                         </b-form-select>
-                    </b-form-group>  
-                </b-col>
-                <b-col>
+                    </b-form-group>
+
                     <b-form-group
                         label="Min fasta lengt "
-                        description= "Exclude contigs from the FASTA file which are shorter than this length (default: 100)"
+                        description= "Exclude contigs from the FASTA file which are shorter than this length (default: 500)"
                     >
                         <b-form-input id="prefix" v-model="input.length_fasta"></b-form-input>
-                    </b-form-group>                    
+                    </b-form-group>
+
+                    <b-badge to="/storage" variant="primary">Upload files</b-badge>
+                    <hr>
+                    <b-button variant="secondary" size="sm" @click="run_unicycler">Run Unicycler</b-button>    
+                </b-col>
+                <b-col sm="12" md= "12" lg="9" class="border-left border-default panel-2 py-2">
+                     <b-card
+                        header="Result"
+                        header-bg-variant="success"
+                        header-text-variant="white"
+                        v-if="show_result"
+                    >
+                        <b-card-text>
+                            <h3>{{title}}</h3>
+                            <hr>
+                            <p class="mt-2">Unicycler's most important output files are <b>assembly.gfa, assembly.fasta</b> and <b>unicycler.log</b>. These are produced by every Unicycler run.
+                            All files and directories are described in the table below. Intermediate output files (everything except for assembly.gfa, assembly.fasta and unicycler.log) will be prefixed with a number so they are in chronological order.</p>
+                            
+                            <b-btn variant="secondary" size="sm" @click="download_file" class="my-2">Downolad results</b-btn>
+
+                            <b-table striped hover :items="items">
+                                <template v-slot:cell(html)="data">
+                                    <span v-html="data.value"></span>
+                                </template>
+                            </b-table>
+                            <!-- <textarea class="form-control" v-model="log"></textarea>  -->
+                        </b-card-text>
+                    </b-card>
                 </b-col>
             </b-row>
-            <b-badge to="/storage" variant="primary">Upload files</b-badge>
-            <hr>
-            <b-button variant="secondary" size="sm" @click="run_unicycler">Run Unicycler</b-button>
         </b-card-text>
         <template v-slot:overlay>
             <div class="text-center">
@@ -57,33 +87,6 @@
             </div>
         </template>
         </b-overlay>
-
-        <hr>
-     
-        <b-card
-            border-variant="light"
-            header="Result"
-            header-bg-variant="success"
-            header-text-variant="white"
-            v-if="show_result"
-        >
-            <b-card-text>
-                <h3>{{title}}</h3>
-                <hr>
-                <b-btn pill variant="secondary" size="sm" @click="download_file">Downolad results</b-btn>
-                <p class="mt-2">Unicycler's most important output files are <b>assembly.gfa, assembly.fasta</b> and <b>unicycler.log</b>. These are produced by every Unicycler run.
-                All files and directories are described in the table below. Intermediate output files (everything except for assembly.gfa, assembly.fasta and unicycler.log) will be prefixed with a number so they are in chronological order.
-                <b-table striped hover :items="items">
-                    <template v-slot:cell(html)="data">
-                        <span v-html="data.value"></span>
-                    </template>
-                </b-table>
-                </p>
-                <textarea class="form-control" v-model="log"></textarea> 
-            </b-card-text>
-        </b-card>
-        
-
     </div>
 </template>
 
@@ -93,12 +96,11 @@
             return {
                 show: false,
                 show_result: false,
-                show_main: true,
                 input: {
                     name: 'unicycler_01',
                     fq1: null,
                     fq2: null,
-                    length_fasta: 100,
+                    length_fasta: 500,
                     user: `${this.$store.state.usuario._id}`
                 },
                 files: [],
@@ -110,9 +112,9 @@
                     { file: 'bridges_applied.gfa', description: 'bridges applied, before any cleaning or merging' },
                     { file: 'final_clean.gfa', description: 'more redundant contigs removed' },
                     { file: 'polished.gfa', description: 'after a round of Pilon polishing' },
-                    { file: '<b>assembly.gfa</b>', description: 'final assembly in GFA v1 graph format' },
-                    { file: '<b>assembly.fasta</b>', description: 'final assembly in FASTA format (same contigs as in assembly.gfa)' },
-                    { file: '<b>unicycler.log</b>', description: 'Unicycler log file' }
+                    { file: 'assembly.gfa', description: 'final assembly in GFA v1 graph format' },
+                    { file: 'assembly.fasta', description: 'final assembly in FASTA format (same contigs as in assembly.gfa)' },
+                    { file: 'unicycler.log', description: 'Unicycler log file' }
                 ],
                 mensaje: {
                     color: '',
@@ -137,30 +139,37 @@
             },
 
             async run_unicycler(){
-                try {
-                    this.show = true
-                    let res = await this.$axios.post('/tools/unicycler', this.input)
-                    this.result = res.data.result
-                    this.title = res.data.message
-                    this.show = false
-                    this.show_main = false
-                    this.show_result = true
-                    console.log(res.data)
-                } catch (error) {
+
+                if(this.input.fq1 == null && this.input.fq2 == null){
+                    this.mensaje.color = 'danger'
+                    this.mensaje.text = 'Select file'
+                    this.showAlert()
+                }else{
+                    try {
+                        this.show = true
+                        let res = await this.$axios.post('/tools/unicycler', this.input)
+                        console.log(res.data)
+                        this.title = res.data.message
+                        this.result = res.data.result
+                        this.show = false
+                        this.show_result = true
+                        
+                    } catch (error) {
                     
-                }
+                    }
+                }                
             },
 
             async download_file(){
                try {
-                    await this.$axios.get(`/files/download/${this.result}`, {responseType: 'blob'}).
+                    await this.$axios.get(`/storage/download/${this.result}`, {responseType: 'blob'}).
                     then(res => {
                         if (!window.navigator.msSaveOrOpenBlob){
                         // BLOB NAVIGATOR
                             const url = window.URL.createObjectURL(new Blob([res.data]));
                             const link = document.createElement('a');
                             link.href = url;
-                            link.setAttribute('download', `${this.input.project_name}.zip`);
+                            link.setAttribute('download', `${this.input.name}.zip`);
                             document.body.appendChild(link);
                             link.click();
                         }else{
@@ -187,3 +196,9 @@
         }        
     }
 </script>
+
+<style scoped>
+.panel-2{
+    background-color:whitesmoke;
+}
+</style>

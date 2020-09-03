@@ -7,16 +7,20 @@
             <b-tabs card>
                 <b-tab title="Fastqc" active>
                     <p>FastQC aims to provide a simple way to do some quality control checks on raw sequence data coming from high throughput sequencing pipelines. It provides a modular set of analyses which you can use to give a quick impression of whether your data has any problems of which you should be aware before doing any further analysis.</p>
+                    <b-alert show>Reporte para conocer la calidad de las secuencias, y si es necesario filtrarlas por calidad o eliminar adaptadores.</b-alert>
+
                     <hr>
                     <Fastqc />
                 </b-tab>
                  <b-tab title="Trim Galore" >
                     <p> Trim Galore! is a wrapper script to automate quality and adapter trimming as well as quality control</p>
+                    <b-alert show>Es necesario si los reads en fastqc dan un mal reporte.</b-alert>
                     <hr>
                     <TrimGalore />
                 </b-tab>  
                 <b-tab title="Fastq screen" >
                     <p> FastQ Screen is an application which allows you to search a FastQ sequence file against a set of sequence databases and summarises the results. It is useful for incorporating into a sequencing pipeline to identify sources of contamination or mislabeled samples.</p>
+                    <b-alert show>Buscar posibles contaminantes en la secuenciación</b-alert>
                     <hr>
                     <FastqScreen />
                 </b-tab>                

@@ -2,7 +2,7 @@
   <b-container class="mt-3">
     <h2>Storage: <b>{{this.$store.state.usuario.username}}</b></h2>
     <hr>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, sapiente eum minima amet quod unde asperiores quis iusto perferendis</p>
+    <b-alert show>Lugar para almacenar los archivos subidos y generados. Es un almacenamiento temporal de 7 dias</b-alert>
     <b-card>
       <b-card-text>
         <b-alert
@@ -57,6 +57,20 @@
           </b-row>
         </b-card-text>
       </b-card>
+      <hr>
+      <b-card bg-variant="ligth" text-variant="dark" title="Resultados">
+        <b-card-text>
+          <b-row>
+            <b-col lg="3" md="4rs" sm="6" v-for="file in resultados" :key="file._id">
+              <b-card :title="file.filename" bg-variant="light" text-variant="dark" :sub-title="file.category" class="mt-3">
+                <b-card-text>{{file.description}}</b-card-text>
+                  <b-button  @click="download_file(file._id, file.filename)" variant="success" size="sm" ><b-icon icon="cloud-download"></b-icon>Download</b-button>
+                  <b-button @click="delete_file(file._id)" variant="danger" size="sm" ><b-icon icon="trash"></b-icon>Delete</b-button>
+              </b-card>
+            </b-col>
+          </b-row>
+        </b-card-text>
+      </b-card>
     </b-card>
   </b-container>
 </template>
@@ -69,6 +83,7 @@
       return {
         file: null,
         files_uploaded: [],
+        resultados:[],
         value: 0,
         max: 100,
         show_check: false,
@@ -90,7 +105,8 @@
     },
 
     created(){
-      this.list_files_uploaded() 
+      this.list_files_uploaded()
+      this.list_files_result() 
     },
 
     methods: {
@@ -142,8 +158,17 @@
       async list_files_uploaded(){
          try {
            let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded' })
-           console.log(res.data.files)
            this.files_uploaded = res.data.files
+          } catch (error) {
+            console.log(error)
+          }
+      },
+
+      async list_files_result(){
+         try {
+           let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'result'})
+           console.log(res.data)
+           this.resultados= res.data.files
           } catch (error) {
             console.log(error)
           }
@@ -154,6 +179,7 @@
           confirm('Estás segura de que quieres eliminar este archivo?') &&
           await this.$axios.delete(`/storage/delete/${id}`)
           this.list_files_uploaded()
+          this.list_files_result()
         } catch (error) {
           console.log(error)
         } 

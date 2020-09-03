@@ -8,11 +8,13 @@
 
                 <b-tab title="Quast" active>
                     <p>Evaluates genome assemblies..</p>
+                    <b-alert show>En mantención...</b-alert>
                     <hr>
                     <Quast />
                 </b-tab>
                 <b-tab title="BUSCO" >
                     <p>Based on evolutionarily-informed expectations of gene content of near-universal single-copy orthologs, BUSCO metric is complementary to technical metrics like N50.</p>
+                    <b-alert show>En mantención...</b-alert>
                     <hr>
                 </b-tab>                
             </b-tabs>
