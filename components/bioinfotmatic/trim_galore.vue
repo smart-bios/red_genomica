@@ -88,7 +88,7 @@
                                     </b-card>                               
                                 </b-col>
                                 <b-col sm="12" md="6" lg="6">
-                                   <b-card :title="reportfq2.filename" sub-title="trim result">
+                                   <b-card :title="reportfq2.filename" sub-title="trim result" v-if="input.paired">
                                         <b-card-text>
                                             <div v-for="(item, index) in reportfq2.report" :key="index">
                                                 {{item}}
@@ -166,12 +166,10 @@
                     try {
                         this.show = true
                         let res = await this.$axios.post('/tools/trimgalore', this.input)
-                        console.log(res.data)
                         this.status = res.data.status
                         this.title = res.data.message
                         this.reportfq1 = res.data.fq1
-                        this.reportfq2= res.data.fq2
-                        //this.result = res.data.result         
+                        this.reportfq2= res.data.fq2       
                         this.show= false
                         this.show_result = true
 
