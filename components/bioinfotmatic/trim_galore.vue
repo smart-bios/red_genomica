@@ -72,7 +72,35 @@
                         <b-card-text>
                             <h3>{{title}}</h3>
                             <hr>
-                            {{result}}
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum voluptatem quibusdam eum libero repudiandae cupiditate!</p>
+                            <b-row>
+                                <b-col sm="12" md="6" lg="6">
+                                    <b-card :title="reportfq1.filename" sub-title="trim result">
+                                        <b-card-text>
+                                            <div v-for="(item, index) in reportfq1.report" :key="index">
+                                                {{item}}
+                                            </div>
+                                        </b-card-text>
+                                        <b-button-group>
+                                        <b-button variant="success" @click="download_file(reportfq1.path, reportfq1.filename)" >Download Reads</b-button>
+                                        <b-button variant="info" @click="download_file(reportfq1.path_report,'report_trimgalorefq1.txt')" >Download Full Report</b-button>
+                                    </b-button-group>
+                                    </b-card>                               
+                                </b-col>
+                                <b-col sm="12" md="6" lg="6">
+                                   <b-card :title="reportfq2.filename" sub-title="trim result">
+                                        <b-card-text>
+                                            <div v-for="(item, index) in reportfq2.report" :key="index">
+                                                {{item}}
+                                            </div>
+                                        </b-card-text>
+                                        <b-button-group>
+                                        <b-button variant="success" @click="download_file(reportfq2.path, reportfq1.filename)" >Download Reads</b-button>
+                                        <b-button variant="info" @click="download_file(reportfq2.path_report,'report_trimgalorefq2.txt')" >Download Full Report</b-button>
+                                    </b-button-group>
+                                    </b-card>   
+                                </b-col>
+                            </b-row>
                         </b-card-text>
                     </b-card>
                 </b-col>
@@ -106,7 +134,8 @@
                 files: [],
                 status: '',
                 title: '',
-                result: '',
+                reportfq1 : [],
+                reportfq2 : [],
                 mensaje: {
                     color: '',
                     text: ''
@@ -140,7 +169,9 @@
                         console.log(res.data)
                         this.status = res.data.status
                         this.title = res.data.message
-                        this.result = res.data.result         
+                        this.reportfq1 = res.data.fq1
+                        this.reportfq2= res.data.fq2
+                        //this.result = res.data.result         
                         this.show= false
                         this.show_result = true
 
@@ -151,27 +182,22 @@
                 
             },
 
-            /* async download_file(){
-               try {
-                    await this.$axios.get(`/files/download/${this.result}`, {responseType: 'blob'}).
-                    then(res => {
-                        if (!window.navigator.msSaveOrOpenBlob){
-                        // BLOB NAVIGATOR
-                            const url = window.URL.createObjectURL(new Blob([res.data]));
-                            const link = document.createElement('a');
-                            link.href = url;
-                            link.setAttribute('download', `${this.input.project_name}.zip`);
-                            document.body.appendChild(link);
-                            link.click();
-                        }else{
-                            // BLOB FOR EXPLORER 11
-                            const url = window.navigator.msSaveOrOpenBlob(new Blob([res.data]),`${filename}`);
-                        }
-                    })
+            async download_file(reporte, filename){
+                try {
+
+                    let res = await this.$axios.post(`/storage/download/`, {report: reporte}, {responseType: 'blob'})
+                    console.log(res)
+                    const url = window.URL.createObjectURL(new Blob([res.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', filename);
+                    document.body.appendChild(link);
+                    link.click();
+                                        
                 } catch (error) {
-                    console.log(error)
-                } 
-            }, */
+                     console.log(error)
+                }
+            },
 
             formatter(value) {
                 return value.replace(/\s+/g,"_");

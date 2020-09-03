@@ -63,6 +63,7 @@ export default {
   axios: {
     baseURL: 'http://localhost:3000/api'
     //baseURL: 'http://192.168.12.68:3000/api'
+    //baseURL: 'http://192.168.0.18:3000/api'
 
   },
   /*

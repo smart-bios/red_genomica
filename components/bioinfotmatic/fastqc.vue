@@ -44,7 +44,7 @@
                                 <h3>{{title}}</h3>
                                 <hr>
                                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cumque, quam voluptatibus dicta impedit nihil ad.</p>
-                                <b-btn pill variant="secondary" size="sm" @click="download_file">Downolad full report</b-btn>
+                                <b-btn variant="primary" size="sm" @click="download_file">Downolad full report</b-btn>
                                 <b-row>
                                     <b-col sm="12" md="6">
                                         <b-table hover :items="basic" caption-top small>
