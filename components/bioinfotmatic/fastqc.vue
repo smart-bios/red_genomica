@@ -150,10 +150,6 @@
                 if (item.status === 'FAIL') return 'table-danger'
             },
 
-            formatter(value) {
-                return value.replace(/\s+/g,"_");
-            },
-
             countDownChanged(dismissCountDown) {
                 this.dismissCountDown = dismissCountDown
             },

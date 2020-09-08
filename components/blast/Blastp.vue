@@ -1,7 +1,9 @@
 <template>
     <div id="blastp">
 
-        <b-card-text>Search protein database using a protein query.</b-card-text>
+        <b-card-text>
+            Search protein database using a protein query.
+        </b-card-text>
         
         <b-card border-variant="light" header-bg-variant="primary" header-text-variant="white" header="Enter Protein Query Sequence">
             <p><small>Enter one or more queries in the top text box or use the browse button to upload a file from your local disk. The file may contain a single sequence or a list of sequences. In both cases, the data must be in FASTA format.</small></p>
@@ -19,12 +21,20 @@
             <p><small>Choose from one of the protein BLAST databases listed below. </small></p>
             <b-form-select v-model="querys.db" :options="databases"></b-form-select>
         </b-card>
-
+        <b-alert
+            :show="dismissCountDown"
+            dismissible
+            :variant="mensaje.color"
+            @dismissed="dismissCountDown=0"
+            @dismiss-count-down="countDownChanged"
+        >
+            {{mensaje.text}}
+        </b-alert>
         <button @click="blast" class="btn btn-secondary mt-3">BLAST</button>
 
         <hr>
 
-        <b-card border-variant="light" header-bg-variant="info" header-text-variant="white" header="Resultados" class="mt-3" v-if="show" >
+        <b-card border-variant="light" header-bg-variant="success" header-text-variant="white" header="Resultados" class="mt-3" v-if="show" >
             <div class="d-flex justify-content-center mb-3">
               <b-spinner label="Loading..." v-if="show_load"></b-spinner>
                 <b-card-text>
@@ -92,23 +102,39 @@
                     { value: '/prot/db3/PsyringaeGroup', text: 'Psyringae pseudomonas group NCBI database' },
                     { value: '/prot/db4/swiss-Prot', text: 'swiss-Prot database' }
                 ],
-                resultados: []
+                resultados: [],
+                mensaje: {
+                    color: '',
+                    text: ''
+                }, 
+                dismissSecs: 5,
+                dismissCountDown: 0
             }   
         },
         methods: {
             async blast(){
-                this.show = true
-                this.show_load = true
-                //await this.$axios.post('/tools/blast',this.querys)
-                await this.$axios.post('/tools/blast',this.querys)
-                .then(res =>{
-                    this.show_load = false
-                    console.log(res.data)
-                    this.resultados = res.data.blast                 
-                })
-                .catch(err => {
-                    console.log("Error",err)
-                })
+                if(this.querys.seq == '' || this.querys.db == null){
+                    this.mensaje.color = 'danger'
+                    this.mensaje.text = 'Select database or paste sequence'
+                    this.showAlert()
+                }else{
+                    try {
+                        this.show = true
+                        this.show_load = true
+                        let res = await this.$axios.post('/tools/blast',this.querys)
+                        this.show_load = false
+                        this.resultados = res.data.blast  
+                    } catch (error) {
+                        console.log("Error", error)
+                    }
+                }
+            },
+            countDownChanged(dismissCountDown) {
+                this.dismissCountDown = dismissCountDown
+            },
+
+            showAlert() {
+                this.dismissCountDown = this.dismissSecs
             }
         }        
     }

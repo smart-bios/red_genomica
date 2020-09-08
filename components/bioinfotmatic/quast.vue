@@ -2,63 +2,45 @@
 <div>
     <b-overlay :show="show" rounded="sm" >
         <b-card-text>
-            <b-form-group description="Project name">
-                <b-form-input 
-                    v-model="input.project_name" 
-                    placeholder="Enter your project name"
-                    lazy-formatter  
-                    :formatter="formatter"
-                ></b-form-input>
-            </b-form-group>
-            <hr>
-            <b>Inputs</b>
+            <b-alert
+                :show="dismissCountDown"
+                dismissible
+                :variant="mensaje.color"
+                @dismissed="dismissCountDown=0"
+                @dismiss-count-down="countDownChanged"
+            >
+                {{mensaje.text}}
+            </b-alert>
             <b-row>
-                <b-col>
-                    <b-form-group
-                        label="Assemblie "
-                        description="FASTA format"
-                    >
+                <b-col sm="12" md= "12" lg="3">
+                    <b-form-group label="Project name">
+                        <b-form-input  v-model="input.name" placeholder="Enter your project name" lazy-formatter :formatter="formatter"></b-form-input>
+                    </b-form-group>
+
+                    <b-form-group label="Assemblie " description="FASTA format">
                         <b-form-select v-model="input.fasta_file">
                             <b-form-select-option :value="null">Please select a file</b-form-select-option>
                             <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                         </b-form-select>
-                                <!-- <div class="mt-2">Selected: <strong>{{input.fasta_file}}</strong></div> -->
-                    </b-form-group>  
-                </b-col>
-                <b-col>
-                    <b-form-group
-                        label="Genome reference"
-                        description="genomas completros de refercia NCBI"
-                    >
+                        <b-badge to="/storage" variant="primary">Upload files</b-badge>
+                    </b-form-group>
+
+                    <b-form-group label="Skip contigs shorter than" description="Default 500 bp">
+                        <b-form-input  v-model="input.length"></b-form-input>
+                    </b-form-group>
+
+                    <b-form-group label="Genome reference" description="NCBI Representative genome">
                         <b-form-select v-model="input.reference">
                             <b-form-select-option :value="null">Please select a file</b-form-select-option>
                             <b-form-select-option v-for="reference in references" :key="reference._id" :value="`${reference.path}`">{{reference.name}}</b-form-select-option>
                         </b-form-select>
-                                <!-- <div class="mt-2">Selected: <strong>{{input.fasta_file}}</strong></div> -->
-                    </b-form-group>  
-                </b-col>
-                <b-col>
-                    <b-form-group
-                        label="Skip contigs shorter than"
-                        description="Default 500 bp"
-                    >
-                        <b-form-input  v-model="input.length"></b-form-input>
                     </b-form-group>
+                    <hr>
+                    <b-button variant="secondary" size="sm" @click="run_quast">Run QUAST</b-button>
                 </b-col>
-            </b-row>
-            <b-badge to="/storage" variant="primary">Upload files</b-badge> 
-            <hr>
-            <b-button variant="secondary" size="sm" @click="run_quast">Run QUAST</b-button>
-        </b-card-text>
-        <template v-slot:overlay>
-            <div class="text-center">
-                <b-icon icon="stopwatch" font-scale="3" animation="cylon"></b-icon>
-                <p class="text-center"><b>Runing QUAST<br>Please wait...</b></p>
-            </div>
-        </template>
-    </b-overlay>
-    <hr>        
-    <b-card
+
+                <b-col sm="12" md= "12" lg="9" class="border-left border-default panel-2 py-2">
+<!--                         <b-card
         border-variant="light"
         header="Result"
         header-bg-variant="success"
@@ -108,7 +90,7 @@
                 </b-tbody>
             </b-table-simple>
 
-            <!-- <b-table-simple hover caption-top responsive>
+            <b-table-simple hover caption-top responsive>
                 <caption>Unaligned</caption>
                 <b-thead head-variant="ligth">
                     <b-tr>
@@ -139,7 +121,7 @@
                         <b-td>is the length for which the collection of all contigs of that length or longer covers at least half an assembly.</b-td>
                     </b-tr>                   
                 </b-tbody>
-            </b-table-simple> -->
+            </b-table-simple>
 
             <b-table-simple hover caption-top responsive>
                 <caption>Statistics without reference</caption>
@@ -181,6 +163,17 @@
 
         </b-card-text>
     </b-card>
+ -->
+                </b-col>
+            </b-row>            
+        </b-card-text>
+        <template v-slot:overlay>
+            <div class="text-center">
+                <b-icon icon="stopwatch" font-scale="3" animation="cylon"></b-icon>
+                <p class="text-center"><b>Runing QUAST<br>Please wait...</b></p>
+            </div>
+        </template>
+    </b-overlay>
  </div>   
 </template>
 
@@ -191,19 +184,26 @@
                 show: false,
                 show_result: false,
                 input: {
-                    project_name: 'quast_01',
+                    name: 'quast_01',
                     fasta_file: null,
                     reference: null,
                     length: 500,
-                    user: `${this.$store.state.usuario.email}`,
-                    user_id: `${this.$store.state.usuario._id}`
+                    user: `${this.$store.state.usuario._id}`
                 },
                 files:[],
                 references: [],
                 raws: [],
                 unaligned: [],
                 result: '',
-                title: ''
+                title: '',
+
+
+                mensaje: {
+                    color: '',
+                    text: ''
+                }, 
+                dismissSecs: 5,
+                dismissCountDown: 0
                 
             }
         },
@@ -215,16 +215,17 @@
 
             async list_files(){
                 try {
-                    let res = await this.$axios.post('/files/list', {user_id: this.$store.state.usuario._id, type: 'uploaded' })
+                    let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded' })
                     this.files = res.data.files
                 } catch (error) {
                     console.log(error)
                 }
             },
+
             async list_references(){
                 try {
-                    let res = await this.$axios.get('/genomas/ref')
-                    this.references = res.data.refs
+                    let res = await this.$axios.get('/genome/ref')
+                    this.references = res.data.ref
                 } catch (error) {
                     console.log(error)
                 }
@@ -262,10 +263,26 @@
                     console.log(error)
                 } 
             },
-
+            
             formatter(value) {
                 return value.replace(/\s+/g,"_");
+            },
+
+            countDownChanged(dismissCountDown) {
+                this.dismissCountDown = dismissCountDown
+            },
+
+            showAlert() {
+                this.dismissCountDown = this.dismissSecs
             }
         }
     }
 </script>
+
+<style scoped>
+
+.panel-2{
+    background-color:whitesmoke;
+}
+
+</style>

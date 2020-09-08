@@ -40,6 +40,7 @@
                             <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                         </b-form-select>
                     </b-form-group>
+                    <b-badge to="/storage" variant="primary" class="mb-2">Upload files</b-badge>
                     <b-row>
                         <b-col sm="12" md="6" lg="6">
                             <b-form-group
@@ -58,7 +59,6 @@
                             </b-form-group>
                         </b-col>
                     </b-row>
-                    <b-badge to="/storage" variant="primary">Upload files</b-badge>
                     <hr>
                     <b-button variant="secondary" size="sm" @click="run_trimgalore">Run Trim Galore</b-button>
                 </b-col>
@@ -82,9 +82,9 @@
                                             </div>
                                         </b-card-text>
                                         <b-button-group>
-                                        <b-button variant="success" @click="download_file(reportfq1.path, reportfq1.filename)" >Download Reads</b-button>
-                                        <b-button variant="info" @click="download_file(reportfq1.path_report,'report_trimgalorefq1.txt')" >Download Full Report</b-button>
-                                    </b-button-group>
+                                            <b-button variant="success" @click="download_file(reportfq1.path, reportfq1.filename)" >Download Reads</b-button>
+                                            <b-button variant="info" @click="download_file(reportfq1.path_report,'report_trimgalorefq1.txt')" >Download Full Report</b-button>
+                                        </b-button-group>
                                     </b-card>                               
                                 </b-col>
                                 <b-col sm="12" md="6" lg="6">
