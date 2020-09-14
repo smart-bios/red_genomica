@@ -45,8 +45,10 @@
                             <b-card-text>
                                 <h3>{{title}}</h3>
                                 <hr>
+				<b-button variant="info" @click="download_file(annotations, `${input.name}.emapper.annotations.tsv`)" >Download Annotations</b-button>
+                                <b-button variant="info" @click="download_file(orthologos, `${input.name}.emapper.seed_orthologs.txt`)" >Download Seed Orthologos</b-button>
 
-                                <b-table
+                                 <!-- <b-table
                                     id="my-table"
                                     :items="result"
                                     :per-page="perPage"
@@ -59,7 +61,7 @@
                                     :total-rows="rows"
                                     :per-page="perPage"
                                     aria-controls="my-table"
-                                ></b-pagination> 
+                                ></b-pagination> --> 
                             </b-card-text>
                          </b-card>
                     </b-col>
@@ -165,6 +167,23 @@
                 this.mensaje.text = 'Select fasta file'
                 this.showAlert()
             }
+        },
+	
+	async download_file(reporte, filename){
+                try {
+
+                    let res = await this.$axios.post(`/storage/download/`, {report: reporte}, {responseType: 'blob'})
+                    console.log(res)
+                    const url = window.URL.createObjectURL(new Blob([res.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', filename);
+                    document.body.appendChild(link);
+                    link.click();
+                                        
+                } catch (error) {
+                     console.log(error)
+                }
         },
          
         formatter(value) {

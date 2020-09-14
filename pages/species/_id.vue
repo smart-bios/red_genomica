@@ -106,8 +106,8 @@
         data(){
             return {
                 genoma: [],
-                host: 'localhost', //192.168.22.26
-                //host: '192.168.22.26'
+               //host: 'localhost',
+                host: '192.168.22.26'
             }   
         },
         async created(){
