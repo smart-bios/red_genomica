@@ -46,7 +46,7 @@
                                 <h3>{{title}}</h3>
                                 <hr>
 
-                                <!-- <b-table
+                                <b-table
                                     id="my-table"
                                     :items="result"
                                     :per-page="perPage"
@@ -59,7 +59,7 @@
                                     :total-rows="rows"
                                     :per-page="perPage"
                                     aria-controls="my-table"
-                                ></b-pagination> -->
+                                ></b-pagination> 
                             </b-card-text>
                          </b-card>
                     </b-col>
@@ -149,11 +149,12 @@
                     this.show = true
                     this.show_result = false
                     let res = await this.$axios.post('/tools/eggNOG', this.input)
-                    //this.result = res.data.report,
+                    console.log(res.data)
+                    this.result = res.data.report,
                     this.status = res.data.status
                     this.title  =res.data.message
-                   // this.annotations = res.data.annotations
-                    //this.orthologos = res.data.orthologs                    
+                    this.annotations = res.data.annotations
+                    this.orthologos = res.data.orthologs                    
                     this.show = false
                     this.show_result = true
                 } catch (error) {
