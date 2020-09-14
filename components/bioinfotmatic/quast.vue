@@ -17,8 +17,8 @@
                         <b-form-input  v-model="input.name" placeholder="Enter your project name" lazy-formatter :formatter="formatter"></b-form-input>
                     </b-form-group>
 
-                    <b-form-group label="Assemblie " description="FASTA format">
-                        <b-form-select v-model="input.fasta_file">
+                    <b-form-group label="Assembly" description="FASTA format">
+                        <b-form-select v-model="input.assembly">
                             <b-form-select-option :value="null">Please select a file</b-form-select-option>
                             <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                         </b-form-select>
@@ -29,9 +29,19 @@
                         <b-form-input  v-model="input.length"></b-form-input>
                     </b-form-group>
 
-                    <b-form-group label="Genome reference" description="NCBI Representative genome">
-                        <b-form-select v-model="input.reference">
-                            <b-form-select-option :value="null">Please select a file</b-form-select-option>
+                    <b-form-group label="Contig thresholds" description="Comma-separated list of contig length thresholds">
+                        <b-form-input  v-model="input.thresholds"></b-form-input>
+                    </b-form-group>
+
+                    <b-form-group>
+                        <b-form-checkbox v-model="input.compare" name="check-button" switch>
+                           Compare against reference
+                        </b-form-checkbox>                      
+                    </b-form-group>
+
+                    <b-form-group description="NCBI Representative genome">
+                        <b-form-select v-model="input.reference" :disabled="!input.compare">
+                            <b-form-select-option :value="null">Please select a reference genome</b-form-select-option>
                             <b-form-select-option v-for="reference in references" :key="reference._id" :value="`${reference.path}`">{{reference.name}}</b-form-select-option>
                         </b-form-select>
                     </b-form-group>
@@ -40,130 +50,129 @@
                 </b-col>
 
                 <b-col sm="12" md= "12" lg="9" class="border-left border-default panel-2 py-2">
-<!--                         <b-card
-        border-variant="light"
-        header="Result"
-        header-bg-variant="success"
-        header-text-variant="white"
-        v-if="show_result"
-    >
-        <b-card-text>
-            <h3>{{title}}</h3>
-            <hr>
-            <b-btn pill variant="secondary" size="sm" @click="download_file">Downolad results</b-btn>-    
-            <p class="mt-2">All statistics are based on contigs of size >= {{input.length}} bp, unless otherwise noted (e.g., "# contigs (>= 0 bp)" and "Total length (>= 0 bp)" include all contigs). </p>
-            <b-table-simple hover caption-top responsive>
-                <caption>Genome statistics whit reference</caption>
-                <b-thead head-variant="ligth">
-                    <b-tr>
-                        <b-th></b-th>
-                        <b-th>Value</b-th>
-                        <b-th>Description</b-th>
-                    </b-tr>
-                </b-thead>
-                <b-tbody>
-                    <b-tr>
-                        <b-td>{{raws[36][0]}}</b-td>
-                        <b-td>{{raws[36][1]}}</b-td>
-                        <b-td>is the percentage of aligned bases in the reference genome. A base in the reference genome is aligned if there is at least one contig with at least one alignment to this base. Contigs from repetitive regions may map to multiple places, and thus may be counted multiple times</b-td>
-                    </b-tr>
-                    <b-tr>
-                        <b-td>{{raws[37][0]}}</b-td>
-                        <b-td>{{raws[37][1]}}</b-td>
-                        <b-td>is the total number of aligned bases in the assembly divided by the total number of aligned bases in the reference genome (see Genome fraction (%) for the 'aligned base' definition). If the assembly contains many contigs that cover the same regions of the reference, its duplication ratio may be much larger than 1. This may occur due to overestimating repeat multiplicities and due to small overlaps between contigs, among other reasons.</b-td>
-                    </b-tr>
-                    <b-tr>
-                        <b-td>{{raws[41][0]}}</b-td>
-                        <b-td>{{raws[41][1]}}</b-td>
-                        <b-td>is the number of genomic features (genes, CDS, etc) in the assembly (complete and partial), based on a user-provided list of genomic features positions in the reference genome. A feature is 'partially covered' if the assembly contains at least 100 bp of this feature but not the whole one.</b-td>
-                    </b-tr>
-                    <b-tr>
-                        <b-td>{{raws[42][0]}}</b-td>
-                        <b-td>{{raws[42][1]}}</b-td>
-                        <b-td>is the length of the largest continuous alignment in the assembly.</b-td>
-                    </b-tr>
-                     <b-tr>
-                        <b-td>{{raws[43][0]}}</b-td>
-                        <b-td>{{raws[43][1]}}</b-td>
-                        <b-td>is the total number of aligned bases in the assembly.</b-td>
-                    </b-tr>
-                </b-tbody>
-            </b-table-simple>
+                    <b-card header="Result" header-bg-variant="success" header-text-variant="white" v-if="show_result">
+                        <b-card-text>
+                            <h3>{{title}}</h3>
+                            <hr>
+                            <p>All statistics are based on contigs of size >= {{input.length}} bp, unless otherwise noted (e.g., "# contigs (>= 0 bp)" and "Total length (>= 0 bp)" include all contigs).</p>
+                            <b-btn variant="secondary" size="sm" @click="download_file" class="my-2">Download Full Results</b-btn>
+                            <div v-if="input.compare">
+                                <b-table-simple hover caption-top responsive small>
+                                    <caption>Statistics without reference</caption>
+                                    <b-thead head-variant="ligth">
+                                        <b-tr>
+                                            <b-th></b-th>
+                                            <b-th>Value</b-th>
+                                            <b-th>Description</b-th>
+                                        </b-tr>
+                                    </b-thead>
+                                    <b-tbody>
+                                        <b-tr>
+                                            <b-td>{{result[13].item}}</b-td>
+                                            <b-td>{{result[13].value}}</b-td>
+                                            <b-td>the total number of contigs in the assembly.</b-td>
+                                        </b-tr>
+                                        <b-tr>
+                                            <b-td>{{result[14].item}}</b-td>
+                                            <b-td>{{result[14].value}}</b-td>
+                                            <b-td>the length of the longest contig in the assembly.</b-td>
+                                        </b-tr>
+                                        <b-tr>
+                                            <b-td>{{result[15].item}}</b-td>
+                                            <b-td>{{result[15].value}}</b-td>
+                                            <b-td>the total number of bases in the assembly.</b-td>
+                                        </b-tr>
+                                        <b-tr>
+                                            <b-td>{{result[19].item}}</b-td>
+                                            <b-td>{{result[19].value}}</b-td>
+                                            <b-td>the length for which the collection of all contigs of that length or longer covers at least half an assembly.</b-td>
+                                        </b-tr>
+                                        <b-tr>
+                                            <b-td>{{result[18].item}}</b-td>
+                                            <b-td>{{result[18].value}}</b-td>
+                                            <b-td>the total number of G and C nucleotides in the assembly, divided by the total length of the assembly.</b-td>
+                                        </b-tr>                    
+                                    </b-tbody>
+                                </b-table-simple> 
+                            
+                                <b-table-simple hover caption-top responsive small>
+                                    <caption>Genome statistics whit reference</caption>
+                                    <b-thead head-variant="ligth">
+                                        <b-tr>
+                                            <b-th></b-th>
+                                            <b-th>Value</b-th>
+                                            <b-th>Description</b-th>
+                                        </b-tr>
+                                    </b-thead>
+                                    <b-tbody>
+                                        <b-tr>
+                                            <b-td>{{result[36].item}}</b-td>
+                                            <b-td>{{result[36].value}}</b-td>
+                                            <b-td>the percentage of aligned bases in the reference genome. A base in the reference genome is aligned if there is at least one contig with at least one alignment to this base. Contigs from repetitive regions may map to multiple places, and thus may be counted multiple times</b-td>
+                                        </b-tr>
+                                        <b-tr>
+                                            <b-td>{{result[37].item}}</b-td>
+                                            <b-td>{{result[37].value}}</b-td>
+                                            <b-td>the total number of aligned bases in the assembly divided by the total number of aligned bases in the reference genome (see Genome fraction (%) for the 'aligned base' definition). If the assembly contains many contigs that cover the same regions of the reference, its duplication ratio may be much larger than 1. This may occur due to overestimating repeat multiplicities and due to small overlaps between contigs, among other reasons.</b-td>
+                                        </b-tr>
+                                        <b-tr>
+                                            <b-td>{{result[41].item}}</b-td>
+                                            <b-td>{{result[41].value}}</b-td>
+                                            <b-td>the number of genomic features (genes, CDS, etc) in the assembly (complete and partial), based on a user-provided list of genomic features positions in the reference genome. A feature is 'partially covered' if the assembly contains at least 100 bp of this feature but not the whole one.</b-td>
+                                        </b-tr>
+                                        <b-tr>
+                                            <b-td>{{result[42].item}}</b-td>
+                                            <b-td>{{result[42].value}}</b-td>
+                                            <b-td>the length of the largest continuous alignment in the assembly.</b-td>
+                                        </b-tr>
+                                        <b-tr>
+                                            <b-td>{{result[43].item}}</b-td>
+                                            <b-td>{{result[43].value}}</b-td>
+                                            <b-td>the total number of aligned bases in the assembly.</b-td>
+                                        </b-tr>
+                                    </b-tbody>
+                                </b-table-simple>
 
-            <b-table-simple hover caption-top responsive>
-                <caption>Unaligned</caption>
-                <b-thead head-variant="ligth">
-                    <b-tr>
-                        <b-th></b-th>
-                        <b-th>Value</b-th>
-                        <b-th>Description</b-th>
-                    </b-tr>
-                </b-thead>
-                <b-tbody>
-                    <b-tr>
-                        <b-td>{{unaligned[1][0]}}</b-td>
-                        <b-td>{{unaligned[1][1]}}</b-td>
-                        <b-td>is the total number of contigs in the assembly.</b-td>
-                    </b-tr>
-                    <b-tr>
-                        <b-td>{{unaligned[2][0]}}</b-td>
-                        <b-td>{{unaligned[2][1]}}</b-td>
-                        <b-td>is the length of the longest contig in the assembly.</b-td>
-                    </b-tr>
-                    <b-tr>
-                        <b-td>{{unaligned[3][0]}}</b-td>
-                        <b-td>{{unaligned[3][1]}}</b-td>
-                        <b-td>is the total number of bases in the assembly.</b-td>
-                    </b-tr>
-                    <b-tr>
-                        <b-td>{{unaligned[4][0]}}</b-td>
-                        <b-td>{{unaligned[4][1]}}</b-td>
-                        <b-td>is the length for which the collection of all contigs of that length or longer covers at least half an assembly.</b-td>
-                    </b-tr>                   
-                </b-tbody>
-            </b-table-simple>
+                                <b-table-simple hover caption-top responsive small>
+                                    <caption>Unaligned</caption>
+                                    <b-thead head-variant="ligth">
+                                        <b-tr>
+                                            <b-th></b-th>
+                                            <b-th>Value</b-th>
+                                            <b-th>Description</b-th>
+                                        </b-tr>
+                                    </b-thead>
+                                    <b-tbody>
+                                        <b-tr>
+                                            <b-td>{{unaligned[1].item}}</b-td>
+                                            <b-td>{{unaligned[1].value}}</b-td>
+                                            <b-td>the number of contigs that have no alignment to the reference sequence.</b-td>
+                                        </b-tr>
+                                        <b-tr>
+                                            <b-td>{{unaligned[2].item}}</b-td>
+                                            <b-td>{{unaligned[2].value}}</b-td>
+                                            <b-td>is the number of contigs that are not fully unaligned, but have fragments with no alignment to the reference sequence.</b-td>
+                                        </b-tr>
+                                        <b-tr>
+                                            <b-td>{{unaligned[3].item}}</b-td>
+                                            <b-td>{{unaligned[3].value}}</b-td>
+                                            <b-td>the number of contigs that are not fully unaligned, but have fragments with no alignment to the reference sequence</b-td>
+                                        </b-tr>
+                                        <b-tr>
+                                            <b-td>{{unaligned[4].item}}</b-td>
+                                            <b-td>{{unaligned[4].value}}</b-td>
+                                            <b-td>the total number of unaligned bases in all partially unaligned contigs.</b-td>
+                                        </b-tr>                   
+                                    </b-tbody>
+                                </b-table-simple> 
+                            </div>
+                            <div v-else>
+                                <b-table striped hover :items="result"></b-table>
+                            </div>
+ 
 
-            <b-table-simple hover caption-top responsive>
-                <caption>Statistics without reference</caption>
-                <b-thead head-variant="ligth">
-                    <b-tr>
-                        <b-th></b-th>
-                        <b-th>Value</b-th>
-                        <b-th>Description</b-th>
-                    </b-tr>
-                </b-thead>
-                <b-tbody>
-                    <b-tr>
-                        <b-td>{{raws[13][0]}}</b-td>
-                        <b-td>{{raws[13][1]}}</b-td>
-                        <b-td>is the total number of contigs in the assembly.</b-td>
-                    </b-tr>
-                    <b-tr>
-                        <b-td>{{raws[14][0]}}</b-td>
-                        <b-td>{{raws[14][1]}}</b-td>
-                        <b-td>is the length of the longest contig in the assembly.</b-td>
-                    </b-tr>
-                    <b-tr>
-                        <b-td>{{raws[15][0]}}</b-td>
-                        <b-td>{{raws[15][1]}}</b-td>
-                        <b-td>is the total number of bases in the assembly.</b-td>
-                    </b-tr>
-                    <b-tr>
-                        <b-td>{{raws[19][0]}}</b-td>
-                        <b-td>{{raws[19][1]}}</b-td>
-                        <b-td>is the length for which the collection of all contigs of that length or longer covers at least half an assembly.</b-td>
-                    </b-tr>
-                    <b-tr>
-                        <b-td>{{raws[18][0]}}</b-td>
-                        <b-td>{{raws[18][1]}}</b-td>
-                        <b-td>is the total number of G and C nucleotides in the assembly, divided by the total length of the assembly.</b-td>
-                    </b-tr>                    
-                </b-tbody>
-            </b-table-simple>
-
-        </b-card-text>
-    </b-card>
- -->
+                        </b-card-text>
+                    </b-card> 
                 </b-col>
             </b-row>            
         </b-card-text>
@@ -184,20 +193,20 @@
                 show: false,
                 show_result: false,
                 input: {
-                    name: 'quast_01',
-                    fasta_file: null,
+                    name: 'Quast',
+                    assembly: null,
+                    compare: true,
                     reference: null,
                     length: 500,
+                    thresholds: '0,1000,5000,10000,25000,50000',
                     user: `${this.$store.state.usuario._id}`
                 },
                 files:[],
                 references: [],
-                raws: [],
-                unaligned: [],
                 result: '',
+                unaligned: '',
                 title: '',
-
-
+                full_report: '',
                 mensaje: {
                     color: '',
                     text: ''
@@ -215,7 +224,7 @@
 
             async list_files(){
                 try {
-                    let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded' })
+                    let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded', category: 'fasta' })
                     this.files = res.data.files
                 } catch (error) {
                     console.log(error)
@@ -232,26 +241,46 @@
             },
 
             async run_quast(){
-                this.show = true
-                let res = await this.$axios.post('/tools/quast', this.input)
-                console.log(res.data)
-                this.raws = res.data.raws
-                this.result = res.data.result
-                this.unaligned = res.data.unaligned
-                this.title = res.data.message
-                this.show = false
-                this.show_result = true
+               if(this.input.assembly != null) {
+                   if(this.input.compare && this.input.reference == null){
+                        this.mensaje.color = 'danger'
+                        this.mensaje.text = 'Select reference genome'
+                        this.showAlert()
+                   }else{
+                       try {
+                           this.show = true
+                           this.show_result = false
+                           let res = await this.$axios.post('/tools/quast', this.input)
+                           this.title = res.data.message
+                           this.result = res.data.report
+                           this.unaligned = res.data.unaligned
+                           this.full_report = res.data.result
+                           this.show = false
+                           this.show_result = true
+                       } catch (error) {
+                           console.log(error)
+                       }
+                       
+                       
+                   }
+
+               }else{
+                   this.mensaje.color = 'danger'
+                   this.mensaje.text = 'Select file'
+                   this.showAlert()
+               }
+
             },
             async download_file(){
                try {
-                    await this.$axios.get(`/files/download/${this.result}`, {responseType: 'blob'}).
+                    await this.$axios.get(`/storage/download/${this.full_report}`, {responseType: 'blob'}).
                     then(res => {
                         if (!window.navigator.msSaveOrOpenBlob){
                         // BLOB NAVIGATOR
                             const url = window.URL.createObjectURL(new Blob([res.data]));
                             const link = document.createElement('a');
                             link.href = url;
-                            link.setAttribute('download', `${this.input.project_name}.zip`);
+                            link.setAttribute('download', `${this.input.name}.zip`);
                             document.body.appendChild(link);
                             link.click();
                         }else{

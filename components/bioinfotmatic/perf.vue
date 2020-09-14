@@ -11,8 +11,7 @@
                 >
                     {{mensaje.text}}
                 </b-alert>
-            </b-card-text>
-            <b-row>
+                <b-row>
                 <b-col sm="12" md= "12" lg="3">
                     <b-form-group label ="File*" description="Input file format. Default: fasta, Permissible: fasta, fastq">
                         <b-form-select v-model="input.fasta">
@@ -48,7 +47,11 @@
                         <b-card-text>
                             <h3>{{title}}</h3>
                             <hr>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cumque, quam voluptatibus dicta impedit nihil ad.</p>
+                            <p>If you find PERF useful for your research, please cite it as follows:<br>
+                            PERF: an exhaustive algorithm for ultra-fast and efficient identification of microsatellites from large DNA sequences
+                            <i>Akshay Kumar Avvaru, Divya Tej Sowpati, Rakesh Kumar Mishra</i>
+                            Bioinformatics, , btx721<br>
+                            doi: 10.1093/bioinformatics/btx721</p>
 
                                 <b-button variant="success" @click="download_file(tsv,'report_perf.tsv' )" >Download table</b-button>
                                 <b-button variant="info" @click="download_file(html, 'report_perf.html')" >Download Full Report</b-button>
@@ -70,6 +73,8 @@
                     </b-card> 
                 </b-col>
             </b-row>
+            </b-card-text>
+            
         
         
             <template v-slot:overlay>
@@ -124,7 +129,7 @@
         methods: {
             async list_files(){
                 try {
-                    let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded' })
+                    let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded', category: 'fasta' })
                     this.files = res.data.files
                 } catch (error) {
                     console.log(error)

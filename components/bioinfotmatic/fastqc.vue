@@ -34,8 +34,9 @@
                             <b-card-text>
                                 <h3>{{title}}</h3>
                                 <hr>
-                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cumque, quam voluptatibus dicta impedit nihil ad.</p>
-                                <b-btn variant="primary" size="sm" @click="download_file">Downolad full report</b-btn>
+                                <p>Andrews S. (2010). FastQC: a quality control tool for high throughput sequence data. 
+                                    Available online at: <a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc" target="_blank">http://www.bioinformatics.babraham.ac.uk/projects/fastqc</a></p>
+                                <b-btn variant="primary" size="sm" @click="download_file">Download full report</b-btn>
                                 <b-row>
                                     <b-col sm="12" md="6">
                                         <b-table hover :items="basic" caption-top small>
@@ -119,7 +120,7 @@
 
             async list_files(){
                 try {
-                    let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded' })
+                    let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded', category: 'fastq' })
                     this.files = res.data.files
                 } catch (error) {
                     console.log(error)

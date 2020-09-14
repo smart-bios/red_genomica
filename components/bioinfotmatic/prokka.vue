@@ -2,41 +2,74 @@
     <div>
         <b-overlay :show="show" rounded="sm" >
             <b-card-text>
-                <b-form-group description="Project name">
-                    <b-form-input 
-                        v-model="input.project_name" 
-                        placeholder="Enter your project name"
-                        lazy-formatter  
-                        :formatter="formatter"
-                    ></b-form-input>
-                </b-form-group>         
-                <hr>
+                <b-alert
+                    :show="dismissCountDown"
+                    dismissible
+                    :variant="mensaje.color"
+                    @dismissed="dismissCountDown=0"
+                    @dismiss-count-down="countDownChanged"
+                >
+                    {{mensaje.text}}
+                </b-alert>
                 <b-row>
-                    <b-col>
-                        <b-form-group
-                            label="Contigs to annotate "
-                            label-for="contigs"
-                            description="FASTA format"
-                        >
+                    <b-col sm="12" md= "12" lg="3">
+                        <b-form-group label="Project name">
+                            <b-form-input  v-model="input.name" placeholder="Enter your project name" lazy-formatter :formatter="formatter"></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group label="Assembly to annotate " description="FASTA format">
                             <b-form-select v-model="input.fasta_file">
-                                <b-form-select-option :value="null">Please select a file</b-form-select-option>
+                                <b-form-select-option :value="null">Please select a fasta file</b-form-select-option>
                                 <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                             </b-form-select>
-                            <!-- <div class="mt-2">Selected: <strong>{{input.fasta_file}}</strong></div> -->
-                        </b-form-group>                                 
-                    </b-col>
-                    <b-col>
-                        <b-form-group
-                            label="Locus tag prefix "
-                            label-for="prefix"
-                        >
-                            <b-form-input id="prefix" v-model="input.locustag"></b-form-input>
+                            <b-badge to="/storage" variant="primary">Upload files</b-badge>
                         </b-form-group>
+
+                        <b-form-group label="Locus tag prefix">
+                            <b-form-input v-model="input.locustag" lazy-formatter :formatter="formatter"></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group label="Kingdom">
+                            <b-form-radio-group
+                                v-model="input.kingdom"
+                                :options="options"
+                                name="radio-inline"
+                            ></b-form-radio-group>
+                        </b-form-group>
+
+                        <b-form-group label="Organism details">
+                            <b-form-text>Genus name.</b-form-text>
+                            <b-form-input v-model="input.genus"></b-form-input>
+                            <b-form-text >Species name.</b-form-text>
+                            <b-form-input v-model="input.species"></b-form-input>
+                            <b-form-text >Strain name.</b-form-text>
+                            <b-form-input v-model="input.strain"></b-form-input>
+                            <b-form-text >Plasmid name or identifier.</b-form-text>
+                            <b-form-input v-model="input.plasmid"></b-form-input>
+                        </b-form-group>
+                        <hr>
+                        <b-button variant="secondary" size="sm" @click="run_prokka">Run PROKKA</b-button>
                     </b-col>
-                </b-row>
-                <b-badge to="/storage" variant="primary">Upload files</b-badge>
-                <hr>
-                <b-button variant="secondary" size="sm" @click="run_prokka">Run PROKKAS</b-button>
+
+                    <b-col sm="12" md= "12" lg="9" class="border-left border-default panel-2 py-2">
+                        <b-card header="Result" header-bg-variant="success" header-text-variant="white" v-if="show_result">
+                            <b-card-text>
+                                <h3>{{title}}</h3>
+                                <hr>                          
+                                <p><b>Seemann T.</b> Prokka: rapid prokaryotic genome annotation Bioinformatics 2014 Jul 15;30(14):2068-9. <a href="http://www.ncbi.nlm.nih.gov/pubmed/24642063" target="_blank">PMID:24642063</a></p>
+                                <b-card title=" Estadisticas PROKKA">
+                                        <b-card-text>
+                                            <div v-for="(item, index) in report" :key="index">
+                                                {{item}}
+                                            </div>
+                                        </b-card-text>
+                                </b-card> 
+                                <b-btn variant="secondary" size="sm" @click="download_file" class="my-2">Download Results</b-btn>
+                                <b-table striped hover :items="items"></b-table>
+                            </b-card-text>
+                         </b-card>
+                    </b-col>
+                </b-row>       
             </b-card-text>
             <template v-slot:overlay>
                 <div class="text-center">
@@ -44,25 +77,7 @@
                     <p class="text-center"><b>Runing Prokka<br>Please wait...</b></p>
                 </div>
             </template>
-        </b-overlay>
-       
-        <hr>        
-        <b-card
-            border-variant="light"
-            header="Result"
-            header-bg-variant="success"
-            header-text-variant="white"
-            v-if="show_result"
-        >
-            <b-card-text>
-                <h3>{{title}}</h3>
-                <hr>
-                <b-btn pill variant="secondary" size="sm" @click="download_file">Downolad results</b-btn>
-                <p class="mt-2">Prokka finds and annotates features (both protein coding regions and RNA genes, i.e. tRNA, rRNA) present on on a sequence. Note, Prokka uses a two-step process for the annotation of protein coding regions: first, protein coding regions on the genome are identified using Prodigal; second, the function of the encoded protein is predicted by similarity to proteins in one of many protein or protein domain databases. Prokka is a software tool that can be used to annotate bacterial, archaeal and viral genomes quickly, generating standard output files in GenBank, EMBL and gff formats. </p>
-                 <b-table striped hover :items="items"></b-table>
-            </b-card-text>
-        </b-card>
-                
+        </b-overlay>                
     </div>
 </template>
 
@@ -73,11 +88,15 @@
                 show: false,
                 show_result: false,
                 input: {
-                    project_name: 'prokka_01',
+                    name: 'prokka_01',
                     fasta_file: null,
                     locustag: 'example',
-                    user: `${this.$store.state.usuario.email}`,
-                    user_id: `${this.$store.state.usuario._id}`
+                    kingdom: 'Bacteria',
+                    genus: 'genus',
+                    species: 'species',
+                    strain: 'strain',
+                    plasmid: '',
+                    user: `${this.$store.state.usuario._id}`
                 },
                 items: [
                     { extension: '.gff', description: 'This is the master annotation in GFF3 format, containing both sequences and annotations. It can be viewed directly in Artemis or IGV.' },
@@ -93,9 +112,21 @@
                     { extension: '.txt', description: 'Statistics relating to the annotated features found.' },
                     { extension: '.tsv', description: 'Tab-separated file of all features: locus_tag,ftype,len_bp,gene,EC_number,COG,product' },
                 ],
+                options: [
+                    { text: 'Archaea', value: 'Archaea' },
+                    { text: 'Bacteria', value: 'Bacteria' },
+                    { text: 'Mitochondria', value: 'Mitochondria'},
+                    { text: 'Viruses', value: 'Viruses'}
+                ],
                 files: [],
                 title: '',
                 result: '',
+                mensaje: {
+                    color: '',
+                    text: ''
+                }, 
+                dismissSecs: 5,
+                dismissCountDown: 0
             }
         },
         created(){
@@ -105,7 +136,7 @@
             
             async list_files(){
                 try {
-                    let res = await this.$axios.post('/files/list', {user_id: this.$store.state.usuario._id, type: 'uploaded' })
+                    let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded', category: 'fasta' })
                     this.files = res.data.files
                 } catch (error) {
                     console.log(error)
@@ -113,28 +144,37 @@
             },
 
             async run_prokka(){
-                try {
-                    this.show = true
-                    let res = await this.$axios.post('/tools/prokka', this.input)
-                    this.result = res.data.result
-                    this.title = res.data.message
-                    this.show = false
-                    this.show_result = true
-                } catch (error) {
-                    console.log(error)
+                if(this.input.fasta_file != null){
+                    try {
+                        this.show = true
+                        this.show_result = false
+                        let res = await this.$axios.post('/tools/prokka', this.input)
+                        this.title = res.data.message
+                        this.result = res.data.result
+                        this.report = res.data.report
+                        this.show = false
+                        this.show_result = true                            
+                    } catch (error) {
+                         console.log(error)
+                    }
+                }else{
+                    
+                    this.mensaje.color = 'danger'
+                    this.mensaje.text = 'Select fasta file'
+                    this.showAlert()
                 }
             },
 
-            async download_file(){
+             async download_file(){
                try {
-                    await this.$axios.get(`/files/download/${this.result}`, {responseType: 'blob'}).
+                    await this.$axios.get(`/storage/download/${this.result}`, {responseType: 'blob'}).
                     then(res => {
                         if (!window.navigator.msSaveOrOpenBlob){
                         // BLOB NAVIGATOR
                             const url = window.URL.createObjectURL(new Blob([res.data]));
                             const link = document.createElement('a');
                             link.href = url;
-                            link.setAttribute('download', `${this.input.project_name}.zip`);
+                            link.setAttribute('download', `${this.input.name}.zip`);
                             document.body.appendChild(link);
                             link.click();
                         }else{
@@ -146,14 +186,26 @@
                     console.log(error)
                 } 
             },
-
+    
             formatter(value) {
                 return value.replace(/\s+/g,"_");
+            },
+
+            countDownChanged(dismissCountDown) {
+                this.dismissCountDown = dismissCountDown
+            },
+
+            showAlert() {
+                this.dismissCountDown = this.dismissSecs
             }
         }
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+
+.panel-2{
+    background-color:whitesmoke;
+}
 
 </style>

@@ -2,13 +2,12 @@
     <div class="container mt-3">
         <h2>Quality assessment tool for genome assemblies</h2>
         <hr>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate repudiandae voluptatum eos similique recusandae delectus, velit maiores quidem exercitationem molestiae, earum sit nemo rem laudantium explicabo dolore vero alias ipsum.</p>
+        <p>Evaluar la calidad del genoma ensamblado. Se obtienen medidas que pueden tomar en cuenta las características de las secuencias generadas en el proceso o utilizar información adicional. Estas nos indican si el ensamble fue hecho de manera correcta.</p>
         <b-card no-body>
             <b-tabs card>
 
                 <b-tab title="Quast" active>
                     <p>Evaluates genome assemblies..</p>
-                    <b-alert show>En mantención...</b-alert>
                     <hr>
                     <Quast />
                 </b-tab>

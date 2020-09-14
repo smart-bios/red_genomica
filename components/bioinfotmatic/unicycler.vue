@@ -67,7 +67,7 @@
                             <p class="mt-2">Unicycler's most important output files are <b>assembly.gfa, assembly.fasta</b> and <b>unicycler.log</b>. These are produced by every Unicycler run.
                             All files and directories are described in the table below. Intermediate output files (everything except for assembly.gfa, assembly.fasta and unicycler.log) will be prefixed with a number so they are in chronological order.</p>
                             
-                            <b-btn variant="secondary" size="sm" @click="download_file" class="my-2">Downolad results</b-btn>
+                            <b-btn variant="secondary" size="sm" @click="download_file" class="my-2">Download results</b-btn>
 
                             <b-table striped hover :items="items">
                                 <template v-slot:cell(html)="data">
@@ -131,7 +131,7 @@
         methods:{
             async list_files(){
                 try {
-                    let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded' })
+                    let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded', category: 'fastq' })
                     this.files = res.data.files
                 } catch (error) {
                     console.log(error)

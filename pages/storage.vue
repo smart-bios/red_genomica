@@ -157,7 +157,7 @@
 
       async list_files_uploaded(){
          try {
-           let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'uploaded' })
+           let res = await this.$axios.post('/storage/listfiles', {user: this.$store.state.usuario._id, type: 'uploaded' })
            this.files_uploaded = res.data.files
           } catch (error) {
             console.log(error)
@@ -166,7 +166,7 @@
 
       async list_files_result(){
          try {
-           let res = await this.$axios.post('/storage/list', {user: this.$store.state.usuario._id, type: 'result'})
+           let res = await this.$axios.post('/storage/listfiles', {user: this.$store.state.usuario._id, type: 'result'})
            console.log(res.data)
            this.resultados= res.data.files
           } catch (error) {
