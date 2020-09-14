@@ -46,7 +46,7 @@
                                 <h3>{{title}}</h3>
                                 <hr>
 
-                                <b-table
+                                <!-- <b-table
                                     id="my-table"
                                     :items="result"
                                     :per-page="perPage"
@@ -59,7 +59,7 @@
                                     :total-rows="rows"
                                     :per-page="perPage"
                                     aria-controls="my-table"
-                                ></b-pagination> 
+                                ></b-pagination>  -->
                             </b-card-text>
                          </b-card>
                     </b-col>
