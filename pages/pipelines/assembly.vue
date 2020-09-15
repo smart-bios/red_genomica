@@ -1,8 +1,10 @@
 <template>
     <div class="container mt-3">
-        <h2>De novo genome assembly</h2>
+        <h2>De novo assembly</h2>
         <hr>
-        <p>De novo assembly is a method for constructing genomes from a large number of (short- or long-) DNA fragments, with no a priori knowledge of the correct sequence or order of those fragments.</p>
+        <b-card class="mb-3">
+            <p>De novo assembly es un método para construir genomas a partir de un gran número de fragmentos de ADN (cortos o largos), sin conocimiento a priori de la secuencia u orden correcto de esos fragmentos.</p>
+        </b-card>
         <b-card no-body>
             <b-tabs card>
                 <b-tab title="Unicycler" active>

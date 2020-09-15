@@ -2,7 +2,10 @@
     <div class="container mt-3">
         <h2>Quality assessment tool for genome assemblies</h2>
         <hr>
-        <p>Evaluar la calidad del genoma ensamblado. Se obtienen medidas que pueden tomar en cuenta las características de las secuencias generadas en el proceso o utilizar información adicional. Estas nos indican si el ensamble fue hecho de manera correcta.</p>
+        <b-card class="mb-3">
+            <p>Evaluar la calidad del genoma ensamblado. Se obtienen medidas que pueden tomar en cuenta las características de las secuencias generadas en el proceso o utilizar información adicional. Estas nos indican si el ensamble fue hecho de manera correcta.</p>
+        </b-card>
+        
         <b-card no-body>
             <b-tabs card>
 

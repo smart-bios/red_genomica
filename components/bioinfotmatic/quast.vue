@@ -35,7 +35,7 @@
 
                     <b-form-group>
                         <b-form-checkbox v-model="input.compare" name="check-button" switch>
-                           Compare against reference
+                           Comparar con genoma de referencia
                         </b-form-checkbox>                      
                     </b-form-group>
 
@@ -193,9 +193,9 @@
                 show: false,
                 show_result: false,
                 input: {
-                    name: 'Quast',
+                    name: 'Q01',
                     assembly: null,
-                    compare: true,
+                    compare: false,
                     reference: null,
                     length: 500,
                     thresholds: '0,1000,5000,10000,25000,50000',

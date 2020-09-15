@@ -72,7 +72,7 @@
                         <b-card-text>
                             <h3>{{title}}</h3>
                             <hr>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum voluptatem quibusdam eum libero repudiandae cupiditate!</p>
+                            <b-alert show>Los archivos generados estan disponbles para los siguientes analisis.</b-alert>
                             <b-row>
                                 <b-col sm="12" md="6" lg="6">
                                     <b-card :title="reportfq1.filename" sub-title="trim result">
@@ -123,7 +123,7 @@
                 show: false,
                 show_result: false,
                 input: {
-                    name: 'trim_01',
+                    name: 'TG01',
                     paired: true,
                     fq1: null,
                     fq2: null,

@@ -2,7 +2,10 @@
     <div class="container mt-3">
         <h2>Genomic Prediction/ Annotation</h2>
         <hr>
-        <p>Whole genome annotation is the process of identifying features of interest in a set of genomic DNA sequences, and labelling them with useful information.</p>
+        <b-card class="mb-3">
+            <p>La anotación del genoma es el proceso de identificar características de interés en un conjunto de secuencias de ADN genómico y etiquetarlas con información útil.</p>
+        </b-card>
+        
         <b-card no-body>
             <b-tabs card>
 

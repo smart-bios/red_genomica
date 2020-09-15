@@ -2,6 +2,9 @@
     <div class="container mt-3">
          <h2>Functional Annotation</h2>
          <hr>
+         <b-card class="mb-3">
+             <p>La anotación funcional es similar a la de genomas, asignando anotaciones a todas las secuencias predichas y generando tablas resumen con la distribución de genes por proceso biológico o localización subcelular</p>
+         </b-card>
          <b-card no-body>
              <b-tabs card>
                  <b-tab title="eggNOG" active>

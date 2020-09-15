@@ -2,7 +2,9 @@
     <div class="container mt-3">
         <h2>Data Preprocessing</h2>
         <hr>
-        <p>Prior to doing anything with raw reads – mapping, clustering, assembly, etc – it is usually prudent to do certain preprocessing steps. And these steps are best done in a specific order, which I have detailed below, along with the suggest tool. Note that many of them (like quality-trimming) are optional, so if you do them, do them in this order; but you don’t have to do them. Others, like adapter-trimming, are not optional and should always be done.</p>
+        <b-card class="mb-3">
+            <p>Antes de hacer cualquier cosa con lecturas sin procesar (mapeo, agrupamiento, ensamblaje, etc.), generalmente es prudente realizar ciertos pasos de preprocesamiento. Y estos pasos se realizan mejor en un orden específico, junto con la herramienta de sugerencias. Tenga en cuenta que muchos de ellos (como el recorte de calidad) son opcionales. El recorte de adaptadores, no son opcionales y siempre deben hacerse.</p>
+        </b-card>        
         <b-card no-body>
             <b-tabs card>
                 <b-tab title="Fastqc" active>
@@ -18,7 +20,7 @@
 
                  <b-tab title="Trim Galore" >
                     <p> Trim Galore! is a wrapper script to automate quality and adapter trimming as well as quality control <a href="http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/" target="_blank">Link</a></p>
-                    <b-alert show>Es necesario si los reads en fastqc dan un mal reporte.</b-alert>
+                    <b-alert show>Solo es necesario si los reads en fastqc dan un mal reporte.</b-alert>
                     <hr>
                     <TrimGalore />
                 </b-tab>

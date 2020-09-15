@@ -51,23 +51,26 @@
                 <b-col sm="12" md= "12" lg="9" class="border-left border-default panel-2 py-2">
                      <b-card
                         header="Result"
-                        header-bg-variant="success"
+                        :header-bg-variant="status"
                         header-text-variant="white"
                         v-if="show_result"
                     >
                         <b-card-text>
                             <h3>{{title}}</h3>
                             <hr>
-                            <p class="mt-2">Unicycler's most important output files are <b>assembly.gfa, assembly.fasta</b> and <b>unicycler.log</b>. These are produced by every Unicycler run.
-                            All files and directories are described in the table below. Intermediate output files (everything except for assembly.gfa, assembly.fasta and unicycler.log) will be prefixed with a number so they are in chronological order.</p>
-                            
-                            <b-btn variant="secondary" size="sm" @click="download_file" class="my-2">Download results</b-btn>
+                            <div v-if="success">
+                                <p class="mt-2">Unicycler's most important output files are <b>assembly.gfa, assembly.fasta</b> and <b>unicycler.log</b>. These are produced by every Unicycler run. All files and directories are described in the table below. Intermediate output files (everything except for assembly.gfa, assembly.fasta and unicycler.log) will be prefixed with a number so they are in chronological order.</p>
+                                
+                                <b-alert show>{{input.name}}_assembly.fasta esta disponbles para su uso em los siguientes análisis.</b-alert>
+                                
+                                <b-btn variant="secondary" size="sm" @click="download_file" class="my-2">Download results</b-btn>
 
-                            <b-table striped hover :items="items">
-                                <template v-slot:cell(html)="data">
-                                    <span v-html="data.value"></span>
-                                </template>
-                            </b-table>
+                                <b-table striped hover :items="items">
+                                    <template v-slot:cell(html)="data">
+                                        <span v-html="data.value"></span>
+                                    </template>
+                                </b-table>
+                            </div>
                         </b-card-text>
                     </b-card>
                 </b-col>
@@ -97,7 +100,9 @@
                     user: `${this.$store.state.usuario._id}`
                 },
                 files: [],
+                status: '',
                 title: '',
+                success: true,
                 result: '',
                 items: [
                     { file: 'best_spades_graph.gfa', description: 'the best SPAdes short-read assembly graph, with a bit of graph clean-up' },
@@ -140,7 +145,12 @@
                     try {
                         this.show = true
                         let res = await this.$axios.post('/tools/unicycler', this.input)
-                        console.log(res.data)
+                        if(res.data.status == 'danger'){
+                            this.success = false
+                        }else{
+                            this.success = true
+                        }
+                        this.status = res.data.status
                         this.title = res.data.message
                         this.result = res.data.result
                         this.show = false

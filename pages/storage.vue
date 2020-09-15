@@ -57,7 +57,9 @@
           </b-row>
         </b-card-text>
       </b-card>
+      
       <hr>
+      
       <b-card bg-variant="ligth" text-variant="dark" title="Resultados">
         <b-card-text>
           <b-row>

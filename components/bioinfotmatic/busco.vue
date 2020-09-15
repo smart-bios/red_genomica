@@ -45,7 +45,7 @@
                             <b-card-text>
                                 <h3>{{title}}</h3>
                                 <hr>
-                                <b-btn variant="secondary" size="sm" @click="download_file" class="my-2">Download Results</b-btn>
+                                <b-btn variant="secondary" size="sm" @click="download_file" class="my-2">Download Full Results</b-btn>
                                 <b-card title="SUMMARY BUSCO">
                                         <b-card-text>
                                             <div v-for="(item, index) in report" :key="index">
@@ -75,7 +75,7 @@
                 show: false,
                 show_result: false,
                 input:{
-                    name: 'busco_output',
+                    name: 'B01',
                     fasta: null,
                     mode: 'genome',
                     lineage: null,
@@ -183,6 +183,10 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+
+.panel-2{
+    background-color:whitesmoke;
+}
 
 </style>

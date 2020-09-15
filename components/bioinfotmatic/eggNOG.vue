@@ -45,23 +45,8 @@
                             <b-card-text>
                                 <h3>{{title}}</h3>
                                 <hr>
-				<b-button variant="info" @click="download_file(annotations, `${input.name}.emapper.annotations.tsv`)" >Download Annotations</b-button>
+				                <b-button variant="info" @click="download_file(annotations, `${input.name}.emapper.annotations.tsv`)" >Download Annotations</b-button>
                                 <b-button variant="info" @click="download_file(orthologos, `${input.name}.emapper.seed_orthologs.txt`)" >Download Seed Orthologos</b-button>
-
-                                <!-- <b-table
-                                    id="my-table"
-                                    :items="result"
-                                    :per-page="perPage"
-                                    :current-page="currentPage"
-                                    responsive
-                                    small
-                                ></b-table>
-                                <b-pagination
-                                    v-model="currentPage"
-                                    :total-rows="rows"
-                                    :per-page="perPage"
-                                    aria-controls="my-table"
-                                ></b-pagination>  -->
                             </b-card-text>
                          </b-card>
                     </b-col>
@@ -84,7 +69,7 @@
             show: false,
             show_result: false,
             input:{
-                name: 'eggNOG',
+                name: 'EGG01',
                 fasta: null,
                 translate: false,
                 tax_scope: 'auto',
