@@ -7,12 +7,23 @@
             <b-tabs card>
 
                 <b-tab title="Quast" active>
-                    <p>Evaluates genome assemblies..</p>
+                    <p>Quality Assessment Tool for Genome Assemblies</p>
+                    <b-card>
+                        <b-card-text>
+                            <i>Alexey Gurevich, Vladislav Saveliev, Nikolay Vyahhi and Glenn Tesler</i>, <b>QUAST: quality assessment tool for genome assemblies</b>, <br> Bioinformatics, Volume 29, Issue 8, 15 April 2013, Pages 1072–1075,<a href="http://dx.doi.org/10.1093/bioinformatics/btt086" target="_blank">doi: 10.1093/bioinformatics/btt086</a>                            
+                        </b-card-text>
+                    </b-card>
                     <hr>
                     <Quast />
                 </b-tab>
                 <b-tab title="BUSCO" >
                     <p>Based on evolutionarily-informed expectations of gene content of near-universal single-copy orthologs, BUSCO metric is complementary to technical metrics like N50.</p>
+                    <b-card>
+                        <b-card-text>
+                            <i>Seppey M., Manni M., Zdobnov E.M.</i>(2019) <b>BUSCO: Assessing Genome Assembly and Annotation Completeness.</b> <br> In: Kollmar M. (eds) Gene Prediction. Methods in Molecular Biology, vol 1962. Humana, New York, NY. 2019 <a href="https://link.springer.com/protocol/10.1007/978-1-4939-9173-0_14" target="_blank">doi.org/10.1007/978-1-4939-9173-0_14</a>
+                            
+                        </b-card-text>
+                    </b-card>
                     <hr>
                     <Busco />
                 </b-tab>                

@@ -56,7 +56,6 @@
                             <b-card-text>
                                 <h3>{{title}}</h3>
                                 <hr>                          
-                                <p><b>Seemann T.</b> Prokka: rapid prokaryotic genome annotation Bioinformatics 2014 Jul 15;30(14):2068-9. <a href="http://www.ncbi.nlm.nih.gov/pubmed/24642063" target="_blank">PMID:24642063</a></p>
                                 <b-card title=" Estadisticas PROKKA">
                                         <b-card-text>
                                             <div v-for="(item, index) in report" :key="index">

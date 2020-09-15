@@ -34,8 +34,6 @@
                             <b-card-text>
                                 <h3>{{title}}</h3>
                                 <hr>
-                                <p>Andrews S. (2010). FastQC: a quality control tool for high throughput sequence data. 
-                                    Available online at: <a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc" target="_blank">http://www.bioinformatics.babraham.ac.uk/projects/fastqc</a></p>
                                 <b-btn variant="primary" size="sm" @click="download_file">Download full report</b-btn>
                                 <b-row>
                                     <b-col sm="12" md="6">

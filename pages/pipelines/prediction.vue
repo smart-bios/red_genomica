@@ -8,13 +8,23 @@
 
                 <b-tab title="Prokka" active>
                     <p>Prokka is a software tool to annotate bacterial, archaeal and viral genomes quickly and produce standards-compliant output files.</p>
+                    <b-card>
+                        <b-card-text>
+                           <i>Seemann T.</i> <b>Prokka: rapid prokaryotic genome annotation</b> Bioinformatics 2014 Jul 15;30(14):2068-9. <a href="http://www.ncbi.nlm.nih.gov/pubmed/24642063" target="_blank">PMID:24642063</a>
+                        </b-card-text>
+                    </b-card>
                     <hr>
                     <Prokka />
                 </b-tab>
                 <b-tab title="DFAST" >
                     <p>DFAST is a flexible and customizable pipeline for prokaryotic genome annotation as well as data submission to the INSDC.</p>
-                    <b-alert show>En mantención...</b-alert>
+                    <b-card>
+                        <b-card-text>
+                            <i>Yasuhiro Tanizawa, Takatomo Fujisawa, Yasukazu Nakamura</i>, <b>DFAST: a flexible prokaryotic genome annotation pipeline for faster genome</b> publication, Bioinformatics, Volume 34, Issue 6, 15 March 2018, Pages 1037–1039, <a href="https://doi.org/10.1093/bioinformatics/btx713" target="_blank">https://doi.org/10.1093/bioinformatics/btx713</a>                            
+                        </b-card-text>
+                    </b-card>                    
                     <hr>
+                    <b-alert show>En desarrollo</b-alert>
                 </b-tab>                
             </b-tabs>
         </b-card>
