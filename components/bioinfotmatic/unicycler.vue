@@ -33,20 +33,14 @@
                         </b-form-select>
                     </b-form-group>
 
-                    <b-form-group
-                        label="File with reverse reads. "
-                        description="FASTQ file of second short reads in each pair"
-                    >
+                    <b-form-group label="File with reverse reads." description="FASTQ file of second short reads in each pair">
                         <b-form-select v-model="input.fq2">
                             <b-form-select-option :value="null">Please select a file</b-form-select-option>
                             <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                         </b-form-select>
                     </b-form-group>
 
-                    <b-form-group
-                        label="Min fasta lengt "
-                        description= "Exclude contigs from the FASTA file which are shorter than this length (default: 500)"
-                    >
+                    <b-form-group label="Min fasta lengt"  description= "Exclude contigs which are shorter than this length (default: 500)">
                         <b-form-input id="prefix" v-model="input.length_fasta"></b-form-input>
                     </b-form-group>
 
@@ -74,7 +68,6 @@
                                     <span v-html="data.value"></span>
                                 </template>
                             </b-table>
-                            <!-- <textarea class="form-control" v-model="log"></textarea>  -->
                         </b-card-text>
                     </b-card>
                 </b-col>
@@ -97,7 +90,7 @@
                 show: false,
                 show_result: false,
                 input: {
-                    name: 'unicycler_01',
+                    name: 'U01',
                     fq1: null,
                     fq2: null,
                     length_fasta: 500,
@@ -125,7 +118,6 @@
             }
         },
         created(){
-            //console.log(`iduser: ${this.$store.state.usuario._id}`)
             this.list_files()
         },
         methods:{

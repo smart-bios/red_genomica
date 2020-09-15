@@ -44,13 +44,13 @@
       
       <hr>
       
-      <b-card bg-variant="ligth" text-variant="dark" title="Uploaded files ">
+      <b-card bg-variant="ligth" text-variant="dark" title="Mis archivos">
         <b-card-text>
           <b-row>
             <b-col lg="3" md="4rs" sm="6" v-for="file in files_uploaded" :key="file._id">
               <b-card :title="file.filename" bg-variant="light" text-variant="dark" :sub-title="file.category" class="mt-3">
                 <b-card-text>{{file.description}}</b-card-text>
-                  <b-button  @click="download_file(file._id, file.filename)" variant="success" size="sm" ><b-icon icon="cloud-download"></b-icon>Download</b-button>
+                  <b-button  @click="download_file(file._id, file.filename)" variant="info" size="sm" ><b-icon icon="cloud-download"></b-icon>Download</b-button>
                   <b-button @click="delete_file(file._id)" variant="danger" size="sm" ><b-icon icon="trash"></b-icon>Delete</b-button>
               </b-card>
             </b-col>
@@ -64,7 +64,7 @@
             <b-col lg="3" md="4rs" sm="6" v-for="file in resultados" :key="file._id">
               <b-card :title="file.filename" bg-variant="light" text-variant="dark" :sub-title="file.category" class="mt-3">
                 <b-card-text>{{file.description}}</b-card-text>
-                  <b-button  @click="download_file(file._id, file.filename)" variant="success" size="sm" ><b-icon icon="cloud-download"></b-icon>Download</b-button>
+                  <b-button  @click="download_file(file._id, file.filename)" variant="info" size="sm" ><b-icon icon="cloud-download"></b-icon>Download</b-button>
                   <b-button @click="delete_file(file._id)" variant="danger" size="sm" ><b-icon icon="trash"></b-icon>Delete</b-button>
               </b-card>
             </b-col>
@@ -167,7 +167,6 @@
       async list_files_result(){
          try {
            let res = await this.$axios.post('/storage/listfiles', {user: this.$store.state.usuario._id, type: 'result'})
-           console.log(res.data)
            this.resultados= res.data.files
           } catch (error) {
             console.log(error)

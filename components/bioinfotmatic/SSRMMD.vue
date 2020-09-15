@@ -13,7 +13,7 @@
 
                         <b-form-group label="Specify how to work of SSRMMD">
                             <b-form-radio v-model="input.poly" value="0">only mining perfect SSR loci</b-form-radio>
-                            <b-form-radio v-model="input.poly" value="1">further mining polymorphic SSRs</b-form-radio>
+                            <b-form-radio v-model="input.poly" value="1" disabled>further mining polymorphic SSRs</b-form-radio>
                         </b-form-group>
 
                         <b-form-group label ="File fasta 1 *" description="FASTA file for mining SSR loci">
@@ -61,26 +61,25 @@
                             <b-card-text>
                                 <h3>{{title}}</h3>
                                 <hr>
-                                <p> Gou X, Shi H, Yu S, Wang Z, Li C, Liu S, Ma J, Chen G, Liu T and Liu Y (2020)<br>
-                                SSRMMD: A Rapid and Accurate Algorithm for Mining SSR Feature Loci and Candidate Polymorphic SSRs Based on Assembled Sequences.
-    Front. Genet. 11:706. doi: 10.3389/fgene.2020.00706</p>
-                                <b-button variant="success" @click="download_file(ssr,`${input.name}_SSRs.tsv`)" >Download SSRs</b-button>
-                                <b-button variant="info" @click="download_file(stat, `${input.name}_stat.txt`)" >Download Stat Report</b-button>
-                                <b-button variant="info" @click="download_file(primers, `${input.name}_primers.tsv`)" >Download Primers</b-button>
-                                <b-table
-                                    id="my-table"
-                                    :items="result"
-                                    :per-page="perPage"
-                                    :current-page="currentPage"
-                                    responsive
-                                    small
-                                ></b-table>
-                                <b-pagination
-                                    v-model="currentPage"
-                                    :total-rows="rows"
-                                    :per-page="perPage"
-                                    aria-controls="my-table"
-                                ></b-pagination>
+                                <div v-if="success">
+                                    <b-button variant="success" @click="download_file(ssr,`${input.name}_SSRs.tsv`)" >Download SSRs</b-button>
+                                    <b-button variant="info" @click="download_file(stat, `${input.name}_stat.txt`)" >Download Stat Report</b-button>
+                                    <b-button variant="info" @click="download_file(primers, `${input.name}_primers.tsv`)" >Download Primers</b-button>
+                                    <b-table
+                                        id="my-table"
+                                        :items="result"
+                                        :per-page="perPage"
+                                        :current-page="currentPage"
+                                        responsive
+                                        small
+                                    ></b-table>
+                                    <b-pagination
+                                        v-model="currentPage"
+                                        :total-rows="rows"
+                                        :per-page="perPage"
+                                        aria-controls="my-table"
+                                    ></b-pagination>
+                                </div>
                             </b-card-text>
                         </b-card> 
                     </b-col>
@@ -120,6 +119,7 @@
                 stat: '',
                 primers: '',
                 status:'',
+                success: false,
                 perPage: 15,
                 currentPage: 1,
                 mensaje: {
@@ -161,13 +161,17 @@
                     try {
                         this.show = true
                         this.show_result = false
+                        this.success = false
                         let res = await this.$axios.post('/tools/SSRMMD', this.input)
                         this.status = res.data.status
-                        this.title = res.data.message
-                        this.result = res.data.report
-                        this.ssr = res.data.result
-                        this.stat = res.data.stat
-                        this.primers = res.data.primers
+                        this.title = res.data.message                        
+                        if(res.data.status == 'success'){
+                            this.result = res.data.report
+                            this.ssr = res.data.result
+                            this.stat = res.data.stat
+                            this.primers = res.data.primers
+                            this.success = true
+                        }
                         this.show = false
                         this.show_result = true
                                             
