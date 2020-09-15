@@ -45,6 +45,8 @@
                             <b-card-text>
                                 <h3>{{title}}</h3>
                                 <hr>
+				<b-button variant="info" @click="download_file(annotations, `${input.name}.emapper.annotations.tsv`)" >Download Annotations</b-button>
+                                <b-button variant="info" @click="download_file(orthologos, `${input.name}.emapper.seed_orthologs.txt`)" >Download Seed Orthologos</b-button>
 
                                 <!-- <b-table
                                     id="my-table"
@@ -68,7 +70,7 @@
             <template v-slot:overlay>
                 <div class="text-center">
                     <b-icon icon="stopwatch" font-scale="3" animation="cylon"></b-icon>
-                    <p class="text-center"><b>Runing Fastqc<br>Please wait...</b></p>
+                    <p class="text-center"><b>Runing eggNOG<br>Please wait...</b></p>
                 </div>
             </template>
             </b-overlay>
@@ -165,6 +167,23 @@
                 this.mensaje.text = 'Select fasta file'
                 this.showAlert()
             }
+        },
+	
+	    async download_file(reporte, filename){
+                try {
+
+                    let res = await this.$axios.post(`/storage/download/`, {report: reporte}, {responseType: 'blob'})
+                    console.log(res)
+                    const url = window.URL.createObjectURL(new Blob([res.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', filename);
+                    document.body.appendChild(link);
+                    link.click();
+                                        
+                } catch (error) {
+                     console.log(error)
+                }
         },
          
         formatter(value) {

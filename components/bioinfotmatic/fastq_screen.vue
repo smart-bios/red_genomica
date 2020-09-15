@@ -24,8 +24,14 @@
                         </b-form-select>
                     </b-form-group>
 
-                  
-                        <b-dropdown id="dropdown-1" text="Genome databases" class="m-md-2">
+                    <b-form-group>
+                        <b-dropdown 
+                            id="dropdown-1" 
+                            text="Sequence databases"
+                            split
+                            split-variant="outline-primary"
+                            variant="primary"
+                        >
                             <b-dropdown-form>
                                 <b-form-group label="adasf asfas">
                                     <b-form-checkbox-group
@@ -37,7 +43,11 @@
                                 </b-form-group>
                             </b-dropdown-form>
                         </b-dropdown>
-                        <div>Selected: <strong>{{ selected }}</strong></div> 
+                    </b-form-group>
+
+                  
+
+                    <div>Selected: <strong>{{ selected }}</strong></div> 
 
                     <b-badge to="/storage" variant="primary">Upload files</b-badge>
                     <hr>

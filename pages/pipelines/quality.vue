@@ -13,8 +13,8 @@
                 </b-tab>
                 <b-tab title="BUSCO" >
                     <p>Based on evolutionarily-informed expectations of gene content of near-universal single-copy orthologs, BUSCO metric is complementary to technical metrics like N50.</p>
-                    <b-alert show>En mantención...</b-alert>
                     <hr>
+                    <Busco />
                 </b-tab>                
             </b-tabs>
         </b-card>
@@ -23,10 +23,12 @@
 
 <script>
 import Quast from '@/components/bioinfotmatic/quast'
+import Busco from '@/components/bioinfotmatic/busco'
     export default {
         middleware: 'auth',
         components: {
-            Quast
+            Quast,
+            Busco
         }
 
     }

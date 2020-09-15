@@ -165,7 +165,7 @@
                 }
             },
 
-             async download_file(){
+            async download_file(){
                try {
                     await this.$axios.get(`/storage/download/${this.result}`, {responseType: 'blob'}).
                     then(res => {
