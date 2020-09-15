@@ -91,6 +91,7 @@
                     { value: 'bacteria_odb10', text: 'Bacteria' },
                     { value: 'embryophyta_odb10', text: 'Embryophyta'},
                     { value: 'pseudomonadales_odb10', text: 'Pseudomonadales'},
+                    { value: 'nematoda_odb10', text: 'Nematoda'},
                     { value: 'solanales_odb10', text: 'Solanales'},
                     { value: 'viridiplantae_odb10', text: 'Viridiplantae'},
                 ],
