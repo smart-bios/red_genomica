@@ -61,8 +61,8 @@
                             <b-card-text>
                                 <h3>{{title}}</h3>
                                 <hr>
-                                <div v-if="success">
-                                    <b-button variant="success" @click="download_file(ssr,`${input.name}_SSRs.tsv`)" >Download SSRs</b-button>
+                                <div v-if="status == 'success'">
+                                    <b-button variant="info" @click="download_file(ssr,`${input.name}_SSRs.tsv`)" >Download SSRs</b-button>
                                     <b-button variant="info" @click="download_file(stat, `${input.name}_stat.txt`)" >Download Stat Report</b-button>
                                     <b-button variant="info" @click="download_file(primers, `${input.name}_primers.tsv`)" >Download Primers</b-button>
                                     <b-table
@@ -119,7 +119,6 @@
                 stat: '',
                 primers: '',
                 status:'',
-                success: false,
                 perPage: 15,
                 currentPage: 1,
                 mensaje: {
@@ -161,7 +160,6 @@
                     try {
                         this.show = true
                         this.show_result = false
-                        this.success = false
                         let res = await this.$axios.post('/tools/SSRMMD', this.input)
                         this.status = res.data.status
                         this.title = res.data.message                        
@@ -170,7 +168,6 @@
                             this.ssr = res.data.result
                             this.stat = res.data.stat
                             this.primers = res.data.primers
-                            this.success = true
                         }
                         this.show = false
                         this.show_result = true

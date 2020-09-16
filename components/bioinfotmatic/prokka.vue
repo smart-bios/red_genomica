@@ -52,19 +52,21 @@
                     </b-col>
 
                     <b-col sm="12" md= "12" lg="9" class="border-left border-default panel-2 py-2">
-                        <b-card header="Result" header-bg-variant="success" header-text-variant="white" v-if="show_result">
+                        <b-card header="Result" :header-bg-variant="status" header-text-variant="white" v-if="show_result">
                             <b-card-text>
                                 <h3>{{title}}</h3>
                                 <hr>                          
-                                <b-card title=" Estadisticas PROKKA">
+                                <div v-if="status == 'success'">
+                                    <b-card title=" Estadisticas PROKKA">
                                         <b-card-text>
                                             <div v-for="(item, index) in report" :key="index">
                                                 {{item}}
                                             </div>
                                         </b-card-text>
-                                </b-card> 
-                                <b-btn variant="secondary" size="sm" @click="download_file" class="my-2">Download Results</b-btn>
-                                <b-table striped hover :items="items"></b-table>
+                                    </b-card> 
+                                    <b-btn variant="secondary" size="sm" @click="download_file" class="my-2">Download Results</b-btn>
+                                    <b-table striped hover :items="items"></b-table>
+                                </div>
                             </b-card-text>
                          </b-card>
                     </b-col>
@@ -87,7 +89,7 @@
                 show: false,
                 show_result: false,
                 input: {
-                    name: 'prokka_01',
+                    name: 'PROK01',
                     fasta_file: null,
                     locustag: 'example',
                     kingdom: 'Bacteria',
@@ -118,6 +120,7 @@
                     { text: 'Viruses', value: 'Viruses'}
                 ],
                 files: [],
+                status: '',
                 title: '',
                 result: '',
                 mensaje: {
@@ -149,8 +152,11 @@
                         this.show_result = false
                         let res = await this.$axios.post('/tools/prokka', this.input)
                         this.title = res.data.message
-                        this.result = res.data.result
-                        this.report = res.data.report
+                        this.status = res.data.status
+                        if(res.data.status == 'success'){
+                            this.result = res.data.result
+                            this.report = res.data.report
+                        }
                         this.show = false
                         this.show_result = true                            
                     } catch (error) {

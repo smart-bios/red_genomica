@@ -8,7 +8,7 @@
         <b-card no-body>
             <b-tabs card>
                 <b-tab title="Fastqc" active>
-                    <p>FastQC aims to provide a simple way to do some quality control checks on raw sequence data coming from high throughput sequencing pipelines. It provides a modular set of analyses which you can use to give a quick impression of whether your data has any problems of which you should be aware before doing any further analysis.</p>
+                    <p>FastQC permite realizar controles de calidad en archivos de secuencias obtenidos de métodos de secuenciación. Aporta un conjunto de análisis que te pueden dar una idea general rápida de si los datos tienen algún problema antes de proseguir con el análisis o si por el contrario cumplen los estándares de calidad aportados por el sistema.</p>
                     <b-card>
                         <b-card-text>
                             <i>Andrews S.</i> (2010). <b>FastQC: a quality control tool for high throughput sequence data</b> Available online at: <a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc" target="_blank">http://www.bioinformatics.babraham.ac.uk/projects/fastqc</a>
@@ -25,7 +25,7 @@
                     <TrimGalore />
                 </b-tab>
 
-                <b-tab title="Fastq screen" >
+                <b-tab title="FastQ Screen" >
                     <p> FastQ Screen is an application which allows you to search a FastQ sequence file against a set of sequence databases and summarises the results. It is useful for incorporating into a sequencing pipeline to identify sources of contamination or mislabeled samples.</p>
                     <b-card>
                         <b-card-text>

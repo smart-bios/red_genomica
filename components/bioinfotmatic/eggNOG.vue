@@ -45,8 +45,10 @@
                             <b-card-text>
                                 <h3>{{title}}</h3>
                                 <hr>
-				                <b-button variant="info" @click="download_file(annotations, `${input.name}.emapper.annotations.tsv`)" >Download Annotations</b-button>
-                                <b-button variant="info" @click="download_file(orthologos, `${input.name}.emapper.seed_orthologs.txt`)" >Download Seed Orthologos</b-button>
+                                <div v-if="status == 'success'">
+    				                <b-button variant="info" @click="download_file(annotations, `${input.name}.emapper.annotations.tsv`)" >Download Annotations</b-button>
+                                    <b-button variant="info" @click="download_file(orthologos, `${input.name}.emapper.seed_orthologs.txt`)" >Download Seed Orthologos</b-button>
+                                </div>
                             </b-card-text>
                          </b-card>
                     </b-col>
@@ -136,12 +138,15 @@
                     this.show = true
                     this.show_result = false
                     let res = await this.$axios.post('/tools/eggNOG', this.input)
-                    console.log(res.data)
-                    this.result = res.data.report,
                     this.status = res.data.status
                     this.title  =res.data.message
-                    this.annotations = res.data.annotations
-                    this.orthologos = res.data.orthologs                    
+                    
+                    if(res.data.status == 'success'){
+                        this.result = res.data.report
+                        this.annotations = res.data.annotations
+                        this.orthologos = res.data.orthologs   
+                    }
+                                     
                     this.show = false
                     this.show_result = true
                 } catch (error) {

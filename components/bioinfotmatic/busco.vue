@@ -45,14 +45,16 @@
                             <b-card-text>
                                 <h3>{{title}}</h3>
                                 <hr>
-                                <b-btn variant="secondary" size="sm" @click="download_file" class="my-2">Download Full Results</b-btn>
-                                <b-card title="SUMMARY BUSCO">
-                                        <b-card-text>
-                                            <div v-for="(item, index) in report" :key="index">
-                                                {{item}}
-                                            </div>
-                                        </b-card-text>
-                                </b-card> 
+                                <div v-if="status == 'success'">
+                                    <b-btn variant="secondary" size="sm" @click="download_file" class="my-2">Download Full Results</b-btn>
+                                    <b-card title="SUMMARY BUSCO">
+                                            <b-card-text>
+                                                <div v-for="(item, index) in report" :key="index">
+                                                    {{item}}
+                                                </div>
+                                            </b-card-text>
+                                    </b-card> 
+                                </div>
                             </b-card-text>
                          </b-card>
                     </b-col>
@@ -75,7 +77,7 @@
                 show: false,
                 show_result: false,
                 input:{
-                    name: 'B01',
+                    name: 'BUSCO01',
                     fasta: null,
                     mode: 'genome',
                     lineage: null,
@@ -134,11 +136,14 @@
                     this.show = true
                     this.show_result = false
                     let res = await this.$axios.post('/tools/busco', this.input);
-                    console.log(res.data)   
                     this.title = res.data.message
                     this.status = res.data.status
-                    this.report = res.data.report
-                    this.result = res.data.result
+                    
+                    if(res.data.status == 'success'){
+                         this.report = res.data.report
+                        this.result = res.data.result
+                    }
+                   
                     this.show = false
                     this.show_result = true
                 }

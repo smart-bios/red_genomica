@@ -49,12 +49,7 @@
                     <b-button variant="secondary" size="sm" @click="run_unicycler">Run Unicycler</b-button>    
                 </b-col>
                 <b-col sm="12" md= "12" lg="9" class="border-left border-default panel-2 py-2">
-                     <b-card
-                        header="Result"
-                        :header-bg-variant="status"
-                        header-text-variant="white"
-                        v-if="show_result"
-                    >
+                     <b-card header="Result" :header-bg-variant="status" header-text-variant="white" v-if="show_result">
                         <b-card-text>
                             <h3>{{title}}</h3>
                             <hr>
@@ -93,7 +88,7 @@
                 show: false,
                 show_result: false,
                 input: {
-                    name: 'U01',
+                    name: 'UNC01',
                     fq1: null,
                     fq2: null,
                     length_fasta: 500,

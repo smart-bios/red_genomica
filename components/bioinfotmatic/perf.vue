@@ -35,48 +35,40 @@
                                 <b-form-input v-model="input.length"></b-form-input>
                             </b-form-group>
                         </b-col>
-
                     </b-row>
                     <b-badge to="/storage" variant="primary">Upload files</b-badge>
                     <hr>
-                    <b-button variant="secondary" size="sm" @click="run_perf">Run PERF</b-button>
+                    <b-button variant="secondary" size="sm" @click="run_perf" disabled>Run PERF</b-button>
                 </b-col>
                 
                 <b-col sm="12" md= "12" lg="9" class="border-left border-default panel-2 py-2">
-                    <b-card header="Result" header-bg-variant="success" header-text-variant="white" v-if="show_result">
+                    <b-card header="Result" :header-bg-variant="status" header-text-variant="white" v-if="show_result">
                         <b-card-text>
                             <h3>{{title}}</h3>
                             <hr>
-                            <p>If you find PERF useful for your research, please cite it as follows:<br>
-                            PERF: an exhaustive algorithm for ultra-fast and efficient identification of microsatellites from large DNA sequences
-                            <i>Akshay Kumar Avvaru, Divya Tej Sowpati, Rakesh Kumar Mishra</i>
-                            Bioinformatics, , btx721<br>
-                            doi: 10.1093/bioinformatics/btx721</p>
-
+                            <div v-if="status == 'success'">
                                 <b-button variant="success" @click="download_file(tsv,'report_perf.tsv' )" >Download table</b-button>
                                 <b-button variant="info" @click="download_file(html, 'report_perf.html')" >Download Full Report</b-button>
-                                                 
-                            <b-table
-                            id="my-table"
-                                :items="resultado"
-                                :per-page="perPage"
-                                :current-page="currentPage"
-                                small
-                            ></b-table>
-                            <b-pagination
-                                v-model="currentPage"
-                                :total-rows="rows"
-                                :per-page="perPage"
-                                aria-controls="my-table"
-                            ></b-pagination>
+                                                    
+                                <b-table
+                                    id="my-table"
+                                    :items="resultado"
+                                    :per-page="perPage"
+                                    :current-page="currentPage"
+                                    small
+                                ></b-table>
+                                <b-pagination
+                                    v-model="currentPage"
+                                    :total-rows="rows"
+                                    :per-page="perPage"
+                                    aria-controls="my-table"
+                                ></b-pagination>
+                            </div>
                         </b-card-text>
                     </b-card> 
                 </b-col>
             </b-row>
             </b-card-text>
-            
-        
-        
             <template v-slot:overlay>
                     <div class="text-center">
                         <b-icon icon="stopwatch" font-scale="3" animation="cylon"></b-icon>
@@ -102,6 +94,7 @@
                 },
                 files:[],
                 resultado: [],
+                status: '',
                 html:'',
                 tsv: '',
                 perPage: 15,
@@ -146,11 +139,14 @@
                         this.show = true
                         this.show_result = false
                         let res = await this.$axios.post('/tools/perf', this.input);
-                        console.log(res.data)   
                         this.title = res.data.message
-                        this.resultado = res.data.result.report
-                        this.html = res.data.result.html
-                        this.tsv = res.data.result.tsv
+                        this.status = res.data.status
+                        
+                        if(res.data.status == 'success'){
+                            this.resultado = res.data.result.report
+                            this.html = res.data.result.html
+                            this.tsv = res.data.result.tsv
+                        }
                         this.show = false
                         this.show_result = true
                                             

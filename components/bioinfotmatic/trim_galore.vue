@@ -2,23 +2,13 @@
     <div>
         <b-overlay :show="show" rounded="sm" >
         <b-card-text>
-            <b-alert
-                    :show="dismissCountDown"
-                    dismissible
-                    :variant="mensaje.color"
-                    @dismissed="dismissCountDown=0"
-                    @dismiss-count-down="countDownChanged"
-                >
+            <b-alert :show="dismissCountDown" dismissible :variant="mensaje.color" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
                     {{mensaje.text}}
             </b-alert>
             <b-row>
                 <b-col sm="12" md= "12" lg="3">
                     <b-form-group label="Basename">
-                        <b-form-input 
-                            v-model="input.name" 
-                            lazy-formatter  
-                            :formatter="formatter"
-                        ></b-form-input>
+                        <b-form-input v-model="input.name" lazy-formatter :formatter="formatter"></b-form-input>
                     </b-form-group>
 
                     <b-form-group>
@@ -27,7 +17,7 @@
                         </b-form-checkbox>                      
                     </b-form-group>
    
-                    <b-form-group label="File with forward reads. " description="FASTQ file of first short reads in each pair">
+                    <b-form-group label="File with forward reads." description="FASTQ file of first short reads in each pair">
                         <b-form-select v-model="input.fq1">
                             <b-form-select-option :value="null">Please select a file</b-form-select-option>
                             <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
@@ -40,6 +30,7 @@
                             <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                         </b-form-select>
                     </b-form-group>
+
                     <b-badge to="/storage" variant="primary" class="mb-2">Upload files</b-badge>
                     <b-row>
                         <b-col sm="12" md="6" lg="6">
@@ -55,52 +46,50 @@
                                 label="Qualified quality "
                                 description= "Trim low-quality ends from reads in addition to adapter removal.."
                             >
-                                <b-form-input id="prefix" v-model="input.quality"></b-form-input>
+                                <b-form-input v-model="input.quality"></b-form-input>
                             </b-form-group>
                         </b-col>
                     </b-row>
                     <hr>
                     <b-button variant="secondary" size="sm" @click="run_trimgalore">Run Trim Galore</b-button>
                 </b-col>
+
                 <b-col sm="12" md= "12" lg="9" class="border-left border-default panel-2 py-2">
-                    <b-card
-                        header="Result"
-                        :header-bg-variant="status"
-                        header-text-variant="white"
-                        v-if="show_result"
-                    >            
+                    <b-card header="Result" :header-bg-variant="status" header-text-variant="white" v-if="show_result">            
                         <b-card-text>
                             <h3>{{title}}</h3>
                             <hr>
-                            <b-alert show>Los archivos generados estan disponbles para los siguientes analisis.</b-alert>
-                            <b-row>
-                                <b-col sm="12" md="6" lg="6">
-                                    <b-card :title="reportfq1.filename" sub-title="trim result">
-                                        <b-card-text>
-                                            <div v-for="(item, index) in reportfq1.report" :key="index">
-                                                {{item}}
-                                            </div>
-                                        </b-card-text>
-                                        <b-button-group>
-                                            <b-button variant="success" @click="download_file(reportfq1.path, reportfq1.filename)" >Download Reads</b-button>
-                                            <b-button variant="info" @click="download_file(reportfq1.path_report,'report_trimgalorefq1.txt')" >Download Full Report</b-button>
+                            <div v-if="status == 'success'">
+                                <b-alert show>Los archivos generados estan disponbles para los siguientes análisis.</b-alert>
+                                <b-row>
+                                    <b-col sm="12" md="6" lg="6">
+                                        <b-card :title="reportfq1.filename" sub-title="trim result">
+                                            <b-card-text>
+                                                <div v-for="(item, index) in reportfq1.report" :key="index">
+                                                    {{item}}
+                                                </div>
+                                            </b-card-text>
+                                            <b-button-group>
+                                                <b-button variant="success" size="sm" @click="download_file(reportfq1.path, reportfq1.filename)" >Download Reads</b-button>
+                                                <b-button variant="info" size="sm" @click="download_file(reportfq1.path_report,'report_trimgalorefq1.txt')" >Download Full Report</b-button>
+                                            </b-button-group>
+                                        </b-card>                               
+                                    </b-col>
+                                    <b-col sm="12" md="6" lg="6">
+                                    <b-card :title="reportfq2.filename" sub-title="trim result" v-if="input.paired">
+                                            <b-card-text>
+                                                <div v-for="(item, index) in reportfq2.report" :key="index">
+                                                    {{item}}
+                                                </div>
+                                            </b-card-text>
+                                            <b-button-group>
+                                            <b-button variant="success" size="sm" @click="download_file(reportfq2.path, reportfq1.filename)" >Download Reads</b-button>
+                                            <b-button variant="info" size="sm" @click="download_file(reportfq2.path_report,'report_trimgalorefq2.txt')" >Download Full Report</b-button>
                                         </b-button-group>
-                                    </b-card>                               
-                                </b-col>
-                                <b-col sm="12" md="6" lg="6">
-                                   <b-card :title="reportfq2.filename" sub-title="trim result" v-if="input.paired">
-                                        <b-card-text>
-                                            <div v-for="(item, index) in reportfq2.report" :key="index">
-                                                {{item}}
-                                            </div>
-                                        </b-card-text>
-                                        <b-button-group>
-                                        <b-button variant="success" @click="download_file(reportfq2.path, reportfq1.filename)" >Download Reads</b-button>
-                                        <b-button variant="info" @click="download_file(reportfq2.path_report,'report_trimgalorefq2.txt')" >Download Full Report</b-button>
-                                    </b-button-group>
-                                    </b-card>   
-                                </b-col>
-                            </b-row>
+                                        </b-card>   
+                                    </b-col>
+                                </b-row>
+                            </div>
                         </b-card-text>
                     </b-card>
                 </b-col>
@@ -168,8 +157,10 @@
                         let res = await this.$axios.post('/tools/trimgalore', this.input)
                         this.status = res.data.status
                         this.title = res.data.message
-                        this.reportfq1 = res.data.fq1
-                        this.reportfq2= res.data.fq2       
+                        if(res.data.status == 'success'){
+                            this.reportfq1 = res.data.fq1
+                             this.reportfq2= res.data.fq2 
+                        }                              
                         this.show= false
                         this.show_result = true
                         this.list_files()

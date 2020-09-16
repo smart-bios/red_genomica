@@ -25,28 +25,26 @@
                         <b-button variant="secondary" size="sm" @click="run_fastqc">Run Fastqc</b-button>
                     </b-col>
                     <b-col sm="12" md= "12" lg="9" class="border-left border-default panel-2 py-2">
-                        <b-card
-                            header="Result"
-                            header-bg-variant="success"
-                            header-text-variant="white"
-                            v-if="show_result"
-                        >
+                        <b-card header="Result" :header-bg-variant="status" header-text-variant="white" v-if="show_result">
                             <b-card-text>
                                 <h3>{{title}}</h3>
                                 <hr>
-                                <b-btn variant="primary" size="sm" @click="download_file">Download full report</b-btn>
-                                <b-row>
-                                    <b-col sm="12" md="6">
-                                        <b-table hover :items="basic" caption-top small>
-                                            <template v-slot:table-caption>Basic Statistics</template>
-                                        </b-table>
-                                    </b-col>
-                                    <b-col sm ="12" md="6">
-                                        <b-table hover :tbody-tr-class="rowClass" :items="summary" :fields="fields" caption-top small>
-                                            <template v-slot:table-caption>Summary.</template>
-                                        </b-table>
-                                    </b-col>
-                                </b-row>
+                                <p>Una vez analiasadas las muestras podemos definir si deseamos descartar lecturas de mala calidad para trabajar sólo con aquellas que cumplen un cierto requisito de calidad mínima.</p>
+                                <div v-if="status == 'success'">
+                                    <b-btn variant="info" size="sm" @click="download_file">Download Full Report</b-btn>
+                                    <b-row>
+                                        <b-col sm="12" md="6">
+                                            <b-table hover :items="basic" caption-top small>
+                                                <template v-slot:table-caption>Basic Statistics</template>
+                                            </b-table>
+                                        </b-col>
+                                        <b-col sm ="12" md="6">
+                                            <b-table hover :tbody-tr-class="rowClass" :items="summary" :fields="fields" caption-top small>
+                                                <template v-slot:table-caption>Summary.</template>
+                                            </b-table>
+                                        </b-col>
+                                    </b-row>
+                                </div>
                             </b-card-text>
                          </b-card> 
                     </b-col>
@@ -74,6 +72,7 @@
                 },
                 fields: ['status','module'],
                 files: [],
+                status: '',
                 title: '',
                 report: '',
                 result: '',
@@ -104,10 +103,14 @@
                         this.show = true
                         this.show_result = false
                         let res = await this.$axios.post('/tools/fastqc', this.input)
+                        this.status = res.data.status
                         this.title = res.data.message
-                        this.report = res.data.result.report
-                        this.summary = res.data.result.summary
-                        this.basic = res.data.result.basic
+                        if(res.data.status == 'success'){
+                            this.report = res.data.result.report
+                            this.summary = res.data.result.summary
+                            this.basic = res.data.result.basic
+                        }   
+                        
                         this.show = false
                         this.show_result = true
                     } catch (error) {
