@@ -36,22 +36,24 @@
                         <b-col sm="12" md="6" lg="6">
                             <b-form-group
                                 label="Length required"
-                                description= "Discard reads that became shorter than length INT because of either quality or adapter trimming."
+                                description= "Reads shorter than length_required will be discarded"
                             >
                                 <b-form-spinbutton v-model="input.length" min="15" max="100"></b-form-spinbutton>
+                                <!-- <b-form-input v-model="input.length"></b-form-input> -->
                             </b-form-group> 
                         </b-col>
                         <b-col sm="12" md="6" lg="6">
                             <b-form-group
                                 label="Qualified quality "
-                                description= "Trim low-quality ends from reads in addition to adapter removal.."
+                                description= "The quality value that a base is qualified."
                             >
                                 <b-form-spinbutton v-model="input.quality" min="15" max="100"></b-form-spinbutton>
+                                <!-- <b-form-input v-model="input.quality"></b-form-input> -->
                             </b-form-group>
                         </b-col>
                     </b-row>
                     <hr>
-                    <b-button variant="secondary" size="sm" @click="run_trimgalore">Run Trim Galore</b-button>
+                    <b-button variant="secondary" size="sm" @click="run_trimgalore">Run Fastp</b-button>
                 </b-col>
 
                 <b-col sm="12" md= "12" lg="9" class="border-left border-default panel-2 py-2">
@@ -61,34 +63,7 @@
                             <hr>
                             <div v-if="status == 'success'">
                                 <b-alert show>Los archivos generados estan disponbles para los siguientes análisis.</b-alert>
-                                <b-row>
-                                    <b-col sm="12" md="6" lg="6">
-                                        <b-card :title="reportfq1.filename" sub-title="trim result">
-                                            <b-card-text>
-                                                <div v-for="(item, index) in reportfq1.report" :key="index">
-                                                    {{item}}
-                                                </div>
-                                            </b-card-text>
-                                            <b-button-group>
-                                                <b-button variant="success" size="sm" @click="download_file(reportfq1.path, reportfq1.filename)" >Download Reads</b-button>
-                                                <b-button variant="info" size="sm" @click="download_file(reportfq1.path_report,'report_trimgalorefq1.txt')" >Download Full Report</b-button>
-                                            </b-button-group>
-                                        </b-card>                               
-                                    </b-col>
-                                    <b-col sm="12" md="6" lg="6">
-                                    <b-card :title="reportfq2.filename" sub-title="trim result" v-if="input.paired">
-                                            <b-card-text>
-                                                <div v-for="(item, index) in reportfq2.report" :key="index">
-                                                    {{item}}
-                                                </div>
-                                            </b-card-text>
-                                            <b-button-group>
-                                            <b-button variant="success" size="sm" @click="download_file(reportfq2.path, reportfq1.filename)" >Download Reads</b-button>
-                                            <b-button variant="info" size="sm" @click="download_file(reportfq2.path_report,'report_trimgalorefq2.txt')" >Download Full Report</b-button>
-                                        </b-button-group>
-                                        </b-card>   
-                                    </b-col>
-                                </b-row>
+                                {{result}}
                             </div>
                         </b-card-text>
                     </b-card>
@@ -98,7 +73,7 @@
         <template v-slot:overlay>
             <div class="text-center">
                 <b-icon icon="stopwatch" font-scale="3" animation="cylon"></b-icon>
-                <p class="text-center"><b>Runing Trim Galore<br>Please wait...</b></p>
+                <p class="text-center"><b>Runing Fastp<br>Please wait...</b></p>
             </div>
         </template>
         </b-overlay>      
@@ -112,19 +87,18 @@
                 show: false,
                 show_result: false,
                 input: {
-                    name: 'TG01',
+                    name: 'FP01',
                     paired: true,
                     fq1: null,
                     fq2: null,
-                    length: 20,
+                    length: 30,
                     quality: 20,
                     user: `${this.$store.state.usuario._id}`
                 },
                 files: [],
                 status: '',
                 title: '',
-                reportfq1 : [],
-                reportfq2 : [],
+                result: '',
                 mensaje: {
                     color: '',
                     text: ''
@@ -154,13 +128,13 @@
                 }else{
                     try {
                         this.show = true
-                        let res = await this.$axios.post('/tools/trimgalore', this.input)
+                        console.log('RUNN FASTP')
+                        let res = await this.$axios.post('/tools/fastp', this.input)
                         this.status = res.data.status
                         this.title = res.data.message
                         if(res.data.status == 'success'){
-                            this.reportfq1 = res.data.fq1
-                             this.reportfq2= res.data.fq2 
-                        }                              
+                            this.result = res.data.result
+                        }                            
                         this.show= false
                         this.show_result = true
                         this.list_files()

@@ -36,15 +36,15 @@
                             <b-dropdown-form>
                                 <b-form-group label="Databases">
                                     <b-form-checkbox-group
-                                        v-model="selected"
+                                        v-model="input.databases"
                                         :options="options"
-                                        name="flavour-2a"
                                         stacked
                                     ></b-form-checkbox-group>
                                 </b-form-group>
                             </b-dropdown-form>
                         </b-dropdown>
                     </b-form-group>
+                    <div class="mt-3">Selected: <strong>{{ input.databases }}</strong></div>
                     <hr>
                     <b-button variant="secondary" size="sm" @click="run_fq_screen" disabled>Run FastQ Screem</b-button>                 
                 </b-col>
@@ -79,13 +79,14 @@
                 input: {
                     name: 'FQS01',
                     fq: null,
+                    databases: ['adapters','vectors'],
                     user: `${this.$store.state.usuario._id}`
                 },
                 options: [
-                    { text: 'Psudomona syringae', value: 'Pss' },
-                    { text: 'Pavium', value: 'Pavium' },
-                    { text: 'Vectores', value: 'Vectors' },
-                    { text: 'Bacteria', value: 'Bacteria' },
+                    { text: 'Adapters', value: 'adapters' },
+                    { text: 'Vectors', value: 'vectors' },
+                    { text: 'Viral', value: 'viral' },
+                    { text: 'Plasmid', value: 'plasmid' },
                     { text: 'Fungi', value: 'fungi' }
 
                     ],

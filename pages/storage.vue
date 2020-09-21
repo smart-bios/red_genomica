@@ -5,19 +5,13 @@
     <b-alert show>Lugar para almacenar los archivos subidos y generados. Es un almacenamiento temporal de 7 dias</b-alert>
     <b-card>
       <b-card-text>
-        <b-alert
-          :show="dismissCountDown"
-          dismissible
-          :variant="mensaje.color"
-          @dismissed="dismissCountDown=0"
-          @dismiss-count-down="countDownChanged"
-        >
+        <b-alert :show="dismissCountDown" dismissible :variant="mensaje.color" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
           {{mensaje.text}}
         </b-alert>
         <b-row>
           <b-col lg="4" md="4" sm="4">
             <b-form-group label="File">
-              <b-form-file
+              <b-form-file 
                 v-model="file"
                 accept=".fna, .fasta, .faa, .fa, .faa, .fastq, .gz"
                 :state="Boolean(file)"
@@ -66,7 +60,7 @@
             <b-col lg="3" md="4rs" sm="6" v-for="file in resultados" :key="file._id">
               <b-card :title="file.filename" bg-variant="light" text-variant="dark" :sub-title="file.category" class="mt-3">
                 <b-card-text>{{file.description}}</b-card-text>
-                  <b-button  @click="download_file(file._id, file.filename)" variant="info" size="sm" ><b-icon icon="cloud-download"></b-icon>Download</b-button>
+                  <b-button @click="download_file(file._id, file.filename)" variant="info" size="sm" ><b-icon icon="cloud-download"></b-icon>Download</b-button>
                   <b-button @click="delete_file(file._id)" variant="danger" size="sm" ><b-icon icon="trash"></b-icon>Delete</b-button>
               </b-card>
             </b-col>

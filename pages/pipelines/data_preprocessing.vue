@@ -18,7 +18,19 @@
                     <Fastqc />
                 </b-tab>
 
-                 <b-tab title="Trim Galore" >
+                <b-tab title="Fastp" disabled >
+                    <p> Fastp es un preprocesador FASTQ ultrarrápido con funciones útiles de control de calidad y filtrado de datos. Puede realizar control de calidad, recorte de adaptadores, filtrado de calidad, poda de calidad por lectura y muchas otras operaciones con un solo escaneo de los datos FASTQ.</p>
+                    <b-card>
+                        <b-card-text>
+                            <i>Shifu Chen, Yanqing Zhou, Yaru Chen, Jia Gu;</i> <b>fastp: an ultra-fast all-in-one FASTQ preprocessor</b>, Bioinformatics, Volume 34, Issue 17, 1 September 2018, Pages i884–i890 <a href="https://doi.org/10.1093/bioinformatics/bty560">https://doi.org/10.1093/bioinformatics/bty560</a>,
+                        </b-card-text>
+                    </b-card>
+                    <b-alert show>Solo es necesario si los reads en fastqc dan un mal reporte.</b-alert>
+                    <hr>
+                    <Fastp />
+                </b-tab>
+
+                <b-tab title="Trim Galore" >
                     <p> Trim Galore! is a wrapper script to automate quality and adapter trimming as well as quality control <a href="http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/" target="_blank">Link</a></p>
                     <b-alert show>Solo es necesario si los reads en fastqc dan un mal reporte.</b-alert>
                     <hr>
@@ -42,6 +54,7 @@
 
 <script>
 import Fastqc from '@/components/bioinfotmatic/fastqc'
+import Fastp from '@/components/bioinfotmatic/fastp'
 import TrimGalore from '@/components/bioinfotmatic/trim_galore'
 import FastqScreen from '@/components/bioinfotmatic/fastq_screen'
 
@@ -49,6 +62,7 @@ import FastqScreen from '@/components/bioinfotmatic/fastq_screen'
         middleware: 'auth',
         components: {
             Fastqc,
+            Fastp,
             TrimGalore,
             FastqScreen
         }

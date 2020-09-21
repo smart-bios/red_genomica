@@ -3,30 +3,16 @@
         <b-overlay :show="show" rounded="sm" >
         <b-card-text>
 
-            <b-alert
-                    :show="dismissCountDown"
-                    dismissible
-                    :variant="mensaje.color"
-                    @dismissed="dismissCountDown=0"
-                    @dismiss-count-down="countDownChanged"
-                >
-                    {{mensaje.text}}
+            <b-alert :show="dismissCountDown" dismissible :variant="mensaje.color" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
+                {{mensaje.text}}
             </b-alert>
             <b-row>
                 <b-col sm="12" md= "12" lg="3">
                     <b-form-group label ="Project name">
-                        <b-form-input 
-                            v-model="input.name" 
-                            placeholder="Enter your project name"
-                            lazy-formatter  
-                            :formatter="formatter"
-                        ></b-form-input>
+                        <b-form-input v-model="input.name" placeholder="Enter your project name" lazy-formatter :formatter="formatter"></b-form-input>
                     </b-form-group>
 
-                    <b-form-group
-                        label="File with forward reads. "
-                        description="FASTQ file of first short reads in each pair"
-                    >
+                    <b-form-group label="File with forward reads." description="FASTQ file of first short reads in each pair">
                         <b-form-select v-model="input.fq1">
                             <b-form-select-option :value="null">Please select a file</b-form-select-option>
                             <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
@@ -39,12 +25,16 @@
                             <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                         </b-form-select>
                     </b-form-group>
-
-                    <b-form-group label="Min fasta lengt"  description= "Exclude contigs which are shorter than this length (default: 500)">
-                        <b-form-input id="prefix" v-model="input.length_fasta"></b-form-input>
+        
+                    <b-form-group label="Bridging mode"  description= "(default: normal) moderate contig size and misassembly rate">
+                        <b-form-select v-model="input.mode" :options="modes"></b-form-select>
                     </b-form-group>
+                    
+                    <b-form-group  label="Min fasta length"  description= "Exclude contigs which are shorter than this length (default: 500)">
+                            <b-form-spinbutton v-model="input.length_fasta" min="200" max="1000"></b-form-spinbutton>
+                    </b-form-group>                 
 
-                    <b-badge to="/storage" variant="primary">Upload files</b-badge>
+                    <b-badge to="/storage" variant="primary"> Upload files</b-badge>
                     <hr>
                     <b-button variant="secondary" size="sm" @click="run_unicycler">Run Unicycler</b-button>    
                 </b-col>
@@ -91,8 +81,13 @@
                     name: 'UNC01',
                     fq1: null,
                     fq2: null,
+                    mode: 'normal',
                     length_fasta: 500,
-                    user: `${this.$store.state.usuario._id}`
+                    user: {
+                        id: `${this.$store.state.usuario._id}`,
+                        name: `${this.$store.state.usuario.username}`,
+                        email: `${this.$store.state.usuario.email}`
+                    }
                 },
                 files: [],
                 status: '',
@@ -108,6 +103,11 @@
                     { file: 'assembly.gfa', description: 'final assembly in GFA v1 graph format' },
                     { file: 'assembly.fasta', description: 'final assembly in FASTA format (same contigs as in assembly.gfa)' },
                     { file: 'unicycler.log', description: 'Unicycler log file' }
+                ],
+                modes: [
+                    { value: 'conservative', text:'conservative'},
+                    { value: 'normal', text:'normal'},
+                    { value: 'bold', text:'bold'}
                 ],
                 mensaje: {
                     color: '',
