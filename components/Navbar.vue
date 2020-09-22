@@ -24,7 +24,7 @@
 
                         <b-nav-item-dropdown text="Tools" rigth >
                             <b-dropdown-item to="/tools/blast">Blast+</b-dropdown-item>
-                            <b-dropdown-item to="/tools/primers">BatchPrimer3</b-dropdown-item>
+                            <b-dropdown-item to="/tools/primers">Primers</b-dropdown-item>
                             <b-dropdown-item to="/tools/in_silico_pcr"><i>In silico</i> PCR</b-dropdown-item>
                             <b-dropdown-item to="/tools/SSRs">Simple Sequence Repeats</b-dropdown-item>
                             <b-dropdown-item to="/tools/venn">Venn's diagrams</b-dropdown-item>
@@ -37,6 +37,7 @@
                             <b-dropdown-item to="/pipelines/quality">Post-assembly</b-dropdown-item>
                             <b-dropdown-item to="/pipelines/prediction">Genomic Prediction/ Annotation</b-dropdown-item>                        
                             <b-dropdown-item to="/pipelines/anotacion">Functional annotation</b-dropdown-item>
+                            <b-dropdown-item to="/pipelines/qtl">QTL mapping</b-dropdown-item>
                             <b-dropdown-item to="/pipelines/ssr"> Microsatellites </b-dropdown-item>
                             <!-- <b-dropdown-item to="/pipelines/ortologos">orthologs</b-dropdown-item> -->
                         </b-nav-item-dropdown>
