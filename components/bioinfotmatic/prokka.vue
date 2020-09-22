@@ -57,7 +57,7 @@
                                 <h3>{{title}}</h3>
                                 <hr>                          
                                 <div v-if="status == 'success'">
-                                    <b-card title=" Estadisticas PROKKA">
+                                    <b-card title=" Summary PROKKA">
                                         <b-card-text>
                                             <div v-for="(item, index) in report" :key="index">
                                                 {{item}}

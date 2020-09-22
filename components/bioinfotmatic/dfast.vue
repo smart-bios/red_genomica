@@ -46,7 +46,16 @@
                                 <h3>{{title}}</h3>
                                 <hr>                          
                                 <div v-if="status == 'success'">
-                                    {{result}}
+                                    <b-card title=" Summary Dfast">
+                                        <b-card-text>
+                                            <hr>
+                                            <div v-for="(item, index) in report" :key="index">
+                                                {{item}}
+                                            </div>
+                                        </b-card-text>
+                                    </b-card> 
+                                    <b-btn variant="secondary" size="sm" @click="download_file" class="my-2">Download Results</b-btn>
+                                    <b-table striped hover :items="items"></b-table>
                                 </div>
                             </b-card-text>
                          </b-card>
@@ -81,6 +90,7 @@
                 status: '',
                 title: '',
                 result: '',
+                report: '',
                 mensaje: {
                     color: '',
                     text: ''
@@ -112,8 +122,8 @@
                         this.title = res.data.message
                         this.status = res.data.status
                         if(res.data.status == 'success'){
-                            console.log(res.data)
                             this.result = res.data.result
+                            this.report = res.data.report
                         }
                         this.show = false
                         this.show_result = true                            
