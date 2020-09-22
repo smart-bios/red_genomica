@@ -27,7 +27,7 @@
                         </b-card-text>
                     </b-card>                    
                     <hr>
-                    <b-alert show>En desarrollo</b-alert>
+                    <Dfast />
                 </b-tab>                
             </b-tabs>
         </b-card>
@@ -36,10 +36,12 @@
 
 <script>
 import Prokka from '@/components/bioinfotmatic/prokka'
+import Dfast from '@/components/bioinfotmatic/dfast'
     export default {
         middleware: 'auth',
         components: {
-            Prokka
+            Prokka,
+            Dfast
         }
 
     }
