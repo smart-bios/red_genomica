@@ -71,16 +71,22 @@
 
 export default {
 
-  computed:{
-      logueado(){
-        return this.$store.state.usuario;
-      }
-  },
+    computed:{
+        logueado(){
+            return this.$store.state.usuario;
+        }
+    },
 
-  methods: {
-    logout(){
-      this.$store.dispatch("cerrarSesion");
-    }
+    methods: {
+        async logout(){
+            try {
+                let res = await this.$axios.post('/user/clean', {user: this.$store.state.usuario._id})
+                console.log(res.data)
+                this.$store.dispatch("cerrarSesion");   
+            } catch (error) {
+                    console.log(error)
+            } 
+        }
   }
 }
 </script>
