@@ -29,6 +29,12 @@
                     <hr>
                     <Fastp />
                 </b-tab>
+                <b-tab title="BBduk" >
+                    <p> “Duk” stands for Decontamination Using Kmers. BBDuk was developed to combine most common data-quality-related trimming, filtering, and masking operations into a single high-performance tool.</p>
+                    <b-alert show>Solo es necesario si los reads en fastqc dan un mal reporte.</b-alert>
+                    <hr>
+                    <BBDuk />
+                </b-tab>
 
                 <b-tab title="Trim Galore" >
                     <p> Trim Galore! is a wrapper script to automate quality and adapter trimming as well as quality control <a href="http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/" target="_blank">Link</a></p>
@@ -55,6 +61,7 @@
 <script>
 import Fastqc from '@/components/bioinfotmatic/fastqc'
 import Fastp from '@/components/bioinfotmatic/fastp'
+import BBDuk from '@/components/bioinfotmatic/bbduk.vue'
 import TrimGalore from '@/components/bioinfotmatic/trim_galore'
 import FastqScreen from '@/components/bioinfotmatic/fastq_screen'
 
@@ -63,6 +70,7 @@ import FastqScreen from '@/components/bioinfotmatic/fastq_screen'
         components: {
             Fastqc,
             Fastp,
+            BBDuk,
             TrimGalore,
             FastqScreen
         }
