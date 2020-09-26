@@ -5,9 +5,6 @@
     <b-alert show>Lugar para almacenar los archivos subidos y generados. Es un almacenamiento temporal de 7 dias</b-alert>
     <b-card>
       <b-card-text>
-        <b-alert :show="dismissCountDown" dismissible :variant="mensaje.color" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
-          {{mensaje.text}}
-        </b-alert>
         <b-row>
           <b-col lg="4" md="4" sm="4">
             <b-form-group label="File">
@@ -33,19 +30,26 @@
           </b-col>          
         </b-row>
         <b-progress :value="value" :max="max" show-progress ></b-progress>
-        <b-button @click="sendFile" variant="primary" size="sm" class="mt-2">Upload</b-button>   
+        <b-button @click="sendFile" variant="primary" size="sm" class="my-2">Upload</b-button>
+        <b-alert :show="dismissCountDown" dismissible :variant="mensaje.color" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
+          {{mensaje.text}}
+        </b-alert>  
       </b-card-text>
       
       <hr>
       
-      <b-card bg-variant="ligth" text-variant="dark" title="Mis archivos">
+      <b-card bg-variant="ligth" text-variant="dark" title="My Files">
         <b-card-text>
           <b-row>
             <b-col lg="3" md="4" sm="6" v-for="file in files_uploaded" :key="file._id">
-              <b-card :title="file.filename" bg-variant="light" text-variant="dark" :sub-title="file.category" class="mt-3">
-                <b-card-text>{{file.description}}</b-card-text>
-                  <b-button  @click="download_file(file._id, file.filename)" variant="info" size="sm" ><b-icon icon="cloud-download"></b-icon>Download</b-button>
-                  <b-button @click="delete_file(file._id)" variant="danger" size="sm" ><b-icon icon="trash"></b-icon>Delete</b-button>
+              <b-card class="my-2">  
+                  <b-card-title>{{file.filename}}</b-card-title>
+                  <b-card-sub-title class="mb-2">{{file.category}}</b-card-sub-title>
+                  <b-card-text>
+                   {{file.description}}
+                  </b-card-text>
+                  <b-badge href="#" variant="info" @click="download_file(file._id, file.filename)">Download</b-badge>
+                  <b-badge href="#" variant="danger" @click="delete_file(file._id)">Delete</b-badge>
               </b-card>
             </b-col>
           </b-row>
@@ -54,14 +58,18 @@
       
       <hr>
       
-      <b-card bg-variant="ligth" text-variant="dark" title="Resultados">
+      <b-card bg-variant="ligth" text-variant="dark" title="Results">
         <b-card-text>
           <b-row>
             <b-col lg="3" md="4" sm="6" v-for="file in resultados" :key="file._id">
-              <b-card :title="file.filename" bg-variant="light" text-variant="dark" :sub-title="file.category" class="mt-3">
-                <b-card-text>{{file.description}}</b-card-text>
-                  <b-button @click="download_file(file._id, file.filename)" variant="info" size="sm" ><b-icon icon="cloud-download"></b-icon>Download</b-button>
-                  <b-button @click="delete_file(file._id)" variant="danger" size="sm" ><b-icon icon="trash"></b-icon>Delete</b-button>
+              <b-card class="my-2">  
+                  <b-card-title>{{file.filename}}</b-card-title>
+                  <b-card-sub-title class="mb-2">{{file.category}}</b-card-sub-title>
+                  <b-card-text>
+                   {{file.description}}
+                  </b-card-text>
+                  <b-badge href="#" variant="info" @click="download_file(file._id, file.filename)">Download</b-badge>
+                  <b-badge href="#" variant="danger" @click="delete_file(file._id)">Delete</b-badge>
               </b-card>
             </b-col>
           </b-row>
@@ -95,7 +103,7 @@
           color: '',
           text: ''
         }, 
-        dismissSecs: 5,
+        dismissSecs: 3,
         dismissCountDown: 0
      }
     },
@@ -130,7 +138,7 @@
 
             if(this.value == 100){
               this.mensaje.color = 'success'
-              this.mensaje.text = 'Archivo subido'
+              this.mensaje.text = 'File uploaded'
               this.value = 0
               this.showAlert()
               this.list_files_uploaded()
@@ -174,6 +182,9 @@
          try {
           confirm('Estás segura de que quieres eliminar este archivo?') &&
           await this.$axios.delete(`/storage/delete/${id}`)
+          this.mensaje.color = 'success'
+          this.mensaje.text = 'Deleted file'
+          this.showAlert()
           this.list_files_uploaded()
           this.list_files_result()
         } catch (error) {

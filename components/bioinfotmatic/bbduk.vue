@@ -99,7 +99,7 @@
                 show: false,
                 show_result: false,
                 input: {
-                    name: 'bbduk',
+                    name: 'BBD01',
                     paired: true,
                     fq1: null,
                     fq2: null,
