@@ -21,16 +21,16 @@
               ></b-form-file>
             </b-form-group>
           </b-col>
-          <b-col lg="5" md="4" sm="4">
-            <b-form-group label="Description">
-              <b-form-input v-model="description"></b-form-input>
-            </b-form-group>
-          </b-col>
           <b-col lg="3" md="4" sm="4">
             <b-form-group label="Format file">
                <b-form-select v-model="selected" :options="items"></b-form-select>
             </b-form-group>
           </b-col>
+          <b-col lg="5" md="4" sm="4">
+            <b-form-group label="Description">
+              <b-form-input v-model="description"></b-form-input>
+            </b-form-group>
+          </b-col>          
         </b-row>
         <b-progress :value="value" :max="max" show-progress ></b-progress>
         <b-button @click="sendFile" variant="primary" size="sm" class="mt-2">Upload</b-button>   
@@ -41,7 +41,7 @@
       <b-card bg-variant="ligth" text-variant="dark" title="Mis archivos">
         <b-card-text>
           <b-row>
-            <b-col lg="3" md="4rs" sm="6" v-for="file in files_uploaded" :key="file._id">
+            <b-col lg="3" md="4" sm="6" v-for="file in files_uploaded" :key="file._id">
               <b-card :title="file.filename" bg-variant="light" text-variant="dark" :sub-title="file.category" class="mt-3">
                 <b-card-text>{{file.description}}</b-card-text>
                   <b-button  @click="download_file(file._id, file.filename)" variant="info" size="sm" ><b-icon icon="cloud-download"></b-icon>Download</b-button>
@@ -57,7 +57,7 @@
       <b-card bg-variant="ligth" text-variant="dark" title="Resultados">
         <b-card-text>
           <b-row>
-            <b-col lg="3" md="4rs" sm="6" v-for="file in resultados" :key="file._id">
+            <b-col lg="3" md="4" sm="6" v-for="file in resultados" :key="file._id">
               <b-card :title="file.filename" bg-variant="light" text-variant="dark" :sub-title="file.category" class="mt-3">
                 <b-card-text>{{file.description}}</b-card-text>
                   <b-button @click="download_file(file._id, file.filename)" variant="info" size="sm" ><b-icon icon="cloud-download"></b-icon>Download</b-button>
@@ -87,8 +87,8 @@
         selected: null,
         items: [
           {value: null, text: 'Please select an format file' },
-          {value: 'fastq', text:'Sequencing read data (fastq)'},
-          {value: 'fasta', text:'A sequence record (fasta)'},
+          {value: 'fastq', text:'Sequencing read data (fastq, fq)'},
+          {value: 'fasta', text:'A sequence record (fasta, fna, fnn, faa, fs)'},
           {value: 'other', text:'Other file format'},
         ],
         mensaje: {
@@ -131,6 +131,7 @@
             if(this.value == 100){
               this.mensaje.color = 'success'
               this.mensaje.text = 'Archivo subido'
+              this.value = 0
               this.showAlert()
               this.list_files_uploaded()
             }

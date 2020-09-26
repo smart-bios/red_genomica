@@ -69,7 +69,13 @@
                             <h3>{{title}}</h3>
                             <hr>
                             <div v-if="status == 'success'">
-                                {{result}}
+                                <b-button variant="info" size="sm" @click="download_file(tf1, `${input.name}_1_good.gz`)" >Download Forward Reads</b-button>
+                                <b-button variant="info" size="sm" @click="download_file(tf2, `${input.name}_2_good.gz`)" >Download Reverde Reads</b-button>
+                                <div class="py-3">
+                                    <b-form-group  label="Log"> 
+                                     <b-form-textarea v-model="log" rows="8" plaintext></b-form-textarea>
+                                </b-form-group>
+                                </div>                    
                             </div>
                         </b-card-text>
                     </b-card>
@@ -105,7 +111,9 @@
                 files: [],
                 status: '',
                 title: '',
-                result:'',
+                tf1 : '',
+                tf2 : '',
+                log: '',
                 mensaje: {
                     color: '',
                     text: ''
@@ -136,13 +144,16 @@
                     try {
                         this.show = true
                         let res = await this.$axios.post('/tools/bbduk', this.input)
+                        console.log(res.data)
                         this.status = res.data.status
                         this.title = res.data.message
-                        this.result = res.data.result
-                        /* if(res.data.status == 'success'){
-                            this.reportfq1 = res.data.fq1
-                             this.reportfq2= res.data.fq2 
-                        }          */                     
+                        
+                        if(res.data.status == 'success'){
+                            this.log = res.data.result.log
+                            this.tf1 = res.data.result.trim1
+                            this.tf2= res.data.result.trim2
+                        }                     
+
                         this.show= false
                         this.show_result = true
                         this.list_files()
@@ -154,11 +165,10 @@
                 
             },
 
-            async download_file(reporte, filename){
+            async download_file(fastq, filename){
                 try {
-
-                    let res = await this.$axios.post(`/storage/download/`, {report: reporte}, {responseType: 'blob'})
-                    console.log(res)
+                    console.log('FASTQ,', fastq)
+                    let res = await this.$axios.get(`/storage/download/${fastq}`, {responseType: 'blob'})
                     const url = window.URL.createObjectURL(new Blob([res.data]));
                     const link = document.createElement('a');
                     link.href = url;

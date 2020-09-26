@@ -18,7 +18,7 @@
                     <Fastqc />
                 </b-tab>
 
-                <b-tab title="Fastp" disabled >
+                <!-- <b-tab title="Fastp" disabled >
                     <p> Fastp es un preprocesador FASTQ ultrarrápido con funciones útiles de control de calidad y filtrado de datos. Puede realizar control de calidad, recorte de adaptadores, filtrado de calidad, poda de calidad por lectura y muchas otras operaciones con un solo escaneo de los datos FASTQ.</p>
                     <b-card>
                         <b-card-text>
@@ -28,7 +28,7 @@
                     <b-alert show>Solo es necesario si los reads en fastqc dan un mal reporte.</b-alert>
                     <hr>
                     <Fastp />
-                </b-tab>
+                </b-tab> -->
                 <b-tab title="BBduk" >
                     <p> “Duk” stands for Decontamination Using Kmers. BBDuk was developed to combine most common data-quality-related trimming, filtering, and masking operations into a single high-performance tool.</p>
                     <b-alert show>Solo es necesario si los reads en fastqc dan un mal reporte.</b-alert>

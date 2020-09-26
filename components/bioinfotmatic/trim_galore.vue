@@ -83,9 +83,9 @@
                                                 </div>
                                             </b-card-text>
                                             <b-button-group>
-                                            <b-button variant="success" size="sm" @click="download_file(reportfq2.path, reportfq1.filename)" >Download Reads</b-button>
-                                            <b-button variant="info" size="sm" @click="download_file(reportfq2.path_report,'report_trimgalorefq2.txt')" >Download Full Report</b-button>
-                                        </b-button-group>
+                                                <b-button variant="success" size="sm" @click="download_file(reportfq2.path, reportfq1.filename)" >Download Reads</b-button>
+                                                <b-button variant="info" size="sm" @click="download_file(reportfq2.path_report,'report_trimgalorefq2.txt')" >Download Full Report</b-button>
+                                            </b-button-group>
                                         </b-card>   
                                     </b-col>
                                 </b-row>
