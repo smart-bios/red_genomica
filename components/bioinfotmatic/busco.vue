@@ -81,7 +81,11 @@
                     fasta: null,
                     mode: 'genome',
                     lineage: null,
-                    user: `${this.$store.state.usuario._id}`
+                    user: {
+                        id: `${this.$store.state.usuario._id}`,
+                        name: `${this.$store.state.usuario.username}`,
+                        email: `${this.$store.state.usuario.email}`
+                    }
                 },
                 options: [
                     { text: 'Genome, for genome assemblies', value: 'genome' },

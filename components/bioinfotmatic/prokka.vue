@@ -97,7 +97,11 @@
                     species: 'species',
                     strain: 'strain',
                     plasmid: '',
-                    user: `${this.$store.state.usuario._id}`
+                    user: {
+                        id: `${this.$store.state.usuario._id}`,
+                        name: `${this.$store.state.usuario.username}`,
+                        email: `${this.$store.state.usuario.email}`
+                    }
                 },
                 items: [
                     { extension: '.gff', description: 'This is the master annotation in GFF3 format, containing both sequences and annotations. It can be viewed directly in Artemis or IGV.' },

@@ -84,7 +84,11 @@
                     organism: 'Organism',
                     strain: 'strain',
                     locustag: 'Locus',
-                    user: `${this.$store.state.usuario._id}`
+                    user: {
+                        id: `${this.$store.state.usuario._id}`,
+                        name: `${this.$store.state.usuario.username}`,
+                        email: `${this.$store.state.usuario.email}`
+                    }
                 },
                 files: [],
                 status: '',

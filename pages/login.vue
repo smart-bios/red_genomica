@@ -16,8 +16,16 @@
                             </div>                            
                             <b-button type="submit" class="btn btn-secondary">Submit</b-button>
                         </form>
-                        <div v-if="mensaje != ''">
-                            <p>{{mensaje}}</p>
+                        <div class="my-3">
+                            <b-alert
+                                :show="dismissCountDown"
+                                dismissible
+                                variant="danger"
+                                @dismissed="dismissCountDown=0"
+                                @dismiss-count-down="countDownChanged"
+                            >
+                                {{mensaje}}
+                            </b-alert>
                         </div>
                     </div>
                 </div>  
@@ -34,7 +42,9 @@
                     email: '',
                     password:''
                 },
-                mensaje: ''
+                mensaje: '',
+                dismissSecs:3,
+                dismissCountDown: 0
             }
         },
         methods:{
@@ -47,15 +57,25 @@
                     })
                     .catch(error => {
                         if(error.response.status == 401){
-                            this.mensaje = 'Username o pass incorrect '
+                            this.mensaje = 'Username o pass incorrect'
+                            this.showAlert()
                         }
                         if(error.response.status  == 402){
-                            this.mensaje = 'El usuario no existe'
+                            this.mensaje = 'Username o pass incorrect'
+                            this.showAlert()
                         }
                     })      
                 } catch (error) {
                     console.log(error)
                 }
+            },
+
+            countDownChanged(dismissCountDown) {
+                this.dismissCountDown = dismissCountDown
+            },
+
+            showAlert() {
+                this.dismissCountDown = this.dismissSecs
             }
         }    
     }

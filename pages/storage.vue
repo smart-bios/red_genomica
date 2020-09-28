@@ -62,8 +62,8 @@
         <b-card-text>
           <b-row>
             <b-col lg="3" md="4" sm="6" v-for="file in resultados" :key="file._id">
-              <b-card class="my-2">  
-                  <b-card-title>{{file.filename}}</b-card-title>
+              <b-card class="my-2"> 
+                  <h5><b>{{file.filename}}</b></h5> 
                   <b-card-sub-title class="mb-2">{{file.category}}</b-card-sub-title>
                   <b-card-text>
                    {{file.description}}
@@ -94,7 +94,7 @@
         description: '',
         selected: null,
         items: [
-          {value: null, text: 'Please select an format file' },
+          {value: null, text: 'Please select the file format' },
           {value: 'fastq', text:'Sequencing read data (fastq, fq)'},
           {value: 'fasta', text:'A sequence record (fasta, fna, fnn, faa, fs)'},
           {value: 'other', text:'Other file format'},
@@ -118,7 +118,7 @@
       async sendFile(){
         if(this.file == null || this.selected == null){
           this.mensaje.color = 'danger'
-          this.mensaje.text = 'Select file or format file'
+          this.mensaje.text = 'Select file or file format'
           this.showAlert()
         }else{
           this.value = 0
