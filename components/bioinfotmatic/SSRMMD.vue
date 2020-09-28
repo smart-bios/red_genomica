@@ -8,45 +8,45 @@
                 <b-row>
                     <b-col sm="12" md= "12" lg="3">
                         <b-form-group label="Project name">
-                            <b-form-input  v-model="input.name" placeholder="Enter your project name" lazy-formatter :formatter="formatter"></b-form-input>
+                            <b-form-input  v-model="input.name" placeholder="Enter your project name" lazy-formatter :formatter="formatter" size="sm"></b-form-input>
                         </b-form-group>
 
                         <b-form-group label="Specify how to work of SSRMMD">
-                            <b-form-radio v-model="input.poly" value="0">only mining perfect SSR loci</b-form-radio>
-                            <b-form-radio v-model="input.poly" value="1" disabled>further mining polymorphic SSRs</b-form-radio>
+                            <b-form-radio v-model="input.poly" value="0" size="sm">only mining perfect SSR loci</b-form-radio>
+                            <b-form-radio v-model="input.poly" value="1" disabled size="sm"> further mining polymorphic SSRs</b-form-radio>
                         </b-form-group>
 
                         <b-form-group label ="File fasta 1 *" description="FASTA file for mining SSR loci">
-                            <b-form-select v-model="input.f1">
+                            <b-form-select v-model="input.f1" size="sm">
                                 <b-form-select-option :value="null">Please sequence file</b-form-select-option>
                                 <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                             </b-form-select>
                         </b-form-group>
 
                         <b-form-group label ="File fasta 2" description="if further mining polymorphic SSRs, option 'fasta 2' must be provided" v-if="input.poly == 1">
-                            <b-form-select v-model="input.f2">
+                            <b-form-select v-model="input.f2" size="sm">
                                 <b-form-select-option :value="null">Please sequence file</b-form-select-option>
                                 <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                             </b-form-select>
                         </b-form-group>
 
                         <b-form-group label= "Threshold of motif" description='length of motif = the minimum number of repeat'>
-                                <b-form-input v-model="input.motif"></b-form-input>
+                                <b-form-input v-model="input.motif" size="sm"></b-form-input>
                         </b-form-group>
                         <b-row>
                             <b-col>
                                 <b-form-group label= "minLen" description='minimum length of SSR.'>
-                                    <b-form-input v-model="input.minLen"></b-form-input>
+                                    <b-form-input v-model="input.minLen" size="sm"></b-form-input>
                                 </b-form-group>
                             </b-col>
                             <b-col>
                                 <b-form-group label= "maxLen" description='maximum length of SSR.'>
-                                    <b-form-input v-model="input.maxLen"></b-form-input>
+                                    <b-form-input v-model="input.maxLen" size="sm"></b-form-input>
                                 </b-form-group>
                             </b-col>
                             <b-col>
                                 <b-form-group label= "length" description='length of SSR flanking sequences.'>
-                                    <b-form-input v-model="input.length"></b-form-input>
+                                    <b-form-input v-model="input.length" size="sm"></b-form-input>
                                 </b-form-group>
                             </b-col>
                         </b-row>

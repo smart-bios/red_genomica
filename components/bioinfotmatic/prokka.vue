@@ -2,23 +2,17 @@
     <div>
         <b-overlay :show="show" rounded="sm" >
             <b-card-text>
-                <b-alert
-                    :show="dismissCountDown"
-                    dismissible
-                    :variant="mensaje.color"
-                    @dismissed="dismissCountDown=0"
-                    @dismiss-count-down="countDownChanged"
-                >
+                <b-alert :show="dismissCountDown" dismissible :variant="mensaje.color" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
                     {{mensaje.text}}
                 </b-alert>
                 <b-row>
                     <b-col sm="12" md= "12" lg="3">
                         <b-form-group label="Project name">
-                            <b-form-input  v-model="input.name" placeholder="Enter your project name" lazy-formatter :formatter="formatter"></b-form-input>
+                            <b-form-input  v-model="input.name" placeholder="Enter your project name" lazy-formatter :formatter="formatter" size="sm"></b-form-input>
                         </b-form-group>
 
                         <b-form-group label="Assembly to annotate " description="FASTA format">
-                            <b-form-select v-model="input.fasta_file">
+                            <b-form-select v-model="input.fasta_file" size="sm">
                                 <b-form-select-option :value="null">Please select a fasta file</b-form-select-option>
                                 <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                             </b-form-select>
@@ -26,7 +20,7 @@
                         </b-form-group>
 
                         <b-form-group label="Locus tag prefix">
-                            <b-form-input v-model="input.locustag" lazy-formatter :formatter="formatter"></b-form-input>
+                            <b-form-input v-model="input.locustag" lazy-formatter :formatter="formatter" size="sm"></b-form-input>
                         </b-form-group>
 
                         <b-form-group label="Kingdom">
@@ -34,18 +28,19 @@
                                 v-model="input.kingdom"
                                 :options="options"
                                 name="radio-inline"
+                                size="sm"
                             ></b-form-radio-group>
                         </b-form-group>
 
                         <b-form-group label="Organism details">
                             <b-form-text>Genus name.</b-form-text>
-                            <b-form-input v-model="input.genus"></b-form-input>
+                            <b-form-input v-model="input.genus" size="sm"></b-form-input>
                             <b-form-text >Species name.</b-form-text>
-                            <b-form-input v-model="input.species"></b-form-input>
+                            <b-form-input v-model="input.species" size="sm"></b-form-input>
                             <b-form-text >Strain name.</b-form-text>
-                            <b-form-input v-model="input.strain"></b-form-input>
+                            <b-form-input v-model="input.strain" size="sm"></b-form-input>
                             <b-form-text >Plasmid name or identifier.</b-form-text>
-                            <b-form-input v-model="input.plasmid"></b-form-input>
+                            <b-form-input v-model="input.plasmid" size="sm"></b-form-input>
                         </b-form-group>
                         <hr>
                         <b-button variant="secondary" size="sm" @click="run_prokka">Run PROKKA</b-button>

@@ -2,19 +2,13 @@
     <div>
         <b-overlay :show="show" rounded="sm" >
             <b-card-text>
-                <b-alert
-                    :show="dismissCountDown"
-                    dismissible
-                    :variant="mensaje.color"
-                    @dismissed="dismissCountDown=0"
-                    @dismiss-count-down="countDownChanged"
-                >
+                <b-alert :show="dismissCountDown" dismissible :variant="mensaje.color" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
                     {{mensaje.text}}
                 </b-alert>
                 <b-row>
                     <b-col sm="12" md= "12" lg="3">
                         <b-form-group label ="File*" description="FASTQ file format">
-                            <b-form-select v-model="input.fq">
+                            <b-form-select v-model="input.fq" size="sm">
                                 <b-form-select-option :value="null">Please select a file</b-form-select-option>
                                 <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                             </b-form-select>

@@ -8,11 +8,11 @@
             <b-row>
                 <b-col sm="12" md= "12" lg="3">
                     <b-form-group label="Project name">
-                        <b-form-input  v-model="input.name" placeholder="Enter your project name" lazy-formatter :formatter="formatter"></b-form-input>
+                        <b-form-input  v-model="input.name" placeholder="Enter your project name" lazy-formatter :formatter="formatter" size="sm"></b-form-input>
                     </b-form-group>
 
                     <b-form-group label="Assembly" description="FASTA format">
-                        <b-form-select v-model="input.assembly">
+                        <b-form-select v-model="input.assembly" size="sm">
                             <b-form-select-option :value="null">Please select a file</b-form-select-option>
                             <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                         </b-form-select>
@@ -20,21 +20,21 @@
                     </b-form-group>
 
                     <b-form-group label="Skip contigs shorter than" description="Default 500 bp">
-                        <b-form-input  v-model="input.length"></b-form-input>
+                        <b-form-input  v-model="input.length" size="sm"></b-form-input>
                     </b-form-group>
 
                     <b-form-group label="Contig thresholds" description="Comma-separated list of contig length thresholds">
-                        <b-form-input  v-model="input.thresholds"></b-form-input>
+                        <b-form-input  v-model="input.thresholds" size="sm"></b-form-input>
                     </b-form-group>
 
                     <b-form-group>
-                        <b-form-checkbox v-model="input.compare" name="check-button" switch>
+                        <b-form-checkbox v-model="input.compare" name="check-button" size="sm" switch>
                            Comparar con genoma de referencia
                         </b-form-checkbox>                      
                     </b-form-group>
 
                     <b-form-group description="NCBI Representative genome">
-                        <b-form-select v-model="input.reference" :disabled="!input.compare">
+                        <b-form-select v-model="input.reference" :disabled="!input.compare" size="sm">
                             <b-form-select-option :value="null">Please select a reference genome</b-form-select-option>
                             <b-form-select-option v-for="reference in references" :key="reference._id" :value="`${reference.path}`">{{reference.name}}</b-form-select-option>
                         </b-form-select>

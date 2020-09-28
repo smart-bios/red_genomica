@@ -8,11 +8,11 @@
                 <b-row>
                     <b-col sm="12" md= "12" lg="3">
                         <b-form-group label="Project name">
-                            <b-form-input  v-model="input.name" placeholder="Enter your project name" lazy-formatter :formatter="formatter"></b-form-input>
+                            <b-form-input  v-model="input.name" placeholder="Enter your project name" lazy-formatter :formatter="formatter" size="sm"></b-form-input>
                         </b-form-group>
 
                         <b-form-group label="Genomic FASTA file">
-                            <b-form-select v-model="input.fasta_file">
+                            <b-form-select v-model="input.fasta_file" size="sm">
                                 <b-form-select-option :value="null">Please select a fasta file</b-form-select-option>
                                 <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                             </b-form-select>
@@ -22,18 +22,18 @@
                         <b-row>
                             <b-col>
                                 <b-form-group label="Organism name">
-                                    <b-form-input v-model="input.organism" lazy-formatter :formatter="formatter"></b-form-input>
+                                    <b-form-input v-model="input.organism" lazy-formatter :formatter="formatter" size="sm"></b-form-input>
                                 </b-form-group>
                             </b-col>
                             <b-col>
                                 <b-form-group label="Strain name">
-                                    <b-form-input v-model="input.strain"></b-form-input>
+                                    <b-form-input v-model="input.strain" size="sm"></b-form-input>
                                 </b-form-group>
                             </b-col>
                         </b-row>
 
                         <b-form-group label="Locus tag prefix">
-                            <b-form-input v-model="input.locustag" lazy-formatter :formatter="formatter"></b-form-input>
+                            <b-form-input v-model="input.locustag" lazy-formatter :formatter="formatter" size="sm"></b-form-input>
                         </b-form-group>
 
                         <hr>

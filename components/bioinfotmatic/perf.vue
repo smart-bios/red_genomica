@@ -2,19 +2,13 @@
     <div>
         <b-overlay :show="show" rounded="sm" >
             <b-card-text>
-                <b-alert
-                    :show="dismissCountDown"
-                    dismissible
-                    :variant="mensaje.color"
-                    @dismissed="dismissCountDown=0"
-                    @dismiss-count-down="countDownChanged"
-                >
+                <b-alert :show="dismissCountDown" dismissible :variant="mensaje.color" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
                     {{mensaje.text}}
                 </b-alert>
                 <b-row>
                 <b-col sm="12" md= "12" lg="3">
                     <b-form-group label ="File*" description="Input file format. Default: fasta, Permissible: fasta, fastq">
-                        <b-form-select v-model="input.fasta">
+                        <b-form-select v-model="input.fasta" size="sm">
                             <b-form-select-option :value="null">Please sequence file</b-form-select-option>
                             <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                         </b-form-select>
@@ -22,17 +16,17 @@
                     <b-row>
                         <b-col cols="4">
                             <b-form-group description= "Minimum size of a repeat motif in bp">
-                                <b-form-input v-model="input.minimum"></b-form-input>
+                                <b-form-input v-model="input.minimum" size="sm"></b-form-input>
                             </b-form-group>
                         </b-col>
                          <b-col cols="4">
                             <b-form-group description= "Maximum size of a repeat motif in bp">
-                                <b-form-input v-model="input.maximum"></b-form-input>
+                                <b-form-input v-model="input.maximum" size="sm"></b-form-input>
                             </b-form-group>
                         </b-col>
                          <b-col cols="4">
                             <b-form-group description= "Minimum length cutoff of repeat">
-                                <b-form-input v-model="input.length"></b-form-input>
+                                <b-form-input v-model="input.length" size="sm"></b-form-input>
                             </b-form-group>
                         </b-col>
                     </b-row>
