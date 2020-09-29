@@ -15,11 +15,15 @@
                     <b-card-text>
                         <h4>Genomes</h4>
                         <hr>
-                        <p>Whole Genome Sequences and Annotations for <i>Pseudomonas viridiflava</i> </p>
+                        <p>Whole Genome Sequences and Annotations for <i>Pseudomonas viridiflava,</i>generated in <b>Instituto de Investigaciones Agropecuarias.</b></p>
                         <ul>
                             <li v-for="genoma in genomas" :key="genoma.name">
                                 <nuxt-link :to="'/species/'+genoma._id">{{genoma.name}} {{genoma.version}} </nuxt-link>
                             </li>
+                        </ul>
+                        <h5><b>Representative genome</b></h5>
+                        <ul>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/11288" target="blank_">Pseudomonas viridiflava</a></i></li>
                         </ul>
                     </b-card-text>
                 </b-tab>          

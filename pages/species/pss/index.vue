@@ -19,11 +19,32 @@
                     <b-card-text>
                         <h4>Genomes</h4>
                         <hr>
-                        <p>Whole Genome Sequences and Annotations for <i>Pseudomonas syringae pv syringae</i> </p>
+                        <p>Whole Genome Sequences and Annotations for <i>Pseudomonas syringae pv syringae,</i> generated in <b> Instituto de Investigaciones Agropecuarias.</b></p>
                         <ul>
                             <li v-for="genoma in genomas" :key="genoma.name">
                                 <nuxt-link :to="'/species/'+genoma._id">{{genoma.name}} {{genoma.version}} </nuxt-link>
                             </li>
+                        </ul>
+                        <p>References Genomes - <b>Pseudomonas syringae group</b></p>
+                        <ul>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/185" target="blank_">Pseudomonas syringae</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/2506" target="blank_">Pseudomonas amygdali</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/2253" target="blank_">Pseudomonas syringae group genomosp. 3</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/2258" target="blank_">Pseudomonas savastanoi</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/2255" target="blank_">Pseudomonas coronafaciens</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/12979" target="blank_">Pseudomonas fuscovaginae</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/12999" target="blank_">Pseudomonas avellanae</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/11288" target="blank_">Pseudomonas viridiflava</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/40797" target="blank_">Pseudomonas syringae group genomosp. 7</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/36890" target="blank_">Pseudomonas syringae pv. coryli</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/30960" target="blank_">Pseudomonas cichorii</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/16535" target="blank_">Pseudomonas cannabina</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/54890" target="blank_">Pseudomonas caspiana</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/50719" target="blank_">Pseudomonas asturiensis</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/40798" target="blank_">Pseudomonas tremae</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/40796" target="blank_">Pseudomonas ficuserectae</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/40794" target="blank_">Pseudomonas caricapapayae</a></i></li>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/36383" target="blank_">Pseudomonas meliae</a></i></li>                            
                         </ul>
                     </b-card-text>
                 </b-tab>          

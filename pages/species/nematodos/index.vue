@@ -18,9 +18,13 @@
                     <b-card-text>
                         <h4>Genomes</h4>
                         <hr>
-                        <p>Whole Genome Sequences and Annotations for <i> Meloidogyne sp.</i> </p>
+                        <p>Whole Genome Sequences and Annotations for <i> Meloidogyne sp.</i>generated in <b>Instituto de Investigaciones Agropecuarias.</b> </p>
                         <ul>
                             
+                        </ul>
+                        <h5><b>Representative genome</b></h5>
+                        <ul>
+                            <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/281">Meloidogyne incognita</a></i></li>
                         </ul>
                     </b-card-text>
                 </b-tab>          
@@ -43,8 +47,8 @@
         data(){
             return {
                 genomas: [],
-                host: 'localhost',
-                //host: '192.168.22.26',
+                //host: 'localhost',
+                host: '192.168.22.26',
             }
         }
     }

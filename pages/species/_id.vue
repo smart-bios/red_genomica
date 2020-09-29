@@ -46,7 +46,7 @@
                         <p> {{genoma.description}} Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nulla impedit voluptatem nobis eos? Repudiandae voluptatum, non odit eos ut totam!</p>
                         <hr>
                         <p><strong>Sequencing, Assembly, and Annotation</strong></p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam voluptatibus dicta, vitae eos aspernatur atque repudiandae aliquid culpa rem placeat corporis sed sunt laudantium adipisci totam? Laborum sit dolorum quia, obcaecati necessitatibus repudiandae iste aut, explicabo voluptatem amet velit officia, qui neque rem fugit molestiae quod soluta! Distinctio quasi a repudiandae temporibus explicabo perferendis! Excepturi minus tempora quisquam dolorem maiores perferendis? Aut facilis, perspiciatis laboriosam deserunt doloribus saepe in maxime ex neque cupiditate est eligendi officiis? Atque incidunt placeat magni. Beatae voluptate quidem voluptatem sit necessitatibus! Ipsa magni in cum atque quam cupiditate nemo laborum quibusdam, sequi unde eos nihil.</p>
+                        <p> Whole genomic DNA of {{genoma.name}} was extracted and sequenced to 1500 bp on a HiSeq 2000. De novo genome assembly was performed using <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5481147/">Unicycler v0.4.9b</a>, gene prediction was performed using the <a href="https://pubmed.ncbi.nlm.nih.gov/24642063/">PROKKA</a> pipeline. Genomic features and functional annotation were analysed using <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6324079/">eggNOG</a></p>
 
                     </b-card-text>
                 </b-tab>
