@@ -6,9 +6,9 @@
             <b-card-text>
                 <p>We also recommend, as a complement to searching the annotations, that you search, using BLAST , for homologs to a protein of interest, to find additional genes/proteins of interest that may have annotations that don't show up in your annotation search (i.e. if you want all homologs of a particular membrane protein, but the particular membrane protein has been named differently by different Genomes Projects). </p>
                 <b-input-group class="mt-3">
-                    <b-form-input v-model="buscar"></b-form-input>
+                    <b-form-input v-model="buscar" size="sm"></b-form-input>
                     <b-input-group-append>
-                        <b-button variant="outline-info" @click="search">Search</b-button>
+                        <b-button variant="outline-info" size="sm" @click="search">Search</b-button>
                     </b-input-group-append>
                 </b-input-group>
                 <p class="text-small">eg. copA, acnb, type III, ATP binding, zinc finge</p>          

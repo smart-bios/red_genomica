@@ -2,23 +2,17 @@
     <div>
             <b-overlay :show="show" rounded="sm" >
             <b-card-text>
-                <b-alert
-                    :show="dismissCountDown"
-                    dismissible
-                    :variant="mensaje.color"
-                    @dismissed="dismissCountDown=0"
-                    @dismiss-count-down="countDownChanged"
-                >
+                <b-alert :show="dismissCountDown" dismissible :variant="mensaje.color" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
                     {{mensaje.text}}
                 </b-alert>
                 <b-row>
                     <b-col sm="12" md= "12" lg="3">
                         <b-form-group label="Project name">
-                            <b-form-input  v-model="input.name" placeholder="Enter your project name" lazy-formatter :formatter="formatter"></b-form-input>
+                            <b-form-input  v-model="input.name" placeholder="Enter your project name" lazy-formatter :formatter="formatter" size="sm"></b-form-input>
                         </b-form-group>
 
                         <b-form-group label ="File*" description="Max. 100,000 CDS/protein sequences in FASTA format">
-                            <b-form-select v-model="input.fasta">
+                            <b-form-select v-model="input.fasta" size="sm">
                                 <b-form-select-option :value="null">Please select a file</b-form-select-option>
                                 <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                             </b-form-select>
@@ -26,15 +20,15 @@
                         </b-form-group>
 
                         <b-form-group label="Tipo de secuencias">
-                                  <b-form-radio-group v-model="input.translate" :options="options" name="radio-options"></b-form-radio-group>
+                                  <b-form-radio-group v-model="input.translate" :options="options" name="radio-options" size="sm"></b-form-radio-group>
                         </b-form-group>
                        
                         <b-form-group label ="Taxonomic Scope" description="annotations will only be transferred from orthologs in the selected taxa group">
-                            <b-form-select v-model="input.tax_scope" :options="taxonomy"></b-form-select>
+                            <b-form-select v-model="input.tax_scope" :options="taxonomy" size="sm"></b-form-select>
                         </b-form-group>
 
                         <b-form-group label ="Orthology restrictions" description="defines what type of orthologs should be used for functional transfer">
-                            <b-form-select v-model="input.ortho" :options="orthology"></b-form-select>
+                            <b-form-select v-model="input.ortho" :options="orthology" size="sm"></b-form-select>
                         </b-form-group>
 
                         <hr>

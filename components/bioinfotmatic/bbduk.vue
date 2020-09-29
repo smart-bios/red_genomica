@@ -8,24 +8,24 @@
             <b-row>
                 <b-col sm="12" md= "12" lg="3">
                     <b-form-group label="Basename">
-                        <b-form-input v-model="input.name" lazy-formatter :formatter="formatter"></b-form-input>
+                        <b-form-input v-model="input.name" lazy-formatter :formatter="formatter" size="sm"></b-form-input>
                     </b-form-group>
 
-                    <b-form-group>
+<!--                     <b-form-group>
                         <b-form-checkbox v-model="input.paired" name="check-button" switch>
                             Paired-end Sequencing
                         </b-form-checkbox>                      
-                    </b-form-group>
+                    </b-form-group> -->
    
                     <b-form-group label="File with forward reads." description="FASTQ file of first short reads in each pair">
-                        <b-form-select v-model="input.fq1">
+                        <b-form-select v-model="input.fq1" size="sm">
                             <b-form-select-option :value="null">Please select a file</b-form-select-option>
                             <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                         </b-form-select>
                     </b-form-group>
 
                     <b-form-group label="File with reverse reads." description="FASTQ file of second short reads in each pair">
-                        <b-form-select v-model="input.fq2" :disabled="!input.paired">
+                        <b-form-select v-model="input.fq2" :disabled="!input.paired" size="sm">
                             <b-form-select-option :value="null">Please select a file</b-form-select-option>
                             <b-form-select-option v-for="file in files" :key="file._id" :value="`${file.path}`">{{file.filename}}</b-form-select-option>
                         </b-form-select>
@@ -38,7 +38,7 @@
                                 label="Length required"
                                 description= "Discard reads that became shorter than length INT because of either quality or adapter trimming."
                             >
-                                <b-form-spinbutton v-model="input.length" min="15" max="100"></b-form-spinbutton>
+                                <b-form-spinbutton v-model="input.length" min="15" max="100" size="sm"></b-form-spinbutton>
                             </b-form-group> 
                         </b-col>
                         <b-col sm="12" md="6" lg="6">
@@ -46,7 +46,7 @@
                                 label="Qualified quality "
                                 description= "Trim low-quality ends from reads in addition to adapter removal."
                             >
-                                <b-form-spinbutton v-model="input.quality" min="15" max="100"></b-form-spinbutton>
+                                <b-form-spinbutton v-model="input.quality" min="15" max="100" size="sm"></b-form-spinbutton>
                             </b-form-group>
                         </b-col>
                         <b-col sm="12" md="6" lg="6">
@@ -54,7 +54,7 @@
                                 label="Force-Trimming"
                                 description= "This will trim the leftmost X bases "
                             >
-                                <b-form-spinbutton v-model="input.ftl" min="0" max="100"></b-form-spinbutton>
+                                <b-form-spinbutton v-model="input.ftl" min="0" max="100" size="sm"></b-form-spinbutton>
                             </b-form-group>
                         </b-col>
                         

@@ -18,6 +18,18 @@
                     <hr>
                     <Unicycler />
                 </b-tab>
+                <b-tab title="MaSuRCA">
+                    <p>The MaSuRCA assembler combines the benefits of deBruijn graph and Overlap-Layout-Consensus assembly approaches. Since version 3.2.1 it supports hybrid assembly with short Illumina reads and long high error PacBio/MinION data.</p>
+                    <b-card>
+                        <b-card-text>
+                            <i>Zimin AV, Marçais G, Puiu D, Roberts M, Salzberg SL, Yorke JA.</i> <b>The MaSuRCA genome assembler</b>. Bioinformatics. 2013;29(21):2669-2677. <a href="https://doi.org/10.1093/bioinformatics/btt476" target="_blank">doi:10.1093/bioinformatics/btt476</a>
+                        </b-card-text>
+                    </b-card>
+                    <hr>
+                    <b-alert show>En desarrollo</b-alert>
+                    <Masurca />
+                
+                </b-tab>  
                 <b-tab title="Platanus-allee">
                     <p>Platanus-allee is a de novo haplotype assembler (phasing tool), which assembles each haplotype sequence in a diploid genome. Compared to the read mapping-based haplotype phasing tools, Platanus-allee is especially useful to analyze highly divergent (heterozygous) regions in which haplotypes extremely differ.</p>
                     <b-card>
@@ -29,17 +41,7 @@
                     <b-alert show>En desarrollo</b-alert>
 
                 </b-tab>
-                <b-tab title="MaSuRCA">
-                    <p>The MaSuRCA assembler combines the benefits of deBruijn graph and Overlap-Layout-Consensus assembly approaches. Since version 3.2.1 it supports hybrid assembly with short Illumina reads and long high error PacBio/MinION data.</p>
-                    <b-card>
-                        <b-card-text>
-                            <i>Zimin AV, Marçais G, Puiu D, Roberts M, Salzberg SL, Yorke JA.</i> <b>The MaSuRCA genome assembler</b>. Bioinformatics. 2013;29(21):2669-2677. <a href="https://doi.org/10.1093/bioinformatics/btt476" target="_blank">doi:10.1093/bioinformatics/btt476</a>
-                        </b-card-text>
-                    </b-card>
-                    <hr>
-                    <b-alert show>En desarrollo</b-alert>
-                
-                </b-tab>                
+                              
             </b-tabs>
         </b-card>    
     </div>
@@ -47,10 +49,13 @@
 
 <script>
 import Unicycler from '@/components/bioinfotmatic/unicycler'
+import Masurca from '@/components/bioinfotmatic/masurca'
+
     export default {
         middleware: 'auth',
         components: {
-            Unicycler
+            Unicycler,
+            Masurca
         }
     }
 </script>

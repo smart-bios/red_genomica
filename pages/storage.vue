@@ -15,17 +15,18 @@
                 placeholder="Choose a file or drop it here..."
                 drop-placeholder="Drop file here..."
                 ref="file-input"
+                size="sm"
               ></b-form-file>
             </b-form-group>
           </b-col>
           <b-col lg="3" md="4" sm="4">
             <b-form-group label="Format file">
-               <b-form-select v-model="selected" :options="items"></b-form-select>
+               <b-form-select v-model="selected" :options="items" size="sm"></b-form-select>
             </b-form-group>
           </b-col>
           <b-col lg="5" md="4" sm="4">
             <b-form-group label="Description">
-              <b-form-input v-model="description"></b-form-input>
+              <b-form-input v-model="description" size="sm"></b-form-input>
             </b-form-group>
           </b-col>          
         </b-row>
@@ -43,7 +44,7 @@
           <b-row>
             <b-col lg="3" md="4" sm="6" v-for="file in files_uploaded" :key="file._id">
               <b-card class="my-2">  
-                  <b-card-title>{{file.filename}}</b-card-title>
+                  <h5><b>{{file.filename}}</b></h5> 
                   <b-card-sub-title class="mb-2">{{file.category}}</b-card-sub-title>
                   <b-card-text>
                    {{file.description}}
