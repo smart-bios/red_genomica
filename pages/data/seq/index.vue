@@ -2,29 +2,32 @@
     <div class="container mt-3">
         <h2>Simple search dataset</h2>
         <hr>
-        <b-card class="mb-2">
-            <b-card-text>
-                <p>We also recommend, as a complement to searching the annotations, that you search, using BLAST , for homologs to a protein of interest, to find additional genes/proteins of interest that may have annotations that don't show up in your annotation search (i.e. if you want all homologs of a particular membrane protein, but the particular membrane protein has been named differently by different Genomes Projects). </p>
-                <b-input-group class="mt-3">
-                    <b-form-input v-model="buscar" size="sm"></b-form-input>
-                    <b-input-group-append>
-                        <b-button variant="outline-info" size="sm" @click="search">Search</b-button>
-                    </b-input-group-append>
-                </b-input-group>
-                <p class="text-small">eg. copA, acnb, type III, ATP binding, zinc finge</p>          
-            </b-card-text>
-        </b-card>
-       
-        <hr>
+        <b-overlay :show="show_search" rounded="sm" >
+            <b-card class="mb-2">
+                <b-card-text>
+                    <p>We also recommend, as a complement to searching the annotations, that you search, using BLAST , for homologs to a protein of interest, to find additional genes/proteins of interest that may have annotations that don't show up in your annotation search (i.e. if you want all homologs of a particular membrane protein, but the particular membrane protein has been named differently by different Genomes Projects). </p>
+                    <b-form-group description="eg. copA, acnb, type III, ATP binding, zinc finge">
+                        <b-input-group class="mt-3">
+                            <b-form-input v-model="buscar" size="sm"></b-form-input>
+                            <b-input-group-append>
+                                <b-button variant="info" size="sm" @click="search">Search</b-button>
+                            </b-input-group-append>
+                        </b-input-group>
+                    </b-form-group>
+                </b-card-text>
+            </b-card>       
+            <template v-slot:overlay>
+                <div class="text-center">
+                    <b-icon icon="stopwatch" font-scale="3" animation="cylon"></b-icon>
+                    <p class="text-center"><b>Searching<br>Please wait...</b></p>
+                </div>
+            </template>
+        </b-overlay> 
         
-        <b-card
-            border-variant="light"
-            header="Result"
-            header-bg-variant="primary"
-            header-text-variant="white"
-            v-if="show"
-        >
+            
+        <b-card border-variant="light" header="RESULT" :header-bg-variant="status" header-text-variant="white" v-if="show">
             <b-card-text>
+                <p>{{message}}</p>
                 <table class="table table-striped">
                     <thead>
                         <tr> 
@@ -119,8 +122,10 @@
               headerTextVariant: 'light',
               show: false,
               show_modal: false,
+              show_search: false,
               buscar: '',
-              cantidad: '',
+              status: '',
+              message: '',
               resultados:[],
               secuencia: [],
               seqnucl: []
@@ -128,18 +133,23 @@
       },
       methods: {
           async search(){
-              await this.$axios.get('/seq/search/'+this.buscar)
-              .then(res => {
-                  this.show = true,
-                  this.cantidad = res.data.cantidad
-                  this.resultados = res.data.resultados
-                  console.log(res.data)
-                  console.log('Buscando:', this.buscar)
-              })
-              .catch(error => {
+              try {
+                this.show_search = true
+                this.show = false
+                let res = await this.$axios.get('/seq/search/'+this.buscar)
+                console.log(res.data)
+                this.show_search= false,
+                this.show = true,
+                this.status = res.data.status
+                this.message = res.data.message
+                this.resultados = res.data.resultados
+                
+
+              } catch (error) {
                   console.log(error)
-              })
+              }
           },
+
           async getSecuencia(id){
              try {
                 const res = await this.$axios.get(`/seq/${id}`);
