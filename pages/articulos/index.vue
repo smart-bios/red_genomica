@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-3">
     <!-- Page Heading/Breadcrumbs -->
-    <h2>Articles</h2>
+    <h2>Articulos de interes</h2>
     <hr>
     <b-alert show>En desarrollo...</b-alert>
     <div class="row">

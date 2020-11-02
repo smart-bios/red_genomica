@@ -2,7 +2,7 @@
   <div class="about">
     <div class="container mt-3">
       <!-- Page Heading/Breadcrumbs -->
-      <h2>About</h2>
+      <h2>Acerca de</h2>
       <hr>
       <b-alert show>En desarrollo...</b-alert>
 
@@ -12,10 +12,8 @@
           <img class="img-fluid rounded mb-4" src="~/assets/img/logo.png" alt="">
         </div>
         <div class="col-lg-6">
-          <h2>About RedGBioNIA</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed voluptate nihil eum consectetur similique? Consectetur, quod, incidunt, harum nisi dolores delectus reprehenderit voluptatem perferendis dicta dolorem non blanditiis ex fugiat.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe, magni, aperiam vitae illum voluptatum aut sequi impedit non velit ab ea pariatur sint quidem corporis eveniet. Odit, temporibus reprehenderit dolorum!</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, consequuntur, modi mollitia corporis ipsa voluptate corrupti eum ratione ex ea praesentium quibusdam? Aut, in eum facere corrupti necessitatibus perspiciatis quis?</p>
+          <h2><b>RedGBioNIA</b></h2>
+          <p class="text-justify">Plataforma bioinformática con datos genómicos y herramientas de análisis para estudiar la variabilidad genética de las poblaciones de nematodos agalladores (<i>Meloidogyne spp</i>) y <i>Pseudomonas syringea</i> que afectan los frutales de Prunus en Chile, para facilitar el desarrollo de herramientas de identificación de variantes (y/o especies) y facilitar estudios epidemiológicos para su control.</p>
         </div>
       </div>
       <!-- /.row -->
