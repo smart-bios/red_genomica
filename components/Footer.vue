@@ -2,7 +2,7 @@
     <footer class="footer mt-3">
         <div class="text-center">
             <div class="copyright">
-                <p>© <span>2020</span> <a href="#" class="transition">labinia</a> All rights reserved.</p>
+                <p>© <span>2020</span> <a href="http://www.smartbios.cl" target="_blank" class="transition">SmartBiOS</a> All rights reserved.</p>
             </div>
         </div>        
     </footer>
