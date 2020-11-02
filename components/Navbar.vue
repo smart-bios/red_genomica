@@ -3,34 +3,34 @@
        <b-navbar toggleable="lg" type="dark" variant="secondary">
            <b-container>
                <b-navbar-brand to="/">                   
-                    <b>RedGBionia</b>
+                    <b>RedGBioNIA</b>
                 </b-navbar-brand>
                <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
                
                <b-collapse id="nav-collapse" is-nav>
 
                    <b-navbar-nav>
-                        <b-nav-item-dropdown text="Species" right>
+                        <b-nav-item-dropdown text="Especies" right>
                            <b-dropdown-item to="/species/pss"><em>Pseudomonas syringae pv syringae</em> (all)</b-dropdown-item>
                            <b-dropdown-item to="/species/pv"><em>Pseudomonas viridiflava</em></b-dropdown-item>
                            <b-dropdown-item to="/species/nematodos">Meloidogyne</b-dropdown-item>
                         </b-nav-item-dropdown>
                         
-                        <b-nav-item-dropdown text="Data" rigth >
-                            <b-dropdown-item to="/data/seq">Search sequences</b-dropdown-item>
+                        <b-nav-item-dropdown text="Datos" rigth >
+                            <b-dropdown-item to="/data/seq">Buscar secuencias</b-dropdown-item>
                             <b-dropdown-item to="/data/mlst">MLST</b-dropdown-item>
                             <b-dropdown-item to="/data/typeIII">Type III secretion systems</b-dropdown-item>
                         </b-nav-item-dropdown>
 
-                        <b-nav-item-dropdown text="Tools" rigth >
+                        <b-nav-item-dropdown text="Herramientas" rigth >
                             <b-dropdown-item to="/tools/blast">Blast+</b-dropdown-item>
                             <b-dropdown-item to="/tools/primers">Primers</b-dropdown-item>
                             <b-dropdown-item to="/tools/in_silico_pcr"><i>In silico</i> PCR</b-dropdown-item>
                             <b-dropdown-item to="/tools/SSRs">Simple Sequence Repeats</b-dropdown-item>
                             <b-dropdown-item to="/tools/venn">Venn's diagrams</b-dropdown-item>
                         </b-nav-item-dropdown>
-                       <b-nav-item to="/articulos">Articles</b-nav-item>
-                       <b-nav-item to="/about">About</b-nav-item>
+                       <b-nav-item to="/articulos">Notas</b-nav-item>
+                       <b-nav-item to="/About">About</b-nav-item>
                        <b-nav-item-dropdown text="Bioinformatics analysis" rigth v-if="logueado">
                             <b-dropdown-item to="/pipelines/data_preprocessing">Pre-assembly</b-dropdown-item>
                             <b-dropdown-item to="/pipelines/assembly">Assembly</b-dropdown-item>

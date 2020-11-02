@@ -57,7 +57,8 @@
                 },
                 databases: [
                     { value: null, text: 'Please select a database' },
-                    { value: '/nucl/db1/INIAPs', text: 'Ps INIA' }
+                    { value: '/nucl/db1/INIAPs', text: 'INIA database' },
+                    { value: '/nucl/nt/nt', text: 'NCBI database' }
                 ],
                 resultados: [],
                 mensaje: {

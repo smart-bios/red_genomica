@@ -55,7 +55,9 @@
                 },
                 databases: [
                     { value: null, text: 'Please select a database' },
-                    { value: '/prot/db1/INIAPs', text: 'Ps INIA' }
+                    { value: '/prot/db1/INIAPs', text: 'INIA Database' },
+                    { value: '/prot/db3/PsyringaeGroup', text: 'NCBI database - Pseudomonas' },
+                    { value: '/prot/db4/swiss-Prot', text: 'Swiss-Prot database' }
                 ],
                 resultados: [],
                 mensaje: {

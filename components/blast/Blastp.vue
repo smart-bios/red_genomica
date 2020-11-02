@@ -98,9 +98,8 @@
                 databases: [
                     { value: null, text: 'Please select a database' },
                     { value: '/prot/db1/INIAPs', text: 'INIA Database' },
-                    //{ value: '/prot/db2/PseudomonasDBc', text: 'Psyringae pseudomonas database' },
-                    { value: '/prot/db3/PsyringaeGroup', text: 'Psyringae pseudomonas group NCBI database' },
-                    //{ value: '/prot/db4/swiss-Prot', text: 'swiss-Prot database' }
+                    { value: '/prot/db3/PsyringaeGroup', text: 'NCBI database - Pseudomonas' },
+                    { value: '/prot/db4/swiss-Prot', text: 'Swiss-Prot database' }
                 ],
                 resultados: [],
                 mensaje: {

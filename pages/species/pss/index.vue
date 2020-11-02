@@ -5,7 +5,7 @@
         <b-card no-body>
             <b-tabs pills card vertical>
 
-                <b-tab title="Description" active>
+                <b-tab title="Descripción" active>
                     <b-card-text>
                         <h4>Description</h4>
                         <hr>
@@ -15,17 +15,18 @@
                     </b-card-text>
                 </b-tab>
                 
-                <b-tab title="Genomes">
+                <b-tab title="Genomas">
                     <b-card-text>
-                        <h4>Genomes</h4>
+                        <h4>Genomas</h4>
                         <hr>
-                        <p>Whole Genome Sequences and Annotations for <i>Pseudomonas syringae pv syringae,</i> generated in <b> Instituto de Investigaciones Agropecuarias.</b></p>
+                        <p>Genomas secuenciados y anotados de <i>Pseudomonas syringae pv syringae,</i> generados en  <b> Instituto de Investigaciones Agropecuarias. (INIA)</b></p>
                         <ul>
                             <li v-for="genoma in genomas" :key="genoma.name">
                                 <nuxt-link :to="'/species/'+genoma._id">{{genoma.name}} {{genoma.version}} </nuxt-link>
                             </li>
                         </ul>
-                        <p>References Genomes - <b>Pseudomonas syringae group</b></p>
+                        <hr>
+                        <p>Genomas de referencia - <b>Pseudomonas syringae group</b></p>
                         <ul>
                             <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/185" target="blank_">Pseudomonas syringae</a></i></li>
                             <li><i><a href="https://www.ncbi.nlm.nih.gov/genome/2506" target="blank_">Pseudomonas amygdali</a></i></li>
@@ -50,9 +51,9 @@
                 </b-tab>          
                 
                 
-                <b-tab title="Downloads">
+                <b-tab title="Descargar">
                     <b-card-text>
-                        <h4>Download</h4>
+                        <h4>Descargar</h4>
                         <hr>
                         <p>All assembly and annotation files are available for download by selecting the desired data type in the left-hand "Resources" side bar.  Each data type page will provide a description of the available files and links to download.  Alternatively, you can browse all available files on the 
                         <a  :href="`ftp://${host}/`">FTP repository.</a> </p>
