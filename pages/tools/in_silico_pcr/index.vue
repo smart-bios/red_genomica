@@ -58,28 +58,27 @@
             <button @click="in_silico_pcr" class="btn btn-secondary btn-small mt-3">Run PCR</button>
         </b-card>
         <hr>
-        
-        <b-card
-            border-variant="light"
-            header="Result"
-            header-bg-variant="success"
-            header-text-variant="white"
-            v-if="show_result"
-        >
-            <b-card-text>
-                <b-row>
-                    <b-col>
-                        <!-- {{resultado_pcr}} -->
-                         <b-table striped hover :items="resultado_pcr"></b-table>
-                    </b-col>
-                    <b-col>
-                         <textarea class="form-control" rows="10" v-model="resultado_amplicon"></textarea>
-                    </b-col>
-                </b-row>
-            </b-card-text>
-      </b-card>
-        
-        
+        <div class="resultados">
+            <b-card
+                border-variant="light"
+                header="Result"
+                header-bg-variant="success"
+                header-text-variant="white"
+                v-if="show_result"
+            >
+                <b-card-text>
+                    <b-row>
+                        <b-col>
+                            <!-- {{resultado_pcr}} -->
+                            <b-table striped hover :items="resultado_pcr"></b-table>
+                        </b-col>
+                        <b-col>
+                            <textarea class="form-control" rows="10" v-model="resultado_amplicon"></textarea>
+                        </b-col>
+                    </b-row>
+                </b-card-text>
+            </b-card>
+        </div>     
     </div>
 </template>
 
@@ -133,6 +132,10 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+
+.resultados{
+    height: 450px;
+}
 
 </style>

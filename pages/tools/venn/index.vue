@@ -22,13 +22,13 @@
 
                  <b-tab title="Venny">
                      <b-card>
-                         <p><i>Oliveros, J.C. (2007-2015) Venny.</i> An interactive tool for comparing lists with Venn's diagrams. <a href="https://bioinfogp.cnb.csic.es/tools/venny/index.htm">https://bioinfogp.cnb.csic.es/tools/venny/index.htm</a></p>
+                         <p><i>Oliveros, J.C. (2007-2015) Venny.</i> An interactive tool for comparing lists with Venn's diagrams. <a href="https://bioinfogp.cnb.csic.es/tools/venny/">https://bioinfogp.cnb.csic.es/tools/venny/index.htm</a></p>
                      </b-card>
                      <hr>
                      <b-container>
                          <b-embed
                         type="iframe"
-                        src="https://bioinfogp.cnb.csic.es/tools/venny/index.html"
+                        src="https://bioinfogp.cnb.csic.es/tools/venny/"
                     ></b-embed>
 
                      </b-container>
