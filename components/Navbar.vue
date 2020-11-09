@@ -26,6 +26,7 @@
                             <b-dropdown-item to="/tools/blast">Blast+</b-dropdown-item>
                             <b-dropdown-item to="/tools/primers">Primers</b-dropdown-item>
                             <b-dropdown-item to="/tools/in_silico_pcr"><i>In silico</i> PCR</b-dropdown-item>
+                            <b-dropdown-item to="/tools/seq_edit">Sequence Manipulation</b-dropdown-item>
                             <b-dropdown-item to="/tools/SSRs">Simple Sequence Repeats</b-dropdown-item>
                             <b-dropdown-item to="/tools/venn">Venn's diagrams</b-dropdown-item>
                         </b-nav-item-dropdown>
